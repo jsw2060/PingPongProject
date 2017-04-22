@@ -1,0 +1,14 @@
+@CHARSET "UTF-8";
+#mainFeeManagerPage {
+	width: 768px;
+	height: 500px;
+	background-color: #606060;
+}
+
+.dataSheet{
+	background-color: #E1E1E1;
+}
+
+.situationSheet{
+	background-color: #505050;
+}

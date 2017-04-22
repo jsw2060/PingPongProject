@@ -1,0 +1,13 @@
+@CHARSET "UTF-8";
+.MainHomeMenu {
+	list-style: none;
+}
+
+a:link#clearLink {
+	text-decoration: none;
+}
+
+a:visited#clearLink {
+	text-decoration: none;
+	color: black;
+}

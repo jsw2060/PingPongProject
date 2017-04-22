@@ -1,0 +1,22 @@
+@CHARSET "UTF-8";
+.layout_btn{
+	background-color: #ECECEC;
+	width: 30px;	
+}
+
+.layout_img{
+	width: 50px;
+	height: 50px;
+}
+
+.layout_info{
+	color: #FFFFFF;
+	background-color: #707070;
+}
+
+.layout_title{
+	color: #FFFFFF;
+	font-weight: bold;
+	font-size: 20px;
+	background-color: #707070;
+}

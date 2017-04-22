@@ -1,0 +1,44 @@
+@CHARSET "UTF-8";
+
+.mainFrame{
+	width: 768px;
+}
+
+.dialogTitle{
+	text-align: center;
+	font-family: 'Arizonia', fantasy;
+	font-size: 30px;
+	text-shadow: 3px 3px 5px #A2A2A2;
+	margin: 10px 0px 10px 0px;
+}
+
+.editLabel{
+	width: 768px;
+	text-align: left;
+	font-family: 'Arizonia', fantasy;
+	font-weight: bold;
+	font-size: 15px;
+	text-shadow: 3px 3px 5px #A2A2A2;
+	/* margin: 10px 0px 10px 0px; */
+}
+
+.editInput{
+	width: 200px;
+	box-shadow: 3px 3px 5px 1px #A2A2A2;
+	margin: 10px 10px 10px 10px;
+}
+
+.textHead{
+	text-align: center;
+	font-weight: bold;;
+}
+
+.dialogBtn{
+	width: 100px;
+	height: 30px;
+	font-size: 12px;
+	margin: 10px 20px 15px 20px;
+	background-color: #BCBCBC;
+	border-radius: 20px;
+	box-shadow: 3px 3px 5px 1px #A2A2A2;
+}

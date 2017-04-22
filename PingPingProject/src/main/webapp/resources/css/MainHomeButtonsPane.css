@@ -1,0 +1,37 @@
+@CHARSET "UTF-8";
+
+.menuList {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.menuLi {
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+	border: 0;
+	float: left;
+}
+
+.layout_img{
+	width: 40px;
+	background-color: #ECECEC;
+}
+
+.mainHomeInfo {
+	width:168px;
+	height: 40px;
+	color: #FFFFFF;
+	background-color: #707070;
+	text-align: center;
+	font-size: 15px;
+}
+
+.mainHomeTitle {
+	width:400px;
+	height: 40px;
+	color: #FFFFFF;
+	background-color: #707070;
+	text-align: center;
+	font-size: 20px;
+}
