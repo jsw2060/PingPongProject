@@ -4,12 +4,12 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link href="resources/css/MainFeeManagerFrame.css" rel="stylesheet" type="text/css">
+<link href="resources/css/FrameLayout.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-	<div id="mainFeeManagerPage">
+	<div class="defaultPage" id="mainFeeManagerPage">
 		<div>
-			<table border="1" width="768" cellpadding="0" cellspacing="0" style="text-align: center;">
+			<table>
 				<tr>
 					<td>
 						<label>기간:</label>
@@ -30,9 +30,9 @@
 				</tr>
 			</table>
 		</div>
-		<div class="dataSheet">
-			<table border="1" width="768" cellpadding="0" cellspacing="0" style="text-align: center;">
-				<tr>
+		<div>
+			<table>
+				<tr class="dataSheet">
 					<td>유형</td>
 					<td>금액</td>
 					<td>지불일</td>
@@ -49,7 +49,7 @@
 			</table>
 		</div>
 		<div>
-			<table border="1" width="768" cellpadding="0" cellspacing="0" style="text-align: center;">
+			<table>
 				<tr class="situationSheet">
 					<td colspan="4">
 						<input type="text">

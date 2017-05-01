@@ -4,15 +4,15 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link href="resources/css/MainFeeManagerFrame.css" rel="stylesheet" type="text/css">
+<link href="resources/css/FrameLayout.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-	<div id="mainFeeManagerPage">
+	<div class="defaultPage" align="center">
 		<div>
-			<table border="1" width="768" cellpadding="0" cellspacing="0" style="text-align: center;">
+			<table>
 				<tr>
 					<td>
-						<label>요금 입력 내역</label>
+						<label style="font-size: 20px;">요금 입력 내역</label>
 						<input type="date">
 					</td>
 					<td>
@@ -21,9 +21,9 @@
 				</tr>
 			</table>
 		</div>
-		<div class="dataSheet">
-			<table border="1" width="768" cellpadding="0" cellspacing="0" style="text-align: center;">
-				<tr>
+		<div>
+			<table>
+				<tr class="dataSheet">
 					<td>요금 종류</td>
 					<td>금액</td>
 					<td>이름</td>
@@ -40,10 +40,10 @@
 			</table>
 		</div>
 		<div>
-			<table border="1" width="768" cellpadding="0" cellspacing="0" style="text-align: center;">
+			<table>
 				<tr class="situationSheet">
 					<td colspan="4" align="left">
-						<h3>요금 입력</h3>
+						<label style="font-size: 20px;">요금 입력</label>
 					</td>
 				</tr>
 				<tr>
@@ -61,7 +61,7 @@
 					</td>
 					<td>
 						<label>요금:</label>
-						<input type="text">원
+						<input type="text"><label>원</label>
 					</td>
 					<td>
 						<input type="button" value="세부 정보 입력">
@@ -69,13 +69,17 @@
 				</tr>
 				<tr>
 					<td colspan="4" align="left">
-						비고:<br/>
-						<textarea></textarea>
+						<label>비고:</label>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="4" align="left">
+						<textarea style="width: 590px;"></textarea>	
 					</td>
 				</tr>
 				<tr>
 					<td colspan="4">
-						<input type="text">
+						<input type="text" style="width: 590px; background-color: #606060;" readonly="readonly">
 					</td>
 				</tr>
 				<tr>

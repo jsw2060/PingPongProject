@@ -8,6 +8,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="resources/css/MainHomeButtonsPane.css" rel="stylesheet" type="text/css">
+<link href="resources/css/MainHomeMenuList.css" rel="stylesheet" type="text/css">
 
 <script type="text/javascript" >
 function beforeUnloadHandler(){
@@ -15,26 +16,58 @@ function beforeUnloadHandler(){
 }
 $(window).bind('beforeunload', beforeUnloadHandler);
 </script>
+<script	src="https://code.jquery.com/jquery-3.0.0.min.js" integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$(".sidebarmenu").show();
+		$("#homeBtn").click(function(){
+			/* $("#homeBtn").toggle(); */
+			$(".sidebarmenu").animate({width:'toggle', float:'left'});
 
+			if($(".mainHomeView").attr("style") == 'width: 608px; float: left;') {
+				$(".mainHomeView").animate({width:'768px', float:'left'});
+			} else {
+				$(".mainHomeView").animate({width:'608px', float:'left'});
+			}
+		})
+	})
+</script>
 </head>
 <body>
-	<ul class="menuList">
-		<li class="menuLi"><a href="MainHomeMenuList"><img class="layout_img" alt="menu" src="resources/light/appbar.lines.horizontal.4.png"></a></li>
-		<li class="menuLi"><a href="MainHomeFrame"><img class="layout_img" alt="menu" src="resources/light/appbar.home.png"></a></li>
-		<li class="menuLi"><a><img class="layout_img" alt="menu" src="resources/light/appbar.lock.png"></a></li>
-		<li class="menuLi"><a><img class="layout_img" alt="menu" src="resources/light/appbar.layout.collapse.right.variant.png"></a></li>
-		<li class="menuLi">
-			<div class="mainHomeInfo">
-			<a onclick="return false;">admin(최유성)님
-			<br/>환영합니다.[관리자계정]</a>
-			</div>
-		</li>
-		<li class="menuLi">
-			<div class="mainHomeTitle">
-			<a onclick="return false;"><%=request.getParameter("MainHomeTitle") %></a>
-			</div>
-		</li>
-		<li class="menuLi"><img class="layout_img" alt="menu" src="resources/light/appbar.information.circle.png"></li>
-	</ul>
+	<div>
+		<ul class="menuList">
+			<li class="menuLi"><a href="#" id="homeBtn"><img class="layout_img" alt="menu" src="resources/light/appbar.lines.horizontal.4.png"></a></li>
+			<li class="menuLi"><a href="MainHomeFrame.do"><img class="layout_img" alt="menu" src="resources/light/appbar.home.png"></a></li>
+			<li class="menuLi"><a href="Logout.do"><img class="layout_img" alt="menu" src="resources/light/appbar.lock.png"></a></li>
+			<li class="menuLi"><a><img class="layout_img" alt="menu" src="resources/light/appbar.layout.collapse.right.variant.png"></a></li>
+			<li class="menuLi">
+				<div class="mainHomeInfo">
+				<a onclick="return false;">${ loginAuthor }(${ loginName })님
+				<br/>환영합니다.[${ accountMsg }]</a>
+				</div>
+			</li>
+			<li class="menuLi">
+				<div class="mainHomeTitle">
+				<a onclick="return false;">${ mainHomeTitle }</a>
+				</div>
+			</li>
+			<li class="menuLi"><img class="layout_img" alt="menu" src="resources/light/appbar.information.circle.png"></li>
+		</ul>
+	</div>
+	<div class="sidebarmenu" style="width: 160px; float: left;">
+		<ul id="mainHomeMenu">
+			<li><a href="MainFeeInputFrame.do">요금 입력</a></li>
+			<li><a href="MainFeeManagerFrame.do">요금정보 관리</a></li>
+			<li><a href="MainMemberManagerFrame.do">회원정보 관리</a></li>
+			<li><a href="">사물함 관리</a></li>
+			<li><a href="">신발장 관리</a></li>
+			<li><a href="MainLessonManagerFrame.do">레슨정보 관리</a></li>
+			<li><a href="AccountManagerFrame.do">계정 관리</a></li>
+			<li><a href="http://cafe.daum.net/hnspp">홈페이지</a></li>
+		</ul>
+	</div>
+	<div class="mainHomeView" style="width: 608px; float: left;">
+		<jsp:include page="${ view }.jsp" flush="false"/>
+	</div>
 </body>
 </html>

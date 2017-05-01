@@ -1,66 +1,51 @@
 @CHARSET "UTF-8";
 
-ul, li {
-	list-style-type: none;
-}
-
 #mainHomePage {
-	width: 768px;
+	/* width: 768px; */
 	height: 500px;
 	background-color: #606060;
 }
 
 #mainTitle {
-	width: 768px;
+	/* width: 768px; */
 	text-align: center;
 	font-family: 'Arizonia', fantasy;
 	font-style: italic;
-	font-size: 25px;
+	font-size: 20px;
+	margin: 0;
+	padding: 10px;
 }
 
-#TopSlider {
-	width: 768px;
-	height: 300px;
-	border: 1px solid #d2d2d2;
+#prev_btn{ 
+	position: absolute;
+	top: 0;
+	left: 0;
 }
 
-#TopSlider div {
-	width: 498px;
-	height: 298px;
-	/* float: left; */
-	visibility: hidden;
-	position: absolute;	
+#next_btn{ 
+	position: absolute;
+	top: 0;
+	right: 0;
 }
 
-#top_0 {
-	background-color: red;
+#slider {
+	position: relative;
+	margin: 0 auto;
+	padding: 0;
+	list-style: none;
+	width: 280px;
+	height: 280px;
+	overflow-x:hidden;
 }
 
-#top_1 {
-	background-color: blue;
+#slider li {
+	display: none;
+	position: absolute;
+	left: 0;
+	top: 0;
 }
 
-#top_2 {
-	background-color: gray;
-}
-
-#top_3 {
-	background-color: yellow;
-}
-
-#ul_btns {
-	float: inherit;
-	width: 450px;
-	border: 1px solid #e0e0e0;
-	text-align: center;
-}
-
-#ul_btns a {
-	float: left;
-	width: 100px;
-	border: 1px solid #e0e0e0;
-}
-
-#ul_btns .on {
-	background-color: red;
+#slider img {
+	width: 280px;
+	height: 280px;
 }

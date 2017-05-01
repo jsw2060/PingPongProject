@@ -28,9 +28,24 @@
 	margin: 10px 10px 10px 10px;
 }
 
+.checkText{
+	font-family: 'Arizonia', fantasy;
+	font-weight: bold;
+	text-shadow: 3px 3px 5px #A2A2A2;
+}
+
+.checkInput{
+	box-shadow: 3px 3px 5px 1px #A2A2A2;
+}
+
 .textHead{
 	text-align: center;
-	font-weight: bold;;
+	font-weight: bold;
+	background-color: #E4E4E4;
+}
+
+.buttonImg{
+	width: 25px;
 }
 
 .dialogBtn{

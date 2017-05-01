@@ -9,15 +9,11 @@
 <title>황남숙 탁구교실 통합관리 프로그램</title>
 
 </head>
-<body >
+<body>
 <div>
-	<div class="mainHomeButtonsPane">
+	<div class="mainHomeButtonsPane" style="float: left;">
 		<jsp:include page="${ MainHomeButtonsPane }.jsp" flush="false"/>
 	</div>
-	<div class="mainHomeView">
-		<jsp:include page="${ view }.jsp" flush="false"/>
-	</div>
 </div>
-
 </body>
 </html>

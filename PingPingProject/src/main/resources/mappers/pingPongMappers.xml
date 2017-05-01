@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.company.pingPong.dao.PingPongDao">
+	<select id="loginIdDao" parameterType="String" resultType="int">
+		SELECT COUNT(id) FROM account WHERE id = #{id}
+	</select>
+	
+	<select id="loginPwdDao" parameterType="java.util.Map" resultType="com.company.pingPong.dto.AccountDto">
+		SELECT * FROM account WHERE id = #{id} AND password = #{pwd}
+	</select>
+	
+	<select id="loginNameDao" parameterType="java.util.Map" resultType="String">
+		SELECT member.name FROM member, account WHERE member.member_code = account.member_code AND account.id = #{id} AND account.password = #{pwd}
+	</select>
+	
+	<insert id="joinApplyDao" parameterType="com.company.pingPong.dto.AccountDto">
+		INSERT INTO account(account_code, id, password, join_status, manager_status, coach_status) VALUES((SELECT NVL(MAX(account_code)+1,1)FROM account), ${id}, ${password}, 0, ${manager_status}, ${coach_status})
+	</insert>
+	
+	<insert id="joinApplyAccountDao" parameterType="com.company.pingPong.dto.AccountDto">
+		INSERT INTO account(account_code, member_code, id, password, join_status, manager_status, coach_status) VALUES((SELECT NVL(MAX(account_code)+1,1)FROM account), ${member_code}, ${id}, ${password}, 1, ${manager_status}, ${coach_status})
+	</insert>
+	
+	<select id="findMemberDao" parameterType="String" resultType="com.company.pingPong.dto.MemberDto">
+		SELECT m.member_code, name, sex, registerday, manager_status, coach_status FROM member m LEFT OUTER JOIN account a ON m.member_code = a.member_code WHERE m.name = #{memberName}
+	</select>
+	
+	<!-- #{param} is considering database data type
+		${param} is non-considering database data type -->
+	<!-- <insert id="writeDao">
+		INSERT INTO BOARD (MID, MWRITER, MCONTENT) VALUES (BOARD_SEQ.NEXTVAL, #{param1}, #{param2})
+	</insert>
+	
+	<delete id="deleteDao">
+		DELETE FROM BOARD WHERE MID = #{param1}
+	</delete> -->
+</mapper>

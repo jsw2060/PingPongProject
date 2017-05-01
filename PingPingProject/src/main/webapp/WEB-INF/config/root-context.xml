@@ -13,7 +13,7 @@
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	
-	<!-- <bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" id="dataSource">
+	<bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" id="dataSource">
 		<property value="oracle.jdbc.driver.OracleDriver" name="driverClassName" />
 		<property value="jdbc:oracle:thin:@localhost:1521:ORCL" name="url" />
 		<property value="scott" name="username" />
@@ -22,11 +22,11 @@
 	
 	<bean class="org.mybatis.spring.SqlSessionFactoryBean" id="SqlSessionFactory">
 		<property name="dataSource" ref="dataSource" />
-		<property value="classpath:mybatis-config.xml" name="configLocation" />
+		<!-- <property value="classpath:mybatis-config.xml" name="configLocation" /> -->
 		<property value="classpath:/mappers/**/*Mappers.xml" name="mapperLocations" />
 	</bean>
 	
 	<bean class="org.mybatis.spring.SqlSessionTemplate" id="sqlSession" destroy-method="clearCache">
 		<constructor-arg name="sqlSessionFactory" ref="SqlSessionFactory" />
-	</bean>	 -->
+	</bean>
 </beans>

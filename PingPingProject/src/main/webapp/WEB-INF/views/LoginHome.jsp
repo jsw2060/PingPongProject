@@ -15,21 +15,23 @@
 <script type="text/javascript">
 	$(function() {
 		$('#logBtn').click(function() {
-			alert("login Pushed");
+
 			var id = $('#id').val();
+			var pwd = $('#pwd').val();
 			if (id.trim() == "") {
 				$('#id').focus();
+				$('#errorMsg').html("ID를 입력해주세요.");
 				return;
 			}
-			var pwd = $('#pwd').val();
+			
 			if (pwd.trim() == "") {
 				$('#pwd').focus();
+				$('#errorMsg').html("패스워드를 입력해주세요.");
 				return;
 			}
+			
 			$('#logForm').submit();
-		});
-		$('#logoutBtn').click(function() {
-			$('#logoutForm').submit();
+			
 		});
 	});
 </script>
@@ -44,7 +46,7 @@
 		    </div>
 	        
 	        <div class="col-md-12 col-xs-12 login_control">
-	        	<form action="Login.do" method="get" id="logForm">
+	        	<form action="Login.do" method="post" id="logForm">
 	                <div class="control" align="center">
 	                	<img class="icon" alt="idIcon" src="resources/light/appbar.people.png">
 	                    <input type="text" class="form-control" placeholder="아이디를 입력하세요." id="id" name="id"/>
@@ -54,13 +56,13 @@
 	                	<input type="password" class="form-control" placeholder="비밀번호를 입력하세요." id="pwd" name="pwd"/>
 	                </div>
 	                <div align="center">
-	                	<button class="btn btn-orange" id="logBtn">로그인</button>
+	                	<button type="button" class="btn btn-orange" id="logBtn">로그인</button>
+	                	<button type="button" class="btn btn-orange" onclick="location.href='AccountCreateDialog.do'">계정 등록</button>
 	                </div>
 	            </form>
 	            <div align="center">
-					<button class="btn btn-orange" onclick="location.href='AccountCreateDialog.do'">계정 등록</button>
                 	<br>
-               		<span>ID와 패스워드를 입력해주세요.</span>
+               		<span id="errorMsg"></span>
         		</div>
 	        </div>
 	    </div>  

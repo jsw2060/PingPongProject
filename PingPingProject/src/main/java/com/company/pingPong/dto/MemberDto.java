@@ -13,9 +13,23 @@ public class MemberDto {
 	Timestamp birthday;
 	String style;
 	String grade;
-	Timestamp registerday;
+	String registerday;
 	String note;
+	int manager_status;
+	int coach_status;
 	
+	public int getManager_status() {
+		return manager_status;
+	}
+	public void setManager_status(int manager_status) {
+		this.manager_status = manager_status;
+	}
+	public int getCoach_status() {
+		return coach_status;
+	}
+	public void setCoach_status(int coach_status) {
+		this.coach_status = coach_status;
+	}
 	public int getMember_code() {
 		return member_code;
 	}
@@ -76,16 +90,16 @@ public class MemberDto {
 	public void setGrade(String grade) {
 		this.grade = grade;
 	}
-	public Timestamp getRegisterday() {
-		return registerday;
-	}
-	public void setRegisterday(Timestamp registerday) {
-		this.registerday = registerday;
-	}
 	public String getNote() {
 		return note;
 	}
 	public void setNote(String note) {
 		this.note = note;
+	}
+	public String getRegisterday() {
+		return registerday;
+	}
+	public void setRegisterday(String registerday) {
+		this.registerday = registerday;
 	}
 }
