@@ -8,8 +8,9 @@ label{
 	color: white;
 }
 
-table{
+.outLineTable{
 	width: 600px;
+	height: 500px;
 	text-align: center;
 }
 
@@ -19,4 +20,8 @@ table{
 
 .situationSheet{
 	background-color: #505050;
+}
+
+.tableHead{
+	background-color: #DEDEDE;
 }

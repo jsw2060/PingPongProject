@@ -28,6 +28,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT m.member_code, name, sex, registerday, manager_status, coach_status FROM member m LEFT OUTER JOIN account a ON m.member_code = a.member_code WHERE m.name = #{memberName}
 	</select>
 	
+	<select id="getAccountListDao" resultType="com.company.pingPong.dto.MemberDto">
+		SELECT a.account_code, a.id, a.manager_status, a.coach_status, m.name, m.sex, m.tel, m.registerday FROM member m LEFT OUTER JOIN account a ON m.member_code = a.member_code
+	</select>
+	
+	<select id="getConfirmListDao" resultType="com.company.pingPong.dto.AccountDto">
+		SELECT account_code, id, manager_status, coach_status, join_date FROM account WHERE manager_status = 2 OR coach_status = 2
+	</select>
+	
+	<update id="managerConfirmDao" parameterType="java.util.Map">
+		UPDATE account SET manager_status = ${managerStatus} WHERE account_code = ${accountCode}
+	</update>
+	
+	<update id="coachConfirmDao">
+		UPDATE account SET coach_status = ${coachStatus} WHERE account_code = ${accountCode}
+	</update>
 	<!-- #{param} is considering database data type
 		${param} is non-considering database data type -->
 	<!-- <insert id="writeDao">

@@ -13,10 +13,13 @@ public class MemberDto {
 	Timestamp birthday;
 	String style;
 	String grade;
-	String registerday;
+	Timestamp registerday;
 	String note;
+	
 	int manager_status;
 	int coach_status;
+	String id;
+	String account_code;
 	
 	public int getManager_status() {
 		return manager_status;
@@ -30,6 +33,20 @@ public class MemberDto {
 	public void setCoach_status(int coach_status) {
 		this.coach_status = coach_status;
 	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getAccount_code() {
+		return account_code;
+	}
+	public void setAccount_code(String account_code) {
+		this.account_code = account_code;
+	}
+	
+	
 	public int getMember_code() {
 		return member_code;
 	}
@@ -96,10 +113,10 @@ public class MemberDto {
 	public void setNote(String note) {
 		this.note = note;
 	}
-	public String getRegisterday() {
+	public Timestamp getRegisterday() {
 		return registerday;
 	}
-	public void setRegisterday(String registerday) {
+	public void setRegisterday(Timestamp registerday) {
 		this.registerday = registerday;
 	}
 }

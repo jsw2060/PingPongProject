@@ -52,7 +52,7 @@
     left: 100px; 
 }
 .tab-wrap article table { 
-    display: none; 
+    display: none;
 }
 .tab-wrap article:target table { 
     display: block; 

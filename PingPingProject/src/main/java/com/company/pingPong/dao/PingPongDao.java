@@ -20,4 +20,8 @@ public interface PingPongDao {
 	public void joinApplyDao(AccountDto dto);
 	public void joinApplyAccountDao(AccountDto dto);
 	public ArrayList<MemberDto> findMemberDao(String memberName);
+	public ArrayList<MemberDto> getAccountListDao();
+	public ArrayList<AccountDto> getConfirmListDao();
+	public void managerConfirmDao(Map<String, String> map);
+	public void coachConfirmDao(Map<String, String> map);
 }

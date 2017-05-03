@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.lang.model.element.Element;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -89,12 +90,12 @@ public class PingPongController {
 			session.setAttribute("loginName", name);
 			
 			// Checking authorization of manager or coach
-			if(dto.getManager_status() == 1) {
+			if(dto.getManager_status() == "1") {
 				session.setAttribute("loginAuthor", "admin");
 				session.setAttribute("accountMsg", "관리자계정");
 			}
 			else {
-				if(dto.getCoach_status() == 1) {
+				if(dto.getCoach_status() == "1") {
 					session.setAttribute("loginAuthor", "coach");
 					session.setAttribute("accountMsg", "코치 계정");
 				} else {
@@ -160,7 +161,7 @@ public class PingPongController {
 	/*
 	 * RequestMapping : MainFeeInputFrame.do
 	 * MethodName : mainFeeInputFrame
-	 * Parameter : Locale
+	 * Parameter : Locale, HttpServletRequest
 	 * Return : String
 	 */
 	@RequestMapping(value = "MainFeeInputFrame.do", method = RequestMethod.GET)
@@ -174,7 +175,7 @@ public class PingPongController {
 	}
 	
 	/*
-	 * RequestMapping : /GeneralFeeInput
+	 * RequestMapping : GeneralFeeInput.do
 	 * MethodName : generalFeeInput
 	 * Parameter : Locale
 	 * Return : String
@@ -186,7 +187,7 @@ public class PingPongController {
 	}
 	
 	/*
-	 * RequestMapping : /MonthFeeInput
+	 * RequestMapping : MonthFeeInput.do
 	 * MethodName : monthFeeInput
 	 * Parameter : Locale
 	 * Return : String
@@ -198,7 +199,7 @@ public class PingPongController {
 	}
 	
 	/*
-	 * RequestMapping : /LessonFeeInput
+	 * RequestMapping : LessonFeeInput.do
 	 * MethodName : lessonFeeInput
 	 * Parameter : Locale
 	 * Return : String
@@ -210,7 +211,7 @@ public class PingPongController {
 	}
 	
 	/*
-	 * RequestMapping : /MainFeeManagerFrame
+	 * RequestMapping : MainFeeManagerFrame.do
 	 * MethodName : mainFeeManagerFrame
 	 * Parameter : Locale
 	 * Return : String
@@ -226,7 +227,7 @@ public class PingPongController {
 	}
 	
 	/*
-	 * RequestMapping : /FeeManagerChart
+	 * RequestMapping : FeeManagerChart.do
 	 * MethodName : feeManagerChart
 	 * Parameter : Locale
 	 * Return : String
@@ -239,7 +240,7 @@ public class PingPongController {
 	}
 	
 	/*
-	 * RequestMapping : /MainMemberManagerFrame
+	 * RequestMapping : MainMemberManagerFrame.do
 	 * MethodName : mainMemberManagerFrame
 	 * Parameter : Locale
 	 * Return : String
@@ -255,19 +256,22 @@ public class PingPongController {
 	}
 	
 	/*
-	 * RequestMapping : /MainLessonManagerFrame
+	 * RequestMapping : MainLessonManagerFrame.do
 	 * MethodName : mainLessonManagerFrame
 	 * Parameter : Locale
 	 * Return : String
 	 */
 	@RequestMapping(value = "MainLessonManagerFrame.do", method = RequestMethod.GET)
-	public String mainLessonManagerFrame(Locale locale, Model model) {
+	public String mainLessonManagerFrame(Locale locale, HttpServletRequest req) {
 		logger.info("PingPong MainLessonManagerFrame.jsp", locale);
-		return "MainLessonManagerFrame";
+		req.setAttribute("view", "MainLessonManagerFrame");
+		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
+		req.setAttribute("mainHomeTitle", "레슨정보 관리");
+		return "MainHomeFrame";
 	}
 	
 	/*
-	 * RequestMapping : /LessonEditDialog
+	 * RequestMapping : LessonEditDialog.do
 	 * MethodName : mainLessonManagerFrame
 	 * Parameter : Locale
 	 * Return : String
@@ -279,16 +283,85 @@ public class PingPongController {
 	}
 	
 	/*
-	 * RequestMapping : /AccountManagerFrame
+	 * RequestMapping : AccountManagerFrame.do
 	 * MethodName : accountManagerFrame
-	 * Parameter : Locale
+	 * Parameter : Locale, HttpServletRequest
 	 * Return : String
 	 */
 	@RequestMapping(value = "AccountManagerFrame.do", method = RequestMethod.GET)
-	public String accountManagerFrame(Locale locale, Model model) {
+	public String accountManagerFrame(Locale locale, HttpServletRequest req) {
 		logger.info("PingPong AccountManagerFrame.jsp", locale);
+		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
 		
-		return "AccountManagerFrame";
+		// list of waiting confirm
+		ArrayList<AccountDto> confList = dao.getConfirmListDao();
+		// list of account
+		ArrayList<MemberDto> dtos = dao.getAccountListDao();
+		
+		req.setAttribute("confirmList", confList);
+		req.setAttribute("accountList", dtos);
+		req.setAttribute("view", "AccountManagerFrame");
+		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
+		req.setAttribute("mainHomeTitle", "계정 관리");
+		return "MainHomeFrame";
+	}
+	
+	/*
+	 * RequestMapping : AuthorizationConfirm.do
+	 * MethodName : authorizationConfirm
+	 * Parameter : Locale, HttpServletRequest
+	 * Return : String
+	 */
+	@RequestMapping(value = "AuthorizationConfirm.do", method = RequestMethod.GET)
+	public String athorizationConfirm(Locale locale, HttpServletRequest req) {
+		logger.info("PingPong AuthorizationConfirm.do", locale);
+		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
+		
+		String accountCode = req.getParameter("account_code");
+		String managerStatus = req.getParameter("manager_status");
+		String coachStatus = req.getParameter("coach_status");
+		
+		Map<String, String> data = new HashMap<String, String>();
+		
+		// confirm button selection
+		logger.info(req.getParameter("agreeBtn"));
+		if(Integer.parseInt(req.getParameter("agreeBtn")) == 1){	// agree
+			if(managerStatus != null && Integer.parseInt(managerStatus) == 2){
+				data.put("accountCode", accountCode);
+				data.put("managerStatus", "1");
+				dao.managerConfirmDao(data);
+			}
+			if(coachStatus != null && Integer.parseInt(coachStatus) == 2){
+				data.put("accountCode", accountCode);
+				data.put("coachStatus", "1");
+				dao.coachConfirmDao(data);
+			}
+			// list of waiting confirm
+			ArrayList<AccountDto> confList = dao.getConfirmListDao();
+			req.setAttribute("confirmList", confList);
+		} else {													// reject
+			if(managerStatus != null && Integer.parseInt(managerStatus) == 2){
+				data.put("accountCode", accountCode);
+				data.put("managerStatus", "0");
+				dao.managerConfirmDao(data);
+			}
+			if(coachStatus != null && Integer.parseInt(coachStatus) == 2){
+				data.put("accountCode", accountCode);
+				data.put("coachStatus", "0");
+				dao.coachConfirmDao(data);
+			}
+			// list of waiting confirm
+			ArrayList<AccountDto> confList = dao.getConfirmListDao();
+			req.setAttribute("confirmList", confList);
+		}
+		// list of account
+		ArrayList<MemberDto> dtos = dao.getAccountListDao();
+		
+		req.setAttribute("accountList", dtos);
+		req.setAttribute("view", "AccountManagerFrame");
+		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
+		req.setAttribute("mainHomeTitle", "계정 관리");
+		return "MainHomeFrame";
 	}
 	
 	/*
@@ -332,16 +405,14 @@ public class PingPongController {
 		
 		// managerStatus and CoachStatus are confirmed by these sentences
 		if(managerStatusTemp != null){
-			int managerStatus = Integer.parseInt(req.getParameter("manager"));
-			dto.setManager_status(managerStatus);
+			dto.setManager_status(managerStatusTemp);
 		} else {
-			dto.setManager_status(0);
+			dto.setManager_status("0");
 		}
 		if(coachStatusTemp != null){
-			int coachStatus = Integer.parseInt(req.getParameter("coach"));
-			dto.setCoach_status(coachStatus);
+			dto.setCoach_status(coachStatusTemp);
 		} else {
-			dto.setCoach_status(0);
+			dto.setCoach_status("0");
 		}
 		if(memberCodeTemp != null){
 			int memberCode = Integer.parseInt(req.getParameter("memberCode"));
@@ -352,21 +423,14 @@ public class PingPongController {
 			PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
 			dao.joinApplyDao(dto);
 		}
-		/*
-		if(req.getAttribute("memberCode") != null){
-			dto.setMember_code(memberCode);
-			
-		}*/ /*else {
-			dto.setMember_code(0);
-		}*/
 		
 		return "LoginHome";
 	}
 	
 	/*
-	 * RequestMapping : FindMember
-	 * MethodName : accountManagerFrame
-	 * Parameter : Locale
+	 * RequestMapping : FindMember.do
+	 * MethodName : findMember
+	 * Parameter : Locale, HttpServletRequest
 	 * Return : String
 	 */
 	@RequestMapping(value = "FindMember.do", method = RequestMethod.GET)
@@ -386,7 +450,7 @@ public class PingPongController {
 	}
 	
 	/*
-	 * RequestMapping : /AccountEditDialog
+	 * RequestMapping : AccountEditDialog.do
 	 * MethodName : accountManagerFrame
 	 * Parameter : Locale
 	 * Return : String
