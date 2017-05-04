@@ -133,15 +133,16 @@ public class PingPongController {
 	/*
 	 * RequestMapping : MainHomeFrame.do
 	 * MethodName : mainHomeFrame
-	 * Parameter : Locale, HttpServletRequest, Model
+	 * Parameter : Locale, HttpServletRequest
 	 * Return : String
 	 */
-	@RequestMapping(value = "MainHomeFrame.do", method = RequestMethod.POST)
-	public String mainHomeFrame(Locale locale, HttpServletRequest req, Model model) {
+	@RequestMapping(value = "MainHomeFrame.do", method = RequestMethod.GET)
+	public String mainHomeFrame(Locale locale, HttpServletRequest req) {
 		logger.info("PingPong MainHomeFrame.jsp", locale);
 		
-		model.addAttribute("view", "MainHome");
-		model.addAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
+		req.setAttribute("view", "MainHome");
+		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
+		req.setAttribute("MainHomeTitle", "황남숙 탁구교실 관리 프로그램");
 		return "MainHomeFrame";
 	}
 	
@@ -459,5 +460,37 @@ public class PingPongController {
 	public String accountEditDialog(Locale locale, Model model) {
 		logger.info("PingPong AccountEditDialog.jsp", locale);
 		return "AccountEditDialog";
+	}
+	
+	/*
+	 * RequestMapping : MainBootrackManagerFrame.do
+	 * MethodName : mainBootrackManagerFrame
+	 * Parameter : Locale, HttpServletRequest
+	 * Return : String
+	 */
+	@RequestMapping(value = "MainBootrackManagerFrame.do", method = RequestMethod.GET)
+	public String mainBootrackManagerFrame(Locale locale, HttpServletRequest req) {
+		logger.info("PingPong MainBootrackManagerFrame.do", locale);
+		
+		req.setAttribute("view", "MainBootrackManagerFrame");
+		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
+		req.setAttribute("mainHomeTitle", "신발장 관리");
+		return "MainHomeFrame";
+	}
+	
+	/*
+	 * RequestMapping : MainLockerManagerFrame.do
+	 * MethodName : mainBootrackManagerFrame
+	 * Parameter : Locale, HttpServletRequest
+	 * Return : String
+	 */
+	@RequestMapping(value = "MainLockerManagerFrame.do", method = RequestMethod.GET)
+	public String mainLockerManagerFrame(Locale locale, HttpServletRequest req) {
+		logger.info("PingPong MainLockerManagerFrame.do", locale);
+		
+		req.setAttribute("view", "MainLockerManagerFrame");
+		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
+		req.setAttribute("mainHomeTitle", "사물함 관리");
+		return "MainHomeFrame";
 	}
 }

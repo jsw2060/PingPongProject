@@ -5,6 +5,36 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="resources/css/FrameLayout.css" rel="stylesheet" type="text/css">
+<link href="resources/css/Clock.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		var monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+		var dayNames = [ "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" ];
+		
+		var newDate = new Date();
+		newDate.setDate(newDate.getDate());
+		$('#Date').html(dayNames[newDate.getDay()] + " " + newDate.getDate() + ' ' + monthNames[newDate.getMonth()] + ' ' + newDate.getFullYear());
+		
+		setInterval(function() {
+			var seconds = new Date().getSeconds();
+			
+			$("#sec").html(( seconds < 10 ? "0" : "") + seconds);
+		}, 1000);
+		
+		setInterval(function() {
+			var minutes = new Date().getMinutes();
+			
+			$("#min").html(( minutes < 10 ? "0" : "") + minutes);
+		}, 1000);
+		
+		setInterval(function() {
+			var hours = new Date().getHours();
+			
+			$("#hours").html(( hours < 10 ? "0" : "") + hours);
+		}, 1000);
+	});
+</script>
 </head>
 <body>
 	<div class="defaultPage" align="center">
@@ -15,8 +45,15 @@
 						<label style="font-size: 20px;">요금 입력 내역</label>
 						<input type="date">
 					</td>
-					<td>
-						<input type="text">
+					<td class="container">
+						<ul id="numbers">
+							<li id="Date"></li>
+							<li id="hours"></li>
+							<li id="point">:</li>
+							<li id="min"></li>
+							<li id="point">:</li>
+							<li id="sec"></li>
+						</ul>
 					</td>
 				</tr>
 				<tr height="250">
@@ -52,12 +89,12 @@
 									<label>요금 종류:</label>
 								</td>
 								<td>
-									<select>
-										<option value="" selected="selected">종류를 선택하세요.</option>
-										<option>일반</option>
-										<option>일 회원</option>
-										<option>월 회원</option>
-										<option>레슨 등록</option>
+									<select name="selectFeeInputPage">
+										<option selected="selected">종류를 선택하세요.</option>
+										<option value="1">일반</option>
+										<option value="2">일 회원</option>
+										<option value="3">월 회원</option>
+										<option value="4">레슨 등록</option>
 									</select>
 								</td>
 								<td>

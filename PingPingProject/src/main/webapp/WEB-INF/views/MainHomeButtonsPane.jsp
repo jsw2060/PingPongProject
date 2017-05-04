@@ -9,13 +9,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="resources/css/MainHomeButtonsPane.css" rel="stylesheet" type="text/css">
 <link href="resources/css/MainHomeMenuList.css" rel="stylesheet" type="text/css">
-
-<script type="text/javascript" >
-function beforeUnloadHandler(){
-       return 'message' ;
-}
-$(window).bind('beforeunload', beforeUnloadHandler);
-</script>
+<link href="resources/css/Modal.css" rel="stylesheet" type="text/css">
 <script	src="https://code.jquery.com/jquery-3.0.0.min.js" integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0=" crossorigin="anonymous"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -29,8 +23,12 @@ $(window).bind('beforeunload', beforeUnloadHandler);
 			} else {
 				$(".mainHomeView").animate({width:'608px', float:'left'});
 			}
-		})
-	})
+		});
+		
+		$("#modal-launcher, #modal-background, #modal-close").click(function () {
+			$("#modal-content,#modal-background").toggleClass("active");
+		});
+	});
 </script>
 </head>
 <body>
@@ -51,7 +49,11 @@ $(window).bind('beforeunload', beforeUnloadHandler);
 				<a onclick="return false;">${ mainHomeTitle }</a>
 				</div>
 			</li>
-			<li class="menuLi"><img class="layout_img" alt="menu" src="resources/light/appbar.information.circle.png"></li>
+			<li class="menuLi">
+				<a id="modal-launcher">
+					<img class="layout_img" alt="menu" src="resources/light/appbar.information.circle.png">
+				</a>		
+			</li>
 		</ul>
 	</div>
 	<div class="sidebarmenu" style="width: 160px; float: left;">
@@ -59,8 +61,8 @@ $(window).bind('beforeunload', beforeUnloadHandler);
 			<li><a href="MainFeeInputFrame.do">요금 입력</a></li>
 			<li><a href="MainFeeManagerFrame.do">요금정보 관리</a></li>
 			<li><a href="MainMemberManagerFrame.do">회원정보 관리</a></li>
-			<li><a href="">사물함 관리</a></li>
-			<li><a href="">신발장 관리</a></li>
+			<li><a href="MainLockerManagerFrame.do">사물함 관리</a></li>
+			<li><a href="MainBootrackManagerFrame.do">신발장 관리</a></li>
 			<li><a href="MainLessonManagerFrame.do">레슨정보 관리</a></li>
 			<li><a href="AccountManagerFrame.do">계정 관리</a></li>
 			<li><a href="http://cafe.daum.net/hnspp">홈페이지</a></li>
@@ -68,6 +70,14 @@ $(window).bind('beforeunload', beforeUnloadHandler);
 	</div>
 	<div class="mainHomeView" style="width: 608px; float: left;">
 		<jsp:include page="${ view }.jsp" flush="false"/>
+	</div>
+	<div id="modal-background"></div>
+	<div id="modal-content">
+		<h4>프로그램정보</h4>
+		<p>Made by SungWeon Jung<br/>
+			E-MAIL : jsw2060@gmail.com
+		</p>
+		<button id="modal-close" style="float: right;">OK</button>
 	</div>
 </body>
 </html>

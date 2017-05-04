@@ -1,0 +1,25 @@
+@CHARSET "UTF-8";
+.container {
+		width: 260px;
+		margin: 0 auto;
+		overflow: hidden;
+		color: #fff;
+	}
+	#Date {
+		font-size: 10px;
+		text-align: center;
+		text-shadow: 0 0 5px #00c6ff;
+	}
+	#numbers {
+		widows: 10px;
+		margin: 0 auto; 
+		padding: 0px; 
+		list-style: none; 
+		text-align: center;
+	}
+	#numbers > li {
+		display: inline; 
+		font-size: 15px; 
+		text-align: center; 
+		text-shadow: 0 0 5px #00c6ff;
+	}

@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="resources/css/MainHome.css" rel="stylesheet" type="text/css">
 <script	src="https://code.jquery.com/jquery-3.0.0.min.js" integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0=" crossorigin="anonymous"></script>
-<script>
+<!-- <script>
 $(function() {
     var time = 500;
     var idx = idx2 = 0;
@@ -42,19 +42,19 @@ $(function() {
         }
     });
 });
-</script>
+</script> -->
 </head>
 <body>
 	<center>
 		<div id="mainHomePage">
 			<p id="mainTitle">Welcome To Hwang Nam Suk Table Tennis Club!</p>
-			<ul id="slider">
+			<!-- <ul id="slider">
 				<li><img src="resources/images/mainMark.png"/></li>
 				<li><img></li>
 				<li><img></li>
 			</ul>
 			<button type="button" id="prev_btn" class="btn">이전</button>
-			<button type="button" id="next_btn" class="btn">다음</button>
+			<button type="button" id="next_btn" class="btn">다음</button> -->
 		</div>
 	</center>
 </body>
