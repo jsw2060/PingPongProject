@@ -38,6 +38,10 @@
 	box-shadow: 3px 3px 5px 1px #A2A2A2;
 }
 
+.radioInput{
+	box-shadow: 3px 3px 5px 1px #A2A2A2;
+}
+
 .textHead{
 	text-align: center;
 	font-weight: bold;

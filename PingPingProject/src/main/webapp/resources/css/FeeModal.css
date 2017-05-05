@@ -1,0 +1,38 @@
+@CHARSET "UTF-8";
+#fee-background {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: white;
+        opacity: .50;
+        -webkit-opacity: .5;
+        -moz-opacity: .5;
+        filter: alpha(opacity=50);
+        z-index: 1000;
+}
+
+#fee-content {
+    background-color: white;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    box-shadow: 0 0 20px 0 #222;
+    -webkit-box-shadow: 0 0 20px 0 #222;
+    -moz-box-shadow: 0 0 20px 0 #222;
+    display: none;
+    height: 150px;
+    left: 50%;
+    margin: -120px 0 0 -160px;
+    padding: 10px;
+    position: absolute;
+    top: 30%;
+    width: 300px;
+    z-index: 1000;
+}
+
+#fee-background.active, #fee-content.active {
+    display: block;
+}

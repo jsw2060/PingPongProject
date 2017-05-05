@@ -9,6 +9,22 @@ public class FeeDto {
 	Timestamp fee_date;
 	String note;
 	
+	String member_code;
+	String name;
+	
+	public String getMember_code() {
+		return member_code;
+	}
+	public void setMember_code(String member_code) {
+		this.member_code = member_code;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	
 	public int getFee_code() {
 		return fee_code;
 	}

@@ -43,6 +43,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="coachConfirmDao">
 		UPDATE account SET coach_status = ${coachStatus} WHERE account_code = ${accountCode}
 	</update>
+	
+	<select id="getDateFeeList" parameterType="String" resultType="com.company.pingPong.dto.FeeDto">
+		SELECT fee.*, member.member_code, member.name FROM fee LEFT OUTER JOIN (
+		(SELECT lesson.fee_code, member.member_code, member.name FROM lesson LEFT OUTER JOIN member ON lesson.member_code = member.member_code) UNION ALL
+		(SELECT monthmember.fee_code, member.member_code, member.name FROM monthmember LEFT OUTER JOIN member ON monthmember.member_code = member.member_code) )member
+		ON fee.fee_code = member.fee_code WHERE to_date(fee_date) = #{searchFeeDate} ORDER BY fee_date DESC
+	</select>
 	<!-- #{param} is considering database data type
 		${param} is non-considering database data type -->
 	<!-- <insert id="writeDao">

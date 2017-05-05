@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.company.pingPong.dao.PingPongDao;
 import com.company.pingPong.dto.AccountDto;
+import com.company.pingPong.dto.FeeDto;
 import com.company.pingPong.dto.MemberDto;
 
 @Controller
@@ -36,12 +37,6 @@ public class PingPongController {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	/*
-	 * RequestMapping : index.do
-	 * MethodName : loginHome
-	 * Parameter : Locale
-	 * Return : String
-	 */
 	@RequestMapping(value = "index.do")
 	public String loginHome(Locale locale) {
 		logger.info("PingPong LoginHome.jsp", locale);
@@ -62,7 +57,6 @@ public class PingPongController {
 		String id = req.getParameter("id");
 		String pwd = req.getParameter("pwd");
 		String name = "";
-		String errorMsg = "";
 		
 		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
 		
@@ -85,17 +79,22 @@ public class PingPongController {
 			
 			HttpSession session = req.getSession();
 		
+			session.setAttribute("loginMemberCode", dto.getMember_code());
 			session.setAttribute("loginId", dto.getId());
 			session.setAttribute("loginPwd", dto.getPassword());
 			session.setAttribute("loginName", name);
-			
+
 			// Checking authorization of manager or coach
-			if(dto.getManager_status() == "1") {
+			if(Integer.parseInt(dto.getManager_status()) == 1) {
 				session.setAttribute("loginAuthor", "admin");
 				session.setAttribute("accountMsg", "관리자계정");
+				if(Integer.parseInt(dto.getCoach_status()) == 1) {
+					session.setAttribute("loginAuthor", "master");
+					session.setAttribute("accountMsg", "마스터계정");
+				}
 			}
 			else {
-				if(dto.getCoach_status() == "1") {
+				if(Integer.parseInt(dto.getCoach_status()) == 1) {
 					session.setAttribute("loginAuthor", "coach");
 					session.setAttribute("accountMsg", "코치 계정");
 				} else {
@@ -176,15 +175,48 @@ public class PingPongController {
 	}
 	
 	/*
+	 * RequestMapping : FindFeeList.do
+	 * MethodName : findFeeList
+	 * Parameter : Locale, HttpServletRequest
+	 * Return : String
+	 */
+	@RequestMapping(value = "FindFeeList.do", method = RequestMethod.GET)
+	public String findFeeList(Locale locale, HttpServletRequest req) {
+		logger.info("PingPong FindFeeList.do", locale);
+
+		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
+		String searchFeeDate = req.getParameter("feeDate"); 	// YYYY-MM-DD
+		String[] tempDate = searchFeeDate.split("-");			// YYYY   MM   DD
+		searchFeeDate = "";									// initial storage area
+		for(int i=0; i< tempDate.length; i++){
+			searchFeeDate = searchFeeDate + tempDate[i];			// YYYYMMDD
+		}
+		searchFeeDate = "\'" + searchFeeDate + "\'";
+		
+		// a list of fee what is searched by date
+		ArrayList<FeeDto> dateFeeList = dao.getDateFeeList(searchFeeDate);
+		
+		req.setAttribute("dateFeeList", dateFeeList);
+		req.setAttribute("view", "MainFeeInputFrame");
+		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
+		req.setAttribute("mainHomeTitle", "요금 입력");
+		return "MainHomeFrame";
+	}
+	
+	/*
 	 * RequestMapping : GeneralFeeInput.do
 	 * MethodName : generalFeeInput
-	 * Parameter : Locale
+	 * Parameter : Locale, HttpServletRequest
 	 * Return : String
 	 */
 	@RequestMapping(value = "GeneralFeeInput.do", method = RequestMethod.GET)
-	public String generalFeeInput(Locale locale, Model model) {
+	public String generalFeeInput(Locale locale, HttpServletRequest req) {
 		logger.info("PingPong GeneralFeeInput.jsp", locale);
-		return "GeneralFeeInput";
+
+		req.setAttribute("view", "GeneralFeeInput");
+		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
+		req.setAttribute("mainHomeTitle", "일반 요금");
+		return "MainHomeFrame";
 	}
 	
 	/*
@@ -194,9 +226,13 @@ public class PingPongController {
 	 * Return : String
 	 */
 	@RequestMapping(value = "MonthFeeInput.do", method = RequestMethod.GET)
-	public String monthFeeInput(Locale locale, Model model) {
+	public String monthFeeInput(Locale locale, HttpServletRequest req) {
 		logger.info("PingPong MonthFeeInput.jsp", locale);
-		return "MonthFeeInput";
+		
+		req.setAttribute("view", "MonthFeeInput");
+		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
+		req.setAttribute("mainHomeTitle", "월 회원 세부 정보");
+		return "MainHomeFrame";
 	}
 	
 	/*
@@ -206,9 +242,78 @@ public class PingPongController {
 	 * Return : String
 	 */
 	@RequestMapping(value = "LessonFeeInput.do", method = RequestMethod.GET)
-	public String lessonFeeInput(Locale locale, Model model) {
+	public String lessonFeeInput(Locale locale, HttpServletRequest req) {
 		logger.info("PingPong lessonFeeInput.jsp", locale);
-		return "LessonFeeInput";
+		
+		req.setAttribute("view", "LessonFeeInput");
+		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
+		req.setAttribute("mainHomeTitle", "레슨 세부 정보");
+		return "MainHomeFrame";
+	}
+	
+	/*
+	 * RequestMapping : InsertGeneralFee.do
+	 * MethodName : generalFeeInput
+	 * Parameter : Locale, HttpServletRequest
+	 * Return : String
+	 */
+	@RequestMapping(value = "InsertGeneralFee.do", method = RequestMethod.GET)
+	public String insertGeneralFee(Locale locale, HttpServletRequest req) {
+		logger.info("PingPong InsertGeneralFee.do", locale);
+
+		HttpSession session = req.getSession();
+		String memberCode = session.getAttribute("loginMemberCode").toString();
+		String playTime = req.getParameter("playTime");
+		int tempTime =  Integer.parseInt(req.getParameter("playTime"));
+		String tableNum = req.getParameter("tableNum");
+		String status = req.getParameter("status");
+		
+		logger.info(session.getAttribute("loginMemberCode").toString());
+		logger.info(req.getParameter("playTime"));
+		logger.info(req.getParameter("tableNum"));
+		logger.info(req.getParameter("status"));
+		
+		int fee = 0;
+		// Calculate General fee
+		if(status == "0"){	// general
+			if(tempTime > 30){
+				int tempHour = 0;
+				int tempMin = 0;
+				tempHour =(tempTime / 60);
+				tempMin = (tempTime % 60);
+				
+				fee = (tempHour * 10000) + (tempMin * 6000);
+			} 
+			else {
+				fee = (tempTime / 30) * 6000;
+			}
+		} else {			// student
+			if(tempTime > 30){
+				int tempHour = 0;
+				int tempMin = 0;
+				tempHour =(tempTime / 60);
+				tempMin = (tempTime % 60);
+				
+				fee = (tempHour * 7000) + (tempMin * 4000);
+			} 
+			else {
+				fee = (tempTime / 30) * 4000;
+			}
+		}
+		String calFee = String.valueOf(fee);
+		
+		Map<String, String> data = new HashMap<String, String>();
+		data.put("memberCode", memberCode);
+		data.put("playTime", playTime);
+		data.put("tableNum", tableNum);
+		data.put("status", status);
+		data.put("calFee", calFee);
+		
+		req.setAttribute("specifyInput", data);
+		req.setAttribute("view", "MainFeeInputFrame");
+		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
+		req.setAttribute("mainHomeTitle", "요금 입력");
+		return "MainHomeFrame";
 	}
 	
 	/*
@@ -224,6 +329,36 @@ public class PingPongController {
 		req.setAttribute("view", "MainFeeManagerFrame");
 		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
 		req.setAttribute("mainHomeTitle", "요금정보 관리");
+		return "MainHomeFrame";
+	}
+	
+	/*
+	 * RequestMapping : InsertFee.do
+	 * MethodName : insertFee
+	 * Parameter : Locale
+	 * Return : String
+	 */
+	@RequestMapping(value = "InsertFee.do", method = RequestMethod.GET)
+	public String insertFee(Locale locale, HttpServletRequest req) {
+		logger.info("PingPong InsertFee.do", locale);
+		
+		String memberCode = req.getParameter("specifyMemberCode");
+		String playTime = req.getParameter("specifyPlayTime");
+		String tableNum = req.getParameter("specifyTableNum");
+		String status = req.getParameter("specifyStatus");
+		String costInput = req.getParameter("costInput");
+		String noteInput = req.getParameter("noteInput");
+		
+		logger.info(memberCode);
+		logger.info(playTime);
+		logger.info(tableNum);
+		logger.info(status);
+		logger.info(costInput);
+		logger.info(noteInput);
+		
+		req.setAttribute("view", "MainFeeInputFrame");
+		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
+		req.setAttribute("mainHomeTitle", "요금 입력");
 		return "MainHomeFrame";
 	}
 	
@@ -493,4 +628,5 @@ public class PingPongController {
 		req.setAttribute("mainHomeTitle", "사물함 관리");
 		return "MainHomeFrame";
 	}
+	
 }

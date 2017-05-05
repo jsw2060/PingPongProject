@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.company.pingPong.dto.AccountDto;
+import com.company.pingPong.dto.FeeDto;
 import com.company.pingPong.dto.MemberDto;
 
 
@@ -24,4 +25,5 @@ public interface PingPongDao {
 	public ArrayList<AccountDto> getConfirmListDao();
 	public void managerConfirmDao(Map<String, String> map);
 	public void coachConfirmDao(Map<String, String> map);
+	public ArrayList<FeeDto> getDateFeeList(String searchFeeDate);
 }
