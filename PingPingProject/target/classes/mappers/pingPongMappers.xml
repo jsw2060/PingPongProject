@@ -5,27 +5,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.company.pingPong.dao.PingPongDao">
 	<select id="loginIdDao" parameterType="String" resultType="int">
-		SELECT COUNT(id) FROM account WHERE id = #{id}
+		SELECT COUNT(id) FROM member WHERE id = #{id}
 	</select>
 	
-	<select id="loginPwdDao" parameterType="java.util.Map" resultType="com.company.pingPong.dto.AccountDto">
-		SELECT * FROM account WHERE id = #{id} AND password = #{pwd}
+	<select id="loginDao" parameterType="java.util.Map" resultType="com.company.pingPong.dto.MemberDto">
+		SELECT * FROM member WHERE id = #{id} AND password = #{pwd}
+	</select>
+	
+	<select id="loginPwdDao" parameterType="String" resultType="int">
+		SELECT COUNT(password) FROM member WHERE password = #{pwd}
 	</select>
 	
 	<select id="loginNameDao" parameterType="java.util.Map" resultType="String">
-		SELECT member.name FROM member, account WHERE member.member_code = account.member_code AND account.id = #{id} AND account.password = #{pwd}
+		SELECT name FROM member WHERE id = #{id} AND password = #{pwd}
 	</select>
 	
-	<insert id="joinApplyDao" parameterType="com.company.pingPong.dto.AccountDto">
-		INSERT INTO account(account_code, id, password, join_status, manager_status, coach_status) VALUES((SELECT NVL(MAX(account_code)+1,1)FROM account), ${id}, ${password}, 0, ${manager_status}, ${coach_status})
+	<insert id="joinApplyAccountDao" parameterType="com.company.pingPong.dto.MemberDto">
+		INSERT INTO member(member_code, id, password, manager_status, coach_status, name, age, sex, tel, email, addr, birthday, style, grade, note) VALUES((SELECT NVL(MAX(member_code)+1,1)FROM member), #{id}, #{password}, #{manager_status}, #{coach_status}, #{name}, #{age}, #{sex}, #{tel}, #{email}, #{addr}, #{birthday}, #{style}, #{grade}, #{note})
 	</insert>
 	
-	<insert id="joinApplyAccountDao" parameterType="com.company.pingPong.dto.AccountDto">
-		INSERT INTO account(account_code, member_code, id, password, join_status, manager_status, coach_status) VALUES((SELECT NVL(MAX(account_code)+1,1)FROM account), ${member_code}, ${id}, ${password}, 1, ${manager_status}, ${coach_status})
-	</insert>
-	
-	<select id="findMemberDao" parameterType="String" resultType="com.company.pingPong.dto.MemberDto">
-		SELECT m.member_code, name, sex, registerday, manager_status, coach_status FROM member m LEFT OUTER JOIN account a ON m.member_code = a.member_code WHERE m.name = #{memberName}
+	<select id="findMonthAndMemberDao" parameterType="String" resultType="com.company.pingPong.dto.MemberDto">
+		SELECT m.member_code, m.name, m.sex, mt.fee_status FROM member m LEFT OUTER JOIN monthmember mt ON m.member_code = mt.member_code WHERE m.name = #{memberName} AND m.approval_status = 1
 	</select>
 	
 	<select id="getAccountListDao" resultType="com.company.pingPong.dto.MemberDto">
@@ -44,12 +44,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		UPDATE account SET coach_status = ${coachStatus} WHERE account_code = ${accountCode}
 	</update>
 	
+	<select id="getFeeList" resultType="com.company.pingPong.dto.FeeDto">
+		SELECT fee.*, member.member_code, member.name FROM fee LEFT OUTER JOIN (
+		(SELECT lesson.fee_code, member.member_code, member.name FROM lesson LEFT OUTER JOIN member ON lesson.member_code = member.member_code) UNION ALL
+		(SELECT monthmember.fee_code, member.member_code, member.name FROM monthmember LEFT OUTER JOIN member ON monthmember.member_code = member.member_code) )member
+		ON fee.fee_code = member.fee_code ORDER BY fee_date DESC
+	</select>
+	
 	<select id="getDateFeeList" parameterType="String" resultType="com.company.pingPong.dto.FeeDto">
 		SELECT fee.*, member.member_code, member.name FROM fee LEFT OUTER JOIN (
 		(SELECT lesson.fee_code, member.member_code, member.name FROM lesson LEFT OUTER JOIN member ON lesson.member_code = member.member_code) UNION ALL
 		(SELECT monthmember.fee_code, member.member_code, member.name FROM monthmember LEFT OUTER JOIN member ON monthmember.member_code = member.member_code) )member
 		ON fee.fee_code = member.fee_code WHERE to_date(fee_date) = #{searchFeeDate} ORDER BY fee_date DESC
 	</select>
+	
+	<insert id="insertGeneralFeeDao" parameterType="java.util.Map">
+		INSERT INTO fee(fee_code, fee_type, fee_amount, note) VALUES((SELECT NVL(MAX(fee_code)+1,1)FROM fee), #{feeType}, #{feeAmount}, #{feeNote})
+	</insert>
+	
+	<insert id="insertOneDayFeeDao" parameterType="java.util.Map">
+		INSERT INTO fee(fee_code, fee_type, fee_amount, note) VALUES((SELECT NVL(MAX(fee_code)+1,1)FROM fee), #{feeType}, #{feeAmount}, #{feeNote})
+	</insert>
 	<!-- #{param} is considering database data type
 		${param} is non-considering database data type -->
 	<!-- <insert id="writeDao">

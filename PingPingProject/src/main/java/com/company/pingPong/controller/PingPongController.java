@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.lang.model.element.Element;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -37,6 +36,12 @@ public class PingPongController {
 	@Autowired
 	private SqlSession sqlSession;
 	
+	/*
+	 * RequestMapping : index.do
+	 * MethodName : loginHome
+	 * Parameter : Locale
+	 * Return : String
+	 */
 	@RequestMapping(value = "index.do")
 	public String loginHome(Locale locale) {
 		logger.info("PingPong LoginHome.jsp", locale);
@@ -54,6 +59,7 @@ public class PingPongController {
 	public String login(Locale locale, HttpServletRequest req) {
 		logger.info("PingPong Login.jsp", locale);
 		
+		// receive id and password from url
 		String id = req.getParameter("id");
 		String pwd = req.getParameter("pwd");
 		String name = "";
@@ -62,53 +68,66 @@ public class PingPongController {
 		
 		// Checking an exist of identification
 		int idInfo = dao.loginIdDao(id);
+		
+		// Checking an exist of password
+		int pwdInfo = dao.loginPwdDao(pwd);
+		
+		// When success to find id from database
 		if(idInfo == 1){
 			Map<String, String> map = new HashMap<String, String>();
 			map.put("id", id);
 			map.put("pwd", pwd);
-			// Checking exist of account what it have same id and pwd.
-			// And, getting some information from right tuple.
-			AccountDto dto = dao.loginPwdDao(map);
-			
-			// When the joiner is a member
-			if(dto.getMember_code() != 0){
-				name = dao.loginNameDao(map);
-			} else {	// When the joiner isn't a member
-				name = "가입자";
-			}
-			
-			HttpSession session = req.getSession();
-		
-			session.setAttribute("loginMemberCode", dto.getMember_code());
-			session.setAttribute("loginId", dto.getId());
-			session.setAttribute("loginPwd", dto.getPassword());
-			session.setAttribute("loginName", name);
-
-			// Checking authorization of manager or coach
-			if(Integer.parseInt(dto.getManager_status()) == 1) {
-				session.setAttribute("loginAuthor", "admin");
-				session.setAttribute("accountMsg", "관리자계정");
-				if(Integer.parseInt(dto.getCoach_status()) == 1) {
-					session.setAttribute("loginAuthor", "master");
-					session.setAttribute("accountMsg", "마스터계정");
+			// Check exist status of member what it have same id and pwd.
+			if(pwdInfo != 0){
+				// And, getting some information from right tuple.
+				MemberDto dto = dao.loginDao(map);
+				
+				// When the joiner is a member
+				if(Integer.parseInt(dto.getApproval_status()) == 1){
+					name = dao.loginNameDao(map);
+				} else {	// When the joiner isn't a member
+					name = "가입자";
 				}
-			}
-			else {
-				if(Integer.parseInt(dto.getCoach_status()) == 1) {
-					session.setAttribute("loginAuthor", "coach");
-					session.setAttribute("accountMsg", "코치 계정");
-				} else {
-					session.setAttribute("loginAuthor", "");
-					session.setAttribute("accountMsg", "일반 계정");
-				}
-			}
+				
+				HttpSession session = req.getSession();
 			
-			req.setAttribute("view", "MainHome");
-			req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
-			req.setAttribute("mainHomeTitle", "황남숙 탁구교실 통합관리 프로그램");
-			return "MainHomeFrame";
+				session.setAttribute("loginMemberCode", dto.getMember_code());
+				session.setAttribute("loginId", dto.getId());
+				session.setAttribute("loginPwd", dto.getPassword());
+				session.setAttribute("loginName", name);
+				session.setAttribute("loginApproval", dto.getApproval_status());
+	
+				// Checking authorization of manager or coach
+				if(Integer.parseInt(dto.getManager_status()) == 1) {
+					session.setAttribute("loginAuthor", "admin");
+					session.setAttribute("accountMsg", "관리자계정");
+					if(Integer.parseInt(dto.getCoach_status()) == 1) {
+						session.setAttribute("loginAuthor", "master");
+						session.setAttribute("accountMsg", "마스터계정");
+					}
+				}
+				else {
+					if(Integer.parseInt(dto.getCoach_status()) == 1) {
+						session.setAttribute("loginAuthor", "coach");
+						session.setAttribute("accountMsg", "코치 계정");
+					} else {
+						session.setAttribute("loginAuthor", "");
+						session.setAttribute("accountMsg", "일반 계정");
+					}
+				}
+				
+				req.setAttribute("view", "MainHome");
+				req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
+				req.setAttribute("mainHomeTitle", "황남숙 탁구교실 통합관리 프로그램");
+				return "MainHomeFrame";
+			} else {
+				System.out.println("해당 비밀번호가 없음");
+				req.setAttribute("errorMsg", "계정이나 비밀번호가 올바르지 않습니다.");
+				return "LoginHome";
+			}
 		} else {
-			req.setAttribute("errorMsg", "해당 ID가 존재하지 않습니다.");
+			System.out.println("해당 아이디가 없음");
+			req.setAttribute("errorMsg", "계정이나 비밀번호가 올바르지 않습니다.");
 			return "LoginHome";
 		}
 	}
@@ -191,11 +210,25 @@ public class PingPongController {
 		for(int i=0; i< tempDate.length; i++){
 			searchFeeDate = searchFeeDate + tempDate[i];			// YYYYMMDD
 		}
-		searchFeeDate = "\'" + searchFeeDate + "\'";
+		//searchFeeDate = "\'" + searchFeeDate + "\'";
 		
 		// a list of fee what is searched by date
+		logger.info(searchFeeDate);
 		ArrayList<FeeDto> dateFeeList = dao.getDateFeeList(searchFeeDate);
 		
+		for(int i =0; i<dateFeeList.size(); i++){
+			if(dateFeeList.get(i).getFee_type().equals("일반")){			// When fee type is a normal pass
+				dateFeeList.get(i).setName("일반");						// Name is normal
+			} else if(dateFeeList.get(i).getFee_type().equals("일회원")) {	// When fee type is a day member pass
+				dateFeeList.get(i).setName("일회원");						// Name is a day member
+			}
+			logger.info(dateFeeList.get(i).getMember_code());
+			logger.info(dateFeeList.get(i).getName());
+			logger.info(dateFeeList.get(i).getFee_type());
+			System.out.println(dateFeeList.get(i).getFee_amount());
+			System.out.println(dateFeeList.get(i).getFee_code());
+			logger.info(dateFeeList.get(i).getFee_date().toString());
+		}
 		req.setAttribute("dateFeeList", dateFeeList);
 		req.setAttribute("view", "MainFeeInputFrame");
 		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
@@ -275,7 +308,7 @@ public class PingPongController {
 		
 		int fee = 0;
 		// Calculate General fee
-		if(status == "0"){	// general
+		if(Integer.parseInt(status) == 0){	// general
 			if(tempTime > 30){
 				int tempHour = 0;
 				int tempMin = 0;
@@ -283,9 +316,11 @@ public class PingPongController {
 				tempMin = (tempTime % 60);
 				
 				fee = (tempHour * 10000) + (tempMin * 6000);
+				fee = fee * Integer.parseInt(req.getParameter("tableNum"));
 			} 
 			else {
 				fee = (tempTime / 30) * 6000;
+				fee = fee * Integer.parseInt(req.getParameter("tableNum"));
 			}
 		} else {			// student
 			if(tempTime > 30){
@@ -295,19 +330,76 @@ public class PingPongController {
 				tempMin = (tempTime % 60);
 				
 				fee = (tempHour * 7000) + (tempMin * 4000);
+				fee = fee * Integer.parseInt(req.getParameter("tableNum"));
 			} 
 			else {
 				fee = (tempTime / 30) * 4000;
+				fee = fee * Integer.parseInt(req.getParameter("tableNum"));
 			}
 		}
 		String calFee = String.valueOf(fee);
 		
 		Map<String, String> data = new HashMap<String, String>();
 		data.put("memberCode", memberCode);
+		data.put("feeInputPage", "1");
 		data.put("playTime", playTime);
 		data.put("tableNum", tableNum);
 		data.put("status", status);
 		data.put("calFee", calFee);
+		
+		req.setAttribute("specifyInput", data);
+		req.setAttribute("view", "MainFeeInputFrame");
+		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
+		req.setAttribute("mainHomeTitle", "요금 입력");
+		return "MainHomeFrame";
+	}
+	
+	/*
+	 * RequestMapping : OneDayFeeInput.do
+	 * MethodName : oneDayMemberFee
+	 * Parameter : Locale, HttpServletRequest
+	 * Return : String
+	 */
+	@RequestMapping(value = "OneDayFeeInput.do", method = RequestMethod.GET)
+	public String oneDayMemberFee(Locale locale, HttpServletRequest req) {
+		logger.info("PingPong oneDayMemberFee.do", locale);
+
+		HttpSession session = req.getSession();
+		
+		String memberCode = session.getAttribute("loginMemberCode").toString();
+		String calFee = "7000";
+		
+		Map<String, String> data = new HashMap<String, String>();
+		data.put("memberCode", memberCode);
+		data.put("feeInputPage", "2");
+		data.put("calFee", calFee);
+		
+		req.setAttribute("specifyInput", data);
+		req.setAttribute("view", "MainFeeInputFrame");
+		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
+		req.setAttribute("mainHomeTitle", "요금 입력");
+		return "MainHomeFrame";
+	}
+	
+	/*
+	 * RequestMapping : InserMonthFeeInput.do
+	 * MethodName : insertmonthMemberFee
+	 * Parameter : Locale, HttpServletRequest
+	 * Return : String
+	 */
+	@RequestMapping(value = "InsertMonthFeeInput.do", method = RequestMethod.GET)
+	public String insertMonthMemberFee(Locale locale, HttpServletRequest req) {
+		logger.info("PingPong InsertMonthMemberFee.do", locale);
+
+		HttpSession session = req.getSession();
+		
+		String memberCode = session.getAttribute("loginMemberCode").toString();
+		/*String calFee = "7000";*/
+		
+		Map<String, String> data = new HashMap<String, String>();
+		data.put("memberCode", memberCode);
+		data.put("feeInputPage", "2");
+		//data.put("calFee", calFee);
 		
 		req.setAttribute("specifyInput", data);
 		req.setAttribute("view", "MainFeeInputFrame");
@@ -333,28 +425,62 @@ public class PingPongController {
 	}
 	
 	/*
-	 * RequestMapping : InsertFee.do
-	 * MethodName : insertFee
-	 * Parameter : Locale
+	 * RequestMapping : InsertGeneralFeeToDB.do
+	 * MethodName : insertGeneralFeeToDB
+	 * Parameter : Locale, HttpServletRequest
 	 * Return : String
 	 */
-	@RequestMapping(value = "InsertFee.do", method = RequestMethod.GET)
-	public String insertFee(Locale locale, HttpServletRequest req) {
-		logger.info("PingPong InsertFee.do", locale);
+	@RequestMapping(value = "InsertGeneralFeeToDB.do", method = RequestMethod.GET)
+	public String insertGeneralFeeToDB(Locale locale, HttpServletRequest req) {
+		logger.info("PingPong InsertGeneralFeeToDB.do", locale);
 		
-		String memberCode = req.getParameter("specifyMemberCode");
-		String playTime = req.getParameter("specifyPlayTime");
-		String tableNum = req.getParameter("specifyTableNum");
-		String status = req.getParameter("specifyStatus");
 		String costInput = req.getParameter("costInput");
 		String noteInput = req.getParameter("noteInput");
 		
-		logger.info(memberCode);
-		logger.info(playTime);
-		logger.info(tableNum);
-		logger.info(status);
 		logger.info(costInput);
 		logger.info(noteInput);
+
+		Map<String, String> data = new HashMap<String, String>();
+		data.put("feeType", "일반");
+		data.put("feeAmount", costInput);
+		data.put("feeNote", noteInput);
+
+		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
+		dao.insertGeneralFeeDao(data);
+		
+		//ArrayList<FeeDto> dateFeeList = dao.getFeeList();
+		
+		//req.setAttribute("dateFeeList", dateFeeList);
+		
+		req.setAttribute("view", "MainFeeInputFrame");
+		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
+		req.setAttribute("mainHomeTitle", "요금 입력");
+		return "MainHomeFrame";
+	}
+	
+	/*
+	 * RequestMapping : InsertOnedayFeeToDB.do
+	 * MethodName : insertOnedayFeeToDB
+	 * Parameter : Locale, HttpServletRequest
+	 * Return : String
+	 */
+	@RequestMapping(value = "InsertOnedayFeeToDB.do", method = RequestMethod.GET)
+	public String insertOnedayFeeToDB(Locale locale, HttpServletRequest req) {
+		logger.info("PingPong InsertOnedayFeeToDB.do", locale);
+		
+		String costInput = req.getParameter("costInput");
+		String noteInput = req.getParameter("noteInput");
+		
+		logger.info(costInput);
+		logger.info(noteInput);
+
+		Map<String, String> data = new HashMap<String, String>();
+		data.put("feeType", "일회원");
+		data.put("feeAmount", costInput);
+		data.put("feeNote", noteInput);
+
+		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
+		dao.insertOneDayFeeDao(data);
 		
 		req.setAttribute("view", "MainFeeInputFrame");
 		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
@@ -522,67 +648,74 @@ public class PingPongController {
 	public String accountCreate(Locale locale, HttpServletRequest req) {
 		logger.info("PingPong AccountCreateMethod", locale);
 		
+		// id, pwd, manager, coach, name, age, sex, tel, email, addr, birthday, style, grade, note
 		String id = req.getParameter("id");
-		id = "\'" + id + "\'";
 		String pwd = req.getParameter("pwd");
-		pwd = "\'" + pwd + "\'";
-		String managerStatusTemp = req.getParameter("manager");
-		String coachStatusTemp = req.getParameter("coach");
-		String memberCodeTemp = req.getParameter("memberCode");
-		logger.info(id);
-		logger.info(pwd);
-		logger.info(managerStatusTemp);
-		logger.info(coachStatusTemp);
-		logger.info(memberCodeTemp);
-
-		AccountDto dto = new AccountDto();
+		String manager = req.getParameter("manager");
+		String coach = req.getParameter("coach");
+		String name = req.getParameter("userName");
+		String age = req.getParameter("userAge");
+		String sex = req.getParameter("userSex");
+		String tel = req.getParameter("userTel");
+		String email = req.getParameter("userEmail1") + req.getParameter("userEmail2");
+		String addr = req.getParameter("userAddr");
+		String birthday = req.getParameter("userBday");
+		String grade = req.getParameter("userGrade");
+		String style = req.getParameter("userStyle");
+		String note = req.getParameter("userNote");
+		
+		// define memberDto instance
+		MemberDto dto = new MemberDto();
 		dto.setId(id);
 		dto.setPassword(pwd);
+		if(manager != null) {dto.setManager_status(manager);}
+		else {dto.setManager_status("0");}
+		if(coach != null) dto.setCoach_status(coach);
+		else {dto.setCoach_status("0");}
+		dto.setName(name);
+		dto.setAge(age);
+		dto.setSex(sex);
+		dto.setTel(tel);
+		dto.setEmail(email);
+		dto.setAddr(addr);
+		dto.setBirthday(birthday);
+		dto.setGrade(grade);
+		dto.setStyle(style);
+		dto.setNote(note);
 		
-		// managerStatus and CoachStatus are confirmed by these sentences
-		if(managerStatusTemp != null){
-			dto.setManager_status(managerStatusTemp);
-		} else {
-			dto.setManager_status("0");
-		}
-		if(coachStatusTemp != null){
-			dto.setCoach_status(coachStatusTemp);
-		} else {
-			dto.setCoach_status("0");
-		}
-		if(memberCodeTemp != null){
-			int memberCode = Integer.parseInt(req.getParameter("memberCode"));
-			dto.setMember_code(memberCode);
-			PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
-			dao.joinApplyAccountDao(dto);
-		} else {
-			PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
-			dao.joinApplyDao(dto);
-		}
+		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
+		dao.joinApplyAccountDao(dto);
 		
 		return "LoginHome";
 	}
 	
 	/*
-	 * RequestMapping : FindMember.do
-	 * MethodName : findMember
+	 * RequestMapping : FindMonthAndMember.do
+	 * MethodName : findMonthAndMember.do
 	 * Parameter : Locale, HttpServletRequest
 	 * Return : String
 	 */
-	@RequestMapping(value = "FindMember.do", method = RequestMethod.GET)
-	public String findMember(Locale locale, HttpServletRequest req) throws Exception{
-		logger.info("PingPong FindMember.do", locale);
+	@RequestMapping(value = "FindMonthAndMember.do", method = RequestMethod.GET)
+	public String findMonthAndMember(Locale locale, HttpServletRequest req) throws Exception{
+		logger.info("PingPong FindMonthAndMember.do", locale);
 		
 		req.setCharacterEncoding("UTF-8");
 		String memberName = req.getParameter("memberName");
+		logger.info(memberName);
 		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
-		ArrayList<MemberDto> memberDto = dao.findMemberDao(memberName);
+		ArrayList<MemberDto> memberDto = dao.findMonthAndMemberDao(memberName);
+
 		for(int i=0; i<memberDto.size(); i++){
-			System.out.println("managerStatus" + memberDto.get(i).getManager_status());
-			System.out.println(memberDto.get(i).getRegisterday());
+			logger.info(memberDto.get(i).getMember_code());
+			logger.info(memberDto.get(i).getName());
+			logger.info(memberDto.get(i).getSex());
+			logger.info(memberDto.get(i).getFee_status());
 		}
 		req.setAttribute("memberResult", memberDto);
-		return "AccountCreateDialog";
+		req.setAttribute("view", "MonthFeeInput");
+		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
+		req.setAttribute("mainHomeTitle", "월 회원 세부 정보");
+		return "MainHomeFrame";
 	}
 	
 	/*

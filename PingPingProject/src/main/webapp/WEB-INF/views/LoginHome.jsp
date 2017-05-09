@@ -57,12 +57,12 @@
 	                </div>
 	                <div align="center">
 	                	<button type="button" class="btn btn-orange" id="logBtn">로그인</button>
-	                	<button type="button" class="btn btn-orange" onclick="location.href='AccountCreateDialog.do'">계정 등록</button>
+	                	<button type="button" class="btn btn-orange" onclick="location.href='AccountCreateDialog.do'">회원 가입</button>
 	                </div>
 	            </form>
 	            <div align="center">
                 	<br>
-               		<span id="errorMsg"></span>
+               		<span id="errorMsg">${ errorMsg }</span>
         		</div>
 	        </div>
 	    </div>  

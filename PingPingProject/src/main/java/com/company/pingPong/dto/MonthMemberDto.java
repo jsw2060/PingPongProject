@@ -1,30 +1,35 @@
 package com.company.pingPong.dto;
 
-import java.sql.Timestamp;
-
 public class MonthMemberDto {
-	int month_code;
-	int fee_code;
-	Timestamp month_registerdate;
-	String fee_status;
-	String note;
+	private String month_code;
+	private String fee_code;
+	private String member_code;
+	private String month_registerdate;
+	private String fee_status;
+	private String note;
 	
-	public int getMonth_code() {
+	public String getMonth_code() {
 		return month_code;
 	}
-	public void setMonth_code(int month_code) {
+	public void setMonth_code(String month_code) {
 		this.month_code = month_code;
 	}
-	public int getFee_code() {
+	public String getFee_code() {
 		return fee_code;
 	}
-	public void setFee_code(int fee_code) {
+	public void setFee_code(String fee_code) {
 		this.fee_code = fee_code;
 	}
-	public Timestamp getMonth_registerdate() {
+	public String getMember_code() {
+		return member_code;
+	}
+	public void setMember_code(String member_code) {
+		this.member_code = member_code;
+	}
+	public String getMonth_registerdate() {
 		return month_registerdate;
 	}
-	public void setMonth_registerdate(Timestamp month_registerdate) {
+	public void setMonth_registerdate(String month_registerdate) {
 		this.month_registerdate = month_registerdate;
 	}
 	public String getFee_status() {

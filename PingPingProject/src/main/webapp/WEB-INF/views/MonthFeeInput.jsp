@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -8,29 +9,15 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-	$("#enterBtn").click(function(){
-		var selectedTime = $("#playTimeBox").val();
-		var selectedNum = $("#tableNumBox").val();
-		var selectedType = $(".radioInput").val();
-		alert(selectedTime);
-		
-		if(selectedTime != 0 && selectedNum != 0 && selectedType != null){
-			$("#InsertGeneralFee").submit();
-		} else {
-			if(selectedTime == 0){
-				alert("이용시간을 선택해주세요.");
-			} else if(selectedNum == 0){
-				alert("테이블 갯수를 선택해주세요.");
-			} else if(selectedType == null){
-				alert("일반, 학생 여부를 선택해주세요.");
-			}	
-		}
+	$("#findMember").click(function(){
+		$("#insertMonthFeeForm").attr("action", "FindMonthAndMember.do");
+		$("#insertMonthFeeForm").submit();
 	});
 });
 </script>
 </head>
 <body>
-	<form id="InsertGeneralFee" action="InsertGeneralFee.do">
+	<form id="insertMonthFeeForm" action="InsertMonthFeeInput.do">
 	<div align="center">
 		<br/>
 		<div>
@@ -42,13 +29,13 @@ $(document).ready(function(){
 				<tr>
 					<td width="150" align="center">*등록일: </td>
 					<td>
-						<input type="date">
+						<input type="date" name="registerDay">
 					</td>
 				</tr>
 				<tr>
 					<td width="150" align="center">*회원: </td>
 					<td>
-						<input type="text">
+						<input type="text" name="memberName">
 						<button type="button" style="border-bottom-style: hidden;" id="findMember"><img class="buttonImg" alt="검색버튼" src="resources/Collection/Find User Male_3.png"></button>
 						<button type="button" style="border-bottom-style: hidden;"><img class="buttonImg" alt="추가버튼" src="resources/Collection/Add User Male_2.png"></button>
 					</td>
@@ -62,6 +49,30 @@ $(document).ready(function(){
 								<td>성별</td>
 								<td>결제 여부</td>
 							</tr>
+							<c:choose>
+								<c:when test="${ memberResult ne null }">
+									<c:forEach var="memberInfo" items="${ memberResult }">
+										<tr>
+											<td>${ memberInfo.member_code }</td>
+											<td>${ memberInfo.name }</td>
+											<c:choose>
+												<c:when test="${ memberInfo.sex eq 0}">
+													<td>M</td>
+												</c:when>
+												<c:otherwise>
+													<td>F</td>
+												</c:otherwise>
+											</c:choose>
+											<td>${ memberInfo.fee_status }</td>
+										</tr>
+									</c:forEach>
+								</c:when>
+								<c:otherwise>
+									<tr>
+										<td colspan="4" style="text-align: center;">검색된 내용이 없습니다.</td>
+									</tr>
+								</c:otherwise>
+							</c:choose>
 						</table>
 					</td>
 				</tr>

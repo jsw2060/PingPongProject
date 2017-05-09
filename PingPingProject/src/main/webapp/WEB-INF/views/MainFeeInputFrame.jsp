@@ -48,7 +48,8 @@
 				$("#FindFeeForm").submit();
 			}
 			if(selectedPage == "2"){
-				$("#costInput").attr("placeholder", "7000");
+				$("#FindFeeForm").attr("action", "OneDayFeeInput.do");
+				$("#FindFeeForm").submit();
 			}
 			if(selectedPage == "3"){
 				$("#FindFeeForm").attr("action", "MonthFeeInput.do");
@@ -61,8 +62,15 @@
 		});
 		
 		$("#enterBtn").click(function(){
-			$("#FindFeeForm").attr("action", "InsertFee.do");
-			$("#FindFeeForm").submit();
+			var feeType = $("#specifyFeeInputPage").val();
+			if(feeType == 1){
+				$("#FindFeeForm").attr("action", "InsertGeneralFeeToDB.do");
+				$("#FindFeeForm").submit();	
+			}
+			if(feeType == 2){
+				$("#FindFeeForm").attr("action", "InsertOnedayFeeToDB.do");
+				$("#FindFeeForm").submit();	
+			}
 		});
 	});
 </script>
@@ -98,7 +106,7 @@
 								<td>결제일</td>
 								<td>비고</td>
 							</tr>
-							<c:if test="${ dataFeeList ne null }">
+							<%-- <c:if test="${ dataFeeList ne null }"> --%>
 							<c:forEach var="feeItems" items="${ dateFeeList }">
 								<tr>
 									<td>${ feeItems.fee_type }</td>
@@ -108,12 +116,12 @@
 									<td>${ feeItems.note }</td>
 								</tr>
 							</c:forEach>
-							</c:if>
-							<c:if test="${ dataFeeList eq null }">
+							<%-- </c:if> --%>
+							<%-- <c:if test="${ dataFeeList eq null }">
 								<tr>
 									<td colspan="5">검색된 데이터가 없습니다.</td>
 								</tr>
-							</c:if>
+							</c:if> --%>
 						</table>
 					</td>
 				</tr>
@@ -172,6 +180,7 @@
 				</tr>
 			</table>
 			<input type="text" name="specifyMemberCode" value="${ specifyInput.memberCode }">
+			<input type="text" id="specifyFeeInputPage" name="specifyFeeInputPage" value="${ specifyInput.feeInputPage }">
 			<input type="text" name="specifyPlayTime" value="${ specifyInput.playTime }">
 			<input type="text" name="specifyTableNum" value="${ specifyInput.tableNum }">
 			<input type="text" name="specifyStatus" value="${ specifyInput.status }">
