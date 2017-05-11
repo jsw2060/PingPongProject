@@ -13,7 +13,33 @@ $(document).ready(function(){
 		$("#insertMonthFeeForm").attr("action", "FindMonthAndMember.do");
 		$("#insertMonthFeeForm").submit();
 	});
+	
+	/* $("#memberName").click(function(){
+		$("#insertMonthFeeForm").attr("action", "InsertMonthFeeInput.do");
+		$("#insertMonthFeeForm").submit();
+	}); */
+	tableSelection();
 });
+
+function tableSelection() {
+	var rows = $("#memberDataForm tr");
+	if(rows && rows.length > 0) {
+		$(rows).each(function (idx) {
+			if(idx > 0) {
+				var startIdx = 0;
+				var endIdx = rows[idx].childNodes.length;
+				$(rows[idx]).click(function() {
+					var numb = $(rows[idx]).find('td').eq(0).html();
+					alert(numb);
+	
+					$(rows[idx]).find('td input').attr('name', 'memberCode');
+					$("#insertMonthFeeForm").attr("action", "InsertMonthFeeInput.do");
+					$("#insertMonthFeeForm").submit();
+				});
+			}
+		});
+	}
+}
 </script>
 </head>
 <body>
@@ -53,7 +79,7 @@ $(document).ready(function(){
 								<c:when test="${ memberResult ne null }">
 									<c:forEach var="memberInfo" items="${ memberResult }">
 										<tr>
-											<td>${ memberInfo.member_code }</td>
+											<td>${ memberInfo.member_code }<input name="" type="hidden" value="${ memberInfo.member_code }"></td>
 											<td>${ memberInfo.name }</td>
 											<c:choose>
 												<c:when test="${ memberInfo.sex eq 0}">

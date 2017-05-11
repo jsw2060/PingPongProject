@@ -65,6 +65,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="insertOneDayFeeDao" parameterType="java.util.Map">
 		INSERT INTO fee(fee_code, fee_type, fee_amount, note) VALUES((SELECT NVL(MAX(fee_code)+1,1)FROM fee), #{feeType}, #{feeAmount}, #{feeNote})
 	</insert>
+	
+	<insert id="insertMonthFeeDao" parameterType="java.util.Map">
+		INSERT INTO fee(fee_code, fee_type, fee_amount, note) VALUES((SELECT NVL(MAX(fee_code)+1,1)FROM fee), #{feeType}, #{feeAmount}, #{feeNote})
+	</insert>
+	
+	<select id="getPrevFeeCode" resultType="String">
+		SELECT NVL(MAX(fee_code),1)FROM fee
+	</select>
+	
+	<select id="checkMonthMemberDao" parameterType="String" resultType="INTEGER">
+		SELECT COUNT(month_code) FROM monthmember WHERE member_code = #{memberCode}
+	</select>
+	
+	<update id="insertMonthMemberDao" parameterType="java.util.Map">
+		UPDATE monthmember SET fee_code = #{feeCode} WHERE member_code = #{memberCode}
+	</update>
+	
+	<insert id="insertNewMonthMemberDao" parameterType="java.util.Map">
+		INSERT INTO monthmember(month_code, fee_code, member_code, Fee_status) VALUES((SELECT NVL(MAX(month_code)+1,1)FROM monthmember), #{feeCode}, #{memberCode}, 1)
+	</insert>
 	<!-- #{param} is considering database data type
 		${param} is non-considering database data type -->
 	<!-- <insert id="writeDao">

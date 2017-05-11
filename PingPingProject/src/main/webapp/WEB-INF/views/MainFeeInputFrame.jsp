@@ -71,7 +71,12 @@
 				$("#FindFeeForm").attr("action", "InsertOnedayFeeToDB.do");
 				$("#FindFeeForm").submit();	
 			}
+			if(feeType == 3){
+				$("#FindFeeForm").attr("action", "InsertMonthFeeToDB.do");
+				$("#FindFeeForm").submit();	
+			}
 		});
+		
 	});
 </script>
 </head>
@@ -106,22 +111,20 @@
 								<td>결제일</td>
 								<td>비고</td>
 							</tr>
-							<%-- <c:if test="${ dataFeeList ne null }"> --%>
-							<c:forEach var="feeItems" items="${ dateFeeList }">
-								<tr>
-									<td>${ feeItems.fee_type }</td>
-									<td>${ feeItems.fee_amount }</td>
-									<td>${ feeItems.name }<input type="hidden" value="${ feeItems.member_code }"></td>
-									<td>${ feeItems.fee_date }</td>
-									<td>${ feeItems.note }</td>
-								</tr>
-							</c:forEach>
-							<%-- </c:if> --%>
-							<%-- <c:if test="${ dataFeeList eq null }">
-								<tr>
-									<td colspan="5">검색된 데이터가 없습니다.</td>
-								</tr>
-							</c:if> --%>
+								<c:forEach var="feeItems" items="${ dateFeeList }">
+									<tr>
+										<td>${ feeItems.fee_type }</td>
+										<td>${ feeItems.fee_amount }</td>
+										<td>${ feeItems.name }<input type="hidden" value="${ feeItems.member_code }"></td>
+										<td>${ feeItems.fee_date }</td>
+										<td>${ feeItems.note }</td>
+									</tr>
+								</c:forEach>
+								<%-- <c:otherwise>
+									<tr>
+										<td colspan="5">검색된 데이터가 없습니다.</td>
+									</tr>
+								</c:otherwise> --%>
 						</table>
 					</td>
 				</tr>
@@ -172,7 +175,7 @@
 							<tr>
 								<td colspan="4">
 									<input type="button" id="enterBtn" value="입력">
-									<input type="button" value="초기화">
+									<a href="MainFeeInputFrame.do"><input type="button" id="initBtn" value="초기화"></a>
 								</td>
 							</tr>
 						</table>

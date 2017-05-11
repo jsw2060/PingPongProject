@@ -28,4 +28,9 @@ public interface PingPongDao {
 	public ArrayList<FeeDto> getFeeList();
 	public void insertGeneralFeeDao(Map<String, String> data);
 	public void insertOneDayFeeDao(Map<String, String> data);
+	public void insertMonthFeeDao(Map<String, String> data);
+	public String getPrevFeeCode();
+	public int checkMonthMemberDao(String memberCode);
+	public void updateMonthMemberDao(Map<String, String> monthInfo);
+	public void insertNewMonthMemberDao(Map<String, String> monthInfo);
 }

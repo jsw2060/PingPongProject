@@ -391,15 +391,14 @@ public class PingPongController {
 	public String insertMonthMemberFee(Locale locale, HttpServletRequest req) {
 		logger.info("PingPong InsertMonthMemberFee.do", locale);
 
-		HttpSession session = req.getSession();
-		
-		String memberCode = session.getAttribute("loginMemberCode").toString();
-		/*String calFee = "7000";*/
+		String memberCode = req.getParameter("memberCode");
+		System.out.println("memberCode : " + memberCode);
+		String calFee = "70000";
 		
 		Map<String, String> data = new HashMap<String, String>();
 		data.put("memberCode", memberCode);
-		data.put("feeInputPage", "2");
-		//data.put("calFee", calFee);
+		data.put("feeInputPage", "3");
+		data.put("calFee", calFee);
 		
 		req.setAttribute("specifyInput", data);
 		req.setAttribute("view", "MainFeeInputFrame");
@@ -448,10 +447,6 @@ public class PingPongController {
 		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
 		dao.insertGeneralFeeDao(data);
 		
-		//ArrayList<FeeDto> dateFeeList = dao.getFeeList();
-		
-		//req.setAttribute("dateFeeList", dateFeeList);
-		
 		req.setAttribute("view", "MainFeeInputFrame");
 		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
 		req.setAttribute("mainHomeTitle", "요금 입력");
@@ -481,6 +476,50 @@ public class PingPongController {
 
 		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
 		dao.insertOneDayFeeDao(data);
+		
+		req.setAttribute("view", "MainFeeInputFrame");
+		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
+		req.setAttribute("mainHomeTitle", "요금 입력");
+		return "MainHomeFrame";
+	}
+	
+	/*
+	 * RequestMapping : InsertMonthFeeToDB.do
+	 * MethodName : insertMonthFeeToDB
+	 * Parameter : Locale, HttpServletRequest
+	 * Return : String
+	 */
+	@RequestMapping(value = "InsertMonthFeeToDB.do", method = RequestMethod.GET)
+	public String insertMonthFeeToDB(Locale locale, HttpServletRequest req) {
+		logger.info("PingPong InsertMonthFeeToDB.do", locale);
+		
+		String costInput = req.getParameter("costInput");
+		String noteInput = req.getParameter("noteInput");
+		String memberCode = req.getParameter("specifyMemberCode");
+		
+		logger.info(costInput);
+		logger.info(noteInput);
+
+		Map<String, String> data = new HashMap<String, String>();
+		data.put("feeType", "월회원");
+		data.put("feeAmount", costInput);
+		data.put("feeNote", noteInput);
+
+		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
+		dao.insertMonthFeeDao(data);
+		
+		String prevFeeCode = dao.getPrevFeeCode();
+		int existMonthMember = dao.checkMonthMemberDao(memberCode);
+		
+		Map<String, String> monthInfo = new HashMap<String, String>();
+		monthInfo.put("memberCode", memberCode);
+		monthInfo.put("feeCode", prevFeeCode);
+		
+		if(existMonthMember != 0){
+			dao.updateMonthMemberDao(monthInfo);
+		} else {
+			dao.insertNewMonthMemberDao(monthInfo);
+		}
 		
 		req.setAttribute("view", "MainFeeInputFrame");
 		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
