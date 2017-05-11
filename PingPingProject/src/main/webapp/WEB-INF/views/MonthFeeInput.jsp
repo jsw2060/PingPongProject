@@ -53,12 +53,6 @@ function tableSelection() {
 		<div>
 			<table width="350" border="1">
 				<tr>
-					<td width="150" align="center">*등록일: </td>
-					<td>
-						<input type="date" name="registerDay">
-					</td>
-				</tr>
-				<tr>
 					<td width="150" align="center">*회원: </td>
 					<td>
 						<input type="text" name="memberName">
