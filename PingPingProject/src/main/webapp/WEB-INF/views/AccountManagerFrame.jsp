@@ -83,7 +83,7 @@
 								</tr>
 								<c:forEach var="result" items="${ confirmList }">
 								<tr class="confirmData" style="background-color: #F5F5F5;">
-									<td>${ result.id }<input type="hidden" id="applier_code" name="applier_code" value="${ result.account_code }"/></td>
+									<td>${ result.id }<input type="hidden" id="applier_code" name="applier_code" value="${ result.member_code }"/></td>
 									<c:choose>
 										<c:when test="${ result.manager_status eq 2}">
 											<td>Y</td>
@@ -100,9 +100,9 @@
 											<td>N</td>
 										</c:otherwise>
 									</c:choose>
-									<td>${ result.join_date }</td>
-									<td><a href="AuthorizationConfirm.do?id=${ result.id }&account_code=${ result.account_code }&manager_status=${ result.manager_status }&coach_status=${ result.coach_status }&agreeBtn=1">승</a></td>
-									<td><a href="AuthorizationConfirm.do?id=${ result.id }&account_code=${ result.account_code }&manager_status=${ result.manager_status }&coach_status=${ result.coach_status }&agreeBtn=0">거</a></td>
+									<td>${ result.registerday }</td>
+									<td><a href="AuthorizationConfirm.do?id=${ result.id }&member_code=${ result.member_code }&manager_status=${ result.manager_status }&coach_status=${ result.coach_status }&agreeBtn=1">승</a></td>
+									<td><a href="AuthorizationConfirm.do?id=${ result.id }&member_code=${ result.member_code }&manager_status=${ result.manager_status }&coach_status=${ result.coach_status }&agreeBtn=0">거</a></td>
 								</tr>
 								</c:forEach>
 							</table>
@@ -121,11 +121,11 @@
 									<td>관리자</td>
 									<td>코치</td>
 								</tr>
-								<c:forEach var="accounts" items="${ accountList }">
+								<c:forEach var="members" items="${ memberList }">
 									<tr class="selectedData" style="background-color: #F5F5F5;">
-										<td>${ accounts.id }<input type="text" class="selectedRow" value="${ accounts.account_code }"></td>
+										<td>${ members.id }<input type="text" class="selectedRow" value="${ members.member_code }"></td>
 										<c:choose>
-											<c:when test="${ accounts.manager_status eq 1 }">
+											<c:when test="${ members.manager_status eq 1 }">
 												<td>Y</td>
 											</c:when>
 											<c:otherwise>
@@ -133,19 +133,16 @@
 											</c:otherwise>
 										</c:choose>
 										<c:choose>
-											<c:when test="${ accounts.coach_status eq 1 }">
+											<c:when test="${ members.coach_status eq 1 }">
 												<td>Y</td>
 											</c:when>
 											<c:otherwise>
 												<td>N</td>
 											</c:otherwise>
 										</c:choose>
-										<td>${ accounts.name }</td>
+										<td>${ members.name }</td>
 										<c:choose>
-											<c:when test="${ accounts.sex eq 0}">
-												<td></td>
-											</c:when>
-											<c:when test="${ accounts.sex eq 1}">
+											<c:when test="${ members.sex eq 0}">
 												<td>남</td>
 											</c:when>
 											<c:otherwise>
@@ -153,14 +150,14 @@
 											</c:otherwise>
 										</c:choose>
 										<c:choose>
-											<c:when test="${ accounts.tel eq 0}">
+											<c:when test="${ members.tel eq 0}">
 												<td></td>
 											</c:when>
 											<c:otherwise>
-												<td>${ accounts.tel }</td>
+												<td>${ members.tel }</td>
 											</c:otherwise>
 										</c:choose>
-										<td>${ accounts.registerday }</td>
+										<td>${ members.registerday }</td>
 									</tr>
 								</c:forEach>
 							</table>

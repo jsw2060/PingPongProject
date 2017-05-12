@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import com.company.pingPong.dto.AccountDto;
+import com.company.pingPong.dto.CoachDto;
 import com.company.pingPong.dto.FeeDto;
 import com.company.pingPong.dto.MemberDto;
 
@@ -14,16 +15,30 @@ public interface PingPongDao {
 	public ContentDto viewDao(String strID);
 	public void deleteDao(String bId);*/
 	
+	// confirm Id when someone request login
 	public int loginIdDao(String id);
+	// confirm password when someone request password
 	public int loginPwdDao(String pwd);
+	// confirm login data when someone request login
 	public MemberDto loginDao(Map<String, String> map);
+	// inform a name who login successed
 	public String loginNameDao(Map<String, String> map);
+	// request join and create an account
 	public void joinApplyAccountDao(MemberDto dto);
+	// find members who joined as a monthmember or just a member
 	public ArrayList<MemberDto> findMonthAndMemberDao(String memberName);
+	// find members who registered a lesson or just a member
+	public ArrayList<MemberDto> findLessonAndMemberDao(String coachName);
+	// get list of member
+	public ArrayList<MemberDto> getConfirmListDao();
+	// get list of waiting confirm
 	public ArrayList<MemberDto> getAccountListDao();
-	public ArrayList<AccountDto> getConfirmListDao();
+	// give an authorization to be a manager
 	public void managerConfirmDao(Map<String, String> map);
+	// give an authorization to be a coach
 	public void coachConfirmDao(Map<String, String> map);
+	// give an authorization to be a member
+	public void memberConfirmDao(String memberCode);
 	public ArrayList<FeeDto> getDateFeeList(String searchFeeDate);
 	public ArrayList<FeeDto> getFeeList();
 	public void insertGeneralFeeDao(Map<String, String> data);
@@ -33,4 +48,5 @@ public interface PingPongDao {
 	public int checkMonthMemberDao(String memberCode);
 	public void updateMonthMemberDao(Map<String, String> monthInfo);
 	public void insertNewMonthMemberDao(Map<String, String> monthInfo);
+	public ArrayList<CoachDto> findLessonAndCoachDao(String coachName);
 }

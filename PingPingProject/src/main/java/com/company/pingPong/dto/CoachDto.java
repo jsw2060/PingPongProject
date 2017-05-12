@@ -3,28 +3,31 @@ package com.company.pingPong.dto;
 import java.sql.Timestamp;
 
 public class CoachDto {
-	int coach_code;
-	int member_code;
-	Timestamp coach_registerdate;
+	String coach_code;
+	String member_code;
+	String coach_registerdate;
 	String work_weekday;
 	String note;
 	
-	public int getCoach_code() {
+	String name;
+	String sex;
+	
+	public String getCoach_code() {
 		return coach_code;
 	}
-	public void setCoach_code(int coach_code) {
+	public void setCoach_code(String coach_code) {
 		this.coach_code = coach_code;
 	}
-	public int getMember_code() {
+	public String getMember_code() {
 		return member_code;
 	}
-	public void setMember_code(int member_code) {
+	public void setMember_code(String member_code) {
 		this.member_code = member_code;
 	}
-	public Timestamp getCoach_registerdate() {
+	public String getCoach_registerdate() {
 		return coach_registerdate;
 	}
-	public void setCoach_registerdate(Timestamp coach_registerdate) {
+	public void setCoach_registerdate(String coach_registerdate) {
 		this.coach_registerdate = coach_registerdate;
 	}
 	public String getWork_weekday() {
@@ -38,5 +41,17 @@ public class CoachDto {
 	}
 	public void setNote(String note) {
 		this.note = note;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getSex() {
+		return sex;
+	}
+	public void setSex(String sex) {
+		this.sex = sex;
 	}
 }

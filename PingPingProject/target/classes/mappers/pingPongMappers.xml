@@ -28,20 +28,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT m.member_code, m.name, m.sex, mt.fee_status FROM member m LEFT OUTER JOIN monthmember mt ON m.member_code = mt.member_code WHERE m.name = #{memberName} AND m.approval_status = 1
 	</select>
 	
-	<select id="getAccountListDao" resultType="com.company.pingPong.dto.MemberDto">
-		SELECT a.account_code, a.id, a.manager_status, a.coach_status, m.name, m.sex, m.tel, m.registerday FROM member m LEFT OUTER JOIN account a ON m.member_code = a.member_code
+	<select id="findLessonAndMemberDao" parameterType="String" resultType="com.company.pingPong.dto.MemberDto">
+		SELECT m.member_code, m.name, m.sex FROM member m LEFT OUTER JOIN lesson l ON m.member_code = l.member_code WHERE m.name = #{memberName} AND m.approval_status = 1
 	</select>
 	
-	<select id="getConfirmListDao" resultType="com.company.pingPong.dto.AccountDto">
-		SELECT account_code, id, manager_status, coach_status, join_date FROM account WHERE manager_status = 2 OR coach_status = 2
+	<select id="getAccountListDao" resultType="com.company.pingPong.dto.MemberDto">
+		SELECT m.member_code, m.id, m.manager_status, m.coach_status, m.name, m.sex, m.tel, m.registerday FROM member m
+	</select>
+	
+	<select id="getConfirmListDao" resultType="com.company.pingPong.dto.MemberDto">
+		SELECT member_code, id, manager_status, coach_status, registerday FROM member WHERE manager_status = 2 OR coach_status = 2 OR approval_status = 0
 	</select>
 	
 	<update id="managerConfirmDao" parameterType="java.util.Map">
-		UPDATE account SET manager_status = ${managerStatus} WHERE account_code = ${accountCode}
+		UPDATE member SET manager_status = ${managerStatus} approval_status = 1 WHERE member_code = ${memberCode}
 	</update>
 	
-	<update id="coachConfirmDao">
-		UPDATE account SET coach_status = ${coachStatus} WHERE account_code = ${accountCode}
+	<update id="coachConfirmDao" parameterType="java.util.Map">
+		UPDATE member SET coach_status = ${coachStatus} approval_status = 1 WHERE member_code = ${memberCode}
+	</update>
+	
+	<update id="memberConfirmDao" parameterType="String">
+		UPDATE member SET approval_status = 1 WHERE member_code = #{memberCode}
 	</update>
 	
 	<select id="getFeeList" resultType="com.company.pingPong.dto.FeeDto">
@@ -85,6 +93,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="insertNewMonthMemberDao" parameterType="java.util.Map">
 		INSERT INTO monthmember(month_code, fee_code, member_code, Fee_status) VALUES((SELECT NVL(MAX(month_code)+1,1)FROM monthmember), #{feeCode}, #{memberCode}, 1)
 	</insert>
+	
+	<select id="findLessonAndCoachDao" parameterType="String" resultType="com.company.pingPong.dto.CoachDto">
+		SELECT m.member_code, m.name, m.sex, c.coach_code FROM member m LEFT OUTER JOIN coach c ON m.member_code = c.member_code WHERE m.coach_status = 1 AND m.name = #{coachName}
+	</select>
 	<!-- #{param} is considering database data type
 		${param} is non-considering database data type -->
 	<!-- <insert id="writeDao">

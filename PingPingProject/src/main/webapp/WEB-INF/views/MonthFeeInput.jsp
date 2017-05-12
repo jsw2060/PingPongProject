@@ -14,10 +14,6 @@ $(document).ready(function(){
 		$("#insertMonthFeeForm").submit();
 	});
 	
-	/* $("#memberName").click(function(){
-		$("#insertMonthFeeForm").attr("action", "InsertMonthFeeInput.do");
-		$("#insertMonthFeeForm").submit();
-	}); */
 	tableSelection();
 });
 
