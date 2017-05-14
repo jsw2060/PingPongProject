@@ -41,11 +41,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<update id="managerConfirmDao" parameterType="java.util.Map">
-		UPDATE member SET manager_status = ${managerStatus} approval_status = 1 WHERE member_code = ${memberCode}
+		UPDATE member SET manager_status = ${managerStatus}, approval_status = 1 WHERE member_code = ${memberCode}
 	</update>
 	
 	<update id="coachConfirmDao" parameterType="java.util.Map">
-		UPDATE member SET coach_status = ${coachStatus} approval_status = 1 WHERE member_code = ${memberCode}
+		UPDATE member SET coach_status = ${coachStatus}, approval_status = 1 WHERE member_code = ${memberCode}
 	</update>
 	
 	<update id="memberConfirmDao" parameterType="String">

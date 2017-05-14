@@ -1,12 +1,10 @@
 package com.company.pingPong.dto;
 
-import java.sql.Timestamp;
-
 public class FeeDto {
 	int fee_code;
 	String fee_type;
 	int fee_amount;
-	Timestamp fee_date;
+	String fee_date;
 	String note;
 	
 	String member_code;
@@ -43,10 +41,10 @@ public class FeeDto {
 	public void setFee_amount(int fee_amount) {
 		this.fee_amount = fee_amount;
 	}
-	public Timestamp getFee_date() {
+	public String getFee_date() {
 		return fee_date;
 	}
-	public void setFee_date(Timestamp fee_date) {
+	public void setFee_date(String fee_date) {
 		this.fee_date = fee_date;
 	}
 	public String getNote() {

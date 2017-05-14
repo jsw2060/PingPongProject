@@ -217,12 +217,16 @@ public class PingPongController {
 		logger.info(searchFeeDate);
 		ArrayList<FeeDto> dateFeeList = dao.getDateFeeList(searchFeeDate);
 		
+		String tempFeeDate = "";
 		for(int i =0; i<dateFeeList.size(); i++){
 			if(dateFeeList.get(i).getFee_type().equals("일반")){			// When fee type is a normal pass
 				dateFeeList.get(i).setName("일반");						// Name is normal
 			} else if(dateFeeList.get(i).getFee_type().equals("일회원")) {	// When fee type is a day member pass
 				dateFeeList.get(i).setName("일회원");						// Name is a day member
 			}
+			tempFeeDate = dateFeeList.get(i).getFee_date().substring(0, 11);
+			dateFeeList.get(i).setFee_date(tempFeeDate);
+			
 			logger.info(dateFeeList.get(i).getMember_code());
 			logger.info(dateFeeList.get(i).getName());
 			logger.info(dateFeeList.get(i).getFee_type());
@@ -626,8 +630,18 @@ public class PingPongController {
 		
 		// list of waiting confirm
 		ArrayList<MemberDto> confList = dao.getConfirmListDao();
+		String tempDate = "";
+		for(int i=0; i<confList.size(); i++){
+			tempDate = confList.get(i).getRegisterday().substring(0, 11);
+			confList.get(i).setRegisterday(tempDate);
+		}
 		// list of account
 		ArrayList<MemberDto> dtos = dao.getAccountListDao();
+		String tempMemberDate = "";
+		for(int i=0; i<dtos.size(); i++){
+			tempMemberDate = dtos.get(i).getRegisterday().substring(0, 11);
+			dtos.get(i).setRegisterday(tempMemberDate);
+		}
 		
 		req.setAttribute("confirmList", confList);
 		req.setAttribute("memberList", dtos);
@@ -672,6 +686,11 @@ public class PingPongController {
 			}
 			// list of waiting confirm
 			ArrayList<MemberDto> confList = dao.getConfirmListDao();
+			String tempDate = "";
+			for(int i=0; i<confList.size(); i++){
+				tempDate = confList.get(i).getRegisterday().substring(0, 11);
+				confList.get(i).setRegisterday(tempDate);
+			}
 			req.setAttribute("confirmList", confList);
 		} else {													// reject
 			if(managerStatus != null && Integer.parseInt(managerStatus) == 2){
@@ -686,6 +705,11 @@ public class PingPongController {
 			}
 			// list of waiting confirm
 			ArrayList<MemberDto> confList = dao.getConfirmListDao();
+			String tempDate = "";
+			for(int i=0; i<confList.size(); i++){
+				tempDate = confList.get(i).getRegisterday().substring(0, 11);
+				confList.get(i).setRegisterday(tempDate);
+			}
 			req.setAttribute("confirmList", confList);
 		}
 		// list of account
