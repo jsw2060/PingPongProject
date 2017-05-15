@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="shortcut icon" href="http://lorempixel.com/output/people-q-c-100-100-1.jpg">
+<link rel="shortcut icon" href="resources/images/mainMark.png">
 <link href="resources/css/MainHomeFrame.css" rel="stylesheet" type="text/css">
 <title>황남숙 탁구교실 통합관리 프로그램</title>
 
