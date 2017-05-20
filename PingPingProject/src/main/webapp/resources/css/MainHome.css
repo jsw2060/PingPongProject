@@ -1,7 +1,6 @@
 @CHARSET "UTF-8";
 
 #mainHomePage {
-	/* width: 768px; */
 	height: 500px;
 	background-color: #606060;
 }
@@ -16,36 +15,48 @@
 	padding: 10px;
 }
 
-#prev_btn{ 
-	position: absolute;
-	top: 0;
-	left: 0;
-}
-
-#next_btn{ 
-	position: absolute;
-	top: 0;
-	right: 0;
-}
-
-#slider {
-	position: relative;
+.slide {
+	width: 550px;
+	overflow: hidden;
 	margin: 0 auto;
+	position: relative;
+}
+
+.slide ul, li, button {
+	margin: 0;
 	padding: 0;
+}
+
+img.mainSlideImg {
+	display: block;
+	border: 0;
+	width: 550px;
+	height: 350px;
+}
+
+.slide button {
+	border: 0;
+	background: none;
+}
+
+.slide ul {
+	width: 2750px;
 	list-style: none;
-	width: 280px;
-	height: 280px;
-	overflow-x:hidden;
+	font-size: 0;
 }
 
-#slider li {
-	display: none;
+.slide ul li {
+	display: inline-block;
+}
+
+.slide button.prev {
 	position: absolute;
-	left: 0;
-	top: 0;
+	left: -25px;
+	top: 150px;
 }
 
-#slider img {
-	width: 280px;
-	height: 280px;
+.slide button.next {
+	position: absolute;
+	right: -25px;
+	top: 150px;
 }

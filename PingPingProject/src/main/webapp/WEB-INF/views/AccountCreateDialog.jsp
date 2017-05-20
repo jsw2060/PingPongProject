@@ -179,7 +179,7 @@
 					</tr>
 					<tr>
 						<td><label class="editLabel">*나이:</label></td>
-						<td colspan="2" width="250" align="center"><input class="editInput" type="password" id="userAge" name="userAge"></td>
+						<td colspan="2" width="250" align="center"><input class="editInput" type="password" id="userAge" name="userAge" maxlength="3"></td>
 					</tr>
 					<tr>
 						<td><label class="editLabel">*성별:</label></td>
@@ -192,7 +192,7 @@
 					<tr>
 						<td><label class="editLabel">*전화번호:</label></td>
 						<td colspan="2" width="250" align="center">
-							<input class="editInput" type="text" id="userTel" name="userTel" placeholder="예시)01024336500">
+							<input class="editInput" type="text" id="userTel" name="userTel" placeholder="예시)01024336500" maxlength="11">
 						</td>
 					</tr>
 					<tr>
