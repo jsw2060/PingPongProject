@@ -588,7 +588,7 @@ public class PingPongController {
 		
 		// 전체리스트, 월회원 기본 리스트 준비
 		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
-		//ArrayList<MemberDto> defaultTMList = dao.defaultTotalMember();
+		ArrayList<MemberDto> defaultTMList = dao.defaultTotalMember();
 		//ArrayList<MemberDto> defaultMMList = dao.defaultMonthMember();
 		
 		req.setAttribute("view", "MainMemberManagerFrame");
