@@ -7,20 +7,38 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="resources/css/DialogLayout.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
+<script type="text/javascript" src="resources/js/ajax.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
 	$("#findMember").click(function(){
-		$("#insertLessonFeeForm").attr("action", "FindLessonAndMember.do");
-		$("#insertLessonFeeForm").submit();
+		/* $("#insertLessonFeeForm").attr("action", "FindLessonAndMember.do");
+		$("#insertLessonFeeForm").submit(); */
+		var name = $('#memberName').val();
+		if(name.trim()==""){
+			$('#memberName').focus();
+			return;
+		}
+		var param = "memberName=" + name;
+		alert(param);
+		sendMessage("GET", "http://localhost:8080/pingPong/FindLessonAndMember.do", param, memberSearchCallback);
 	});
 	
 	$("#findCoach").click(function(){
-		$("#insertLessonFeeForm").attr("action", "FindLessonAndCoach.do");
-		$("#insertLessonFeeForm").submit();
+		/* $("#insertLessonFeeForm").attr("action", "FindLessonAndCoach.do");
+		$("#insertLessonFeeForm").submit(); */
 	});
 	
 	tableSelection();
 });
+
+function memberSearchCallback(){
+	if(httpRequest.readyState == 4){
+		if(httpRequest.status == 200){
+			var foundList = httpRequest.responseText;
+			alert(foundList);
+		}
+	}
+}
 
 function tableSelection() {
 	var rows = $("#memberDataForm tr");
@@ -34,8 +52,9 @@ function tableSelection() {
 					alert(numb);
 	
 					$(rows[idx]).find('td input').attr('name', 'memberCode');
-					$("#insertLessonFeeForm").attr("action", "InsertLessonFeeInput.do");
-					$("#insertLessonFeeForm").submit();
+					
+					/* $("#insertLessonFeeForm").attr("action", "InsertLessonFeeInput.do");
+					$("#insertLessonFeeForm").submit(); */
 				});
 			}
 		});
@@ -56,7 +75,7 @@ function tableSelection() {
 						<tr height="50">
 							<td width="120" align="center">*회원: </td>
 							<td>
-								<input type="text" width="160" name="memberName">
+								<input type="text" width="160" name="memberName" id="memberName">
 								<button type="button" style="border-bottom-style: hidden;" id="findMember"><img class="buttonImg" alt="검색버튼" src="resources/Collection/Find User Male_3.png"></button>
 								<button type="button" style="border-bottom-style: hidden;"><img class="buttonImg" alt="추가버튼" src="resources/Collection/Add User Male_2.png"></button>
 							</td>
@@ -71,14 +90,14 @@ function tableSelection() {
 									</tr>
 									<c:forEach var="memberInfo" items="${ memberResult }">
 										<tr>
-											<td>${ memberInfo.member_code }</td>
-											<td>${ memberInfo.name }</td>
+											<td>${ memberInfo.member_code }<input type="text" value="${ memberInfo.member_code }"></td>
+											<td>${ memberInfo.name }<input type="text" value="${ memberInfo.name }"></td>
 											<c:choose>
 												<c:when test="${ memberInfo.sex eq 0}">
-													<td>M</td>
+													<td>M<input type="text" value="${ memberInfo.sex }"></td>
 												</c:when>
 												<c:otherwise>
-													<td>F</td>
+													<td>F<input type="text" value="${ memberInfo.sex }"></td>
 												</c:otherwise>
 											</c:choose>
 										</tr>

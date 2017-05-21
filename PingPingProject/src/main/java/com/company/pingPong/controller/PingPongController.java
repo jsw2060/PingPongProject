@@ -11,7 +11,9 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
@@ -839,7 +841,10 @@ public class PingPongController {
 		req.setAttribute("view", "LessonFeeInput");
 		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
 		req.setAttribute("mainHomeTitle", "레슨 세부 정보");
-		return "MainHomeFrame";
+		
+		return "MemberFind_Ok.jsp";
+		//req.getRequestDispatcher("/WEB-INF/views/LessonFeeInput.jsp").forward(req, res);
+		//return "MainHomeFrame";
 	}
 	
 	/*
@@ -849,12 +854,14 @@ public class PingPongController {
 	 * Return : String
 	 */
 	@RequestMapping(value = "FindLessonAndCoach.do", method = RequestMethod.GET)
-	public String findLessonAndCoach(Locale locale, HttpServletRequest req) throws Exception{
+	public void findLessonAndCoach(Locale locale, HttpServletRequest req, HttpServletResponse res) throws Exception{
 		logger.info("PingPong FindLessonAndCoach.do", locale);
 		
 		req.setCharacterEncoding("UTF-8");
 		String coachName = req.getParameter("coachName");
+	
 		logger.info(coachName);
+		
 		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
 		ArrayList<CoachDto> coachDto = dao.findLessonAndCoachDao(coachName);
 
@@ -867,7 +874,8 @@ public class PingPongController {
 		req.setAttribute("view", "LessonFeeInput");
 		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
 		req.setAttribute("mainHomeTitle", "레슨 세부 정보");
-		return "MainHomeFrame";
+		req.getRequestDispatcher("/WEB-INF/views/LessonFeeInput.jsp").forward(req, res);
+		//return "MainHomeFrame";
 	}
 	
 	/*
