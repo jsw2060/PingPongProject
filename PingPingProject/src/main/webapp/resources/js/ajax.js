@@ -26,4 +26,5 @@ function sendMessage(method, url, param, callback){
 	httpRequest.onreadystatechange = callback;
 	httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	httpRequest.send(method == "GET" || method == null?null:param);
+	
 }

@@ -97,6 +97,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="findLessonAndCoachDao" parameterType="String" resultType="com.company.pingPong.dto.CoachDto">
 		SELECT m.member_code, m.name, m.sex, c.coach_code FROM member m LEFT OUTER JOIN coach c ON m.member_code = c.member_code WHERE m.coach_status = 1 AND m.name = #{coachName}
 	</select>
+	
+	<select id="defaultTotalMember">
+		SELECT member_code, name, sex, tel, age, addr, birthday, registerday, note FROM member
+	</select>
+	
+	<!-- <select id="defaultMonthMember">
+		
+	</select> -->
 	<!-- #{param} is considering database data type
 		${param} is non-considering database data type -->
 	<!-- <insert id="writeDao">

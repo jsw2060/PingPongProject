@@ -49,4 +49,6 @@ public interface PingPongDao {
 	public void updateMonthMemberDao(Map<String, String> monthInfo);
 	public void insertNewMonthMemberDao(Map<String, String> monthInfo);
 	public ArrayList<CoachDto> findLessonAndCoachDao(String coachName);
+	public ArrayList<MemberDto> defaultTotalMember();
+	public ArrayList<MemberDto> defaultMonthMember();
 }

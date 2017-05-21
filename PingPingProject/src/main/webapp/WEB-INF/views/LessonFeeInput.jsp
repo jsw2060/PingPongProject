@@ -11,34 +11,43 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	$("#findMember").click(function(){
-		/* $("#insertLessonFeeForm").attr("action", "FindLessonAndMember.do");
-		$("#insertLessonFeeForm").submit(); */
-		var name = $('#memberName').val();
+		$("#insertLessonFeeForm").attr("action", "FindLessonAndMember.do");
+		$("#insertLessonFeeForm").submit();
+		/* var name = $('#memberName').val();
 		if(name.trim()==""){
 			$('#memberName').focus();
 			return;
 		}
 		var param = "memberName=" + name;
 		alert(param);
-		sendMessage("GET", "http://localhost:8080/pingPong/FindLessonAndMember.do", param, memberSearchCallback);
+		sendMessage("GET", "http://localhost:8080/pingPong/FindLessonAndMember.do", param, memberSearchCallback); */
 	});
 	
 	$("#findCoach").click(function(){
-		/* $("#insertLessonFeeForm").attr("action", "FindLessonAndCoach.do");
-		$("#insertLessonFeeForm").submit(); */
+		$("#insertLessonFeeForm").attr("action", "FindLessonAndCoach.do");
+		$("#insertLessonFeeForm").submit();
 	});
+	
+	$("#fixedMember").click(function(){
+		if($('input[name=memberCode]').val() != null){
+			$("#insertLessonFeeForm").attr("action", "FixedLessonAndMember.do");
+			$("#insertLessonFeeForm").submit();
+		}
+	});
+	
+	
 	
 	tableSelection();
 });
 
-function memberSearchCallback(){
+/* function memberSearchCallback(){
 	if(httpRequest.readyState == 4){
 		if(httpRequest.status == 200){
 			var foundList = httpRequest.responseText;
 			alert(foundList);
 		}
 	}
-}
+} */
 
 function tableSelection() {
 	var rows = $("#memberDataForm tr");
@@ -76,8 +85,9 @@ function tableSelection() {
 							<td width="120" align="center">*회원: </td>
 							<td>
 								<input type="text" width="160" name="memberName" id="memberName">
+								<input type="hidden" name="searchMemberName" value="${searchMemberName}">
 								<button type="button" style="border-bottom-style: hidden;" id="findMember"><img class="buttonImg" alt="검색버튼" src="resources/Collection/Find User Male_3.png"></button>
-								<button type="button" style="border-bottom-style: hidden;"><img class="buttonImg" alt="추가버튼" src="resources/Collection/Add User Male_2.png"></button>
+								<button type="button" style="border-bottom-style: hidden;" id="fixedMember"><img class="buttonImg" alt="추가버튼" src="resources/Collection/Add User Male_2.png"></button>
 							</td>
 						</tr>
 						<tr>
@@ -109,6 +119,7 @@ function tableSelection() {
 							<td width="120" align="center">*코치: </td>
 							<td>
 								<input type="text" width="160" name="coachName">
+								<input type="hidden" name="searchCoachName" value="${searchCoachName}">
 								<button type="button" style="border-bottom-style: hidden;" id="findCoach"><img class="buttonImg" alt="검색버튼" src="resources/Collection/Find User Male_3.png"></button>
 								<button type="button" style="border-bottom-style: hidden;"><img class="buttonImg" alt="추가버튼" src="resources/Collection/Add User Male_2.png"></button>
 							</td>

@@ -389,7 +389,7 @@ public class PingPongController {
 	}
 	
 	/*
-	 * RequestMapping : InserMonthFeeInput.do
+	 * RequestMapping : InsertMonthFeeInput.do
 	 * MethodName : insertmonthMemberFee
 	 * Parameter : Locale, HttpServletRequest
 	 * Return : String
@@ -585,6 +585,11 @@ public class PingPongController {
 	@RequestMapping(value = "MainMemberManagerFrame.do", method = RequestMethod.GET)
 	public String mainMemberManagerFrame(Locale locale, HttpServletRequest req) {
 		logger.info("PingPong MainMemberManagerFrame.jsp", locale);
+		
+		// 전체리스트, 월회원 기본 리스트 준비
+		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
+		//ArrayList<MemberDto> defaultTMList = dao.defaultTotalMember();
+		//ArrayList<MemberDto> defaultMMList = dao.defaultMonthMember();
 		
 		req.setAttribute("view", "MainMemberManagerFrame");
 		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
@@ -828,7 +833,20 @@ public class PingPongController {
 		
 		req.setCharacterEncoding("UTF-8");
 		String memberName = req.getParameter("memberName");
-		logger.info(memberName);
+		String coachName = req.getParameter("searchCoachName");
+		
+		if(coachName != null){
+			PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
+			ArrayList<CoachDto> coachDto = dao.findLessonAndCoachDao(coachName);
+
+			for(int i=0; i<coachDto.size(); i++){
+				logger.info(coachDto.get(i).getMember_code());
+				logger.info(coachDto.get(i).getName());
+				logger.info(coachDto.get(i).getSex());
+			}
+			req.setAttribute("coachResult", coachDto);
+		}
+		
 		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
 		ArrayList<MemberDto> memberDto = dao.findLessonAndMemberDao(memberName);
 
@@ -839,12 +857,11 @@ public class PingPongController {
 		}
 		req.setAttribute("memberResult", memberDto);
 		req.setAttribute("view", "LessonFeeInput");
+		req.setAttribute("searchMemberName", memberName);
 		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
 		req.setAttribute("mainHomeTitle", "레슨 세부 정보");
 		
-		return "MemberFind_Ok.jsp";
-		//req.getRequestDispatcher("/WEB-INF/views/LessonFeeInput.jsp").forward(req, res);
-		//return "MainHomeFrame";
+		return "MainHomeFrame";
 	}
 	
 	/*
@@ -854,13 +871,25 @@ public class PingPongController {
 	 * Return : String
 	 */
 	@RequestMapping(value = "FindLessonAndCoach.do", method = RequestMethod.GET)
-	public void findLessonAndCoach(Locale locale, HttpServletRequest req, HttpServletResponse res) throws Exception{
+	public String findLessonAndCoach(Locale locale, HttpServletRequest req, HttpServletResponse res) throws Exception{
 		logger.info("PingPong FindLessonAndCoach.do", locale);
 		
 		req.setCharacterEncoding("UTF-8");
+		
+		String memberName = req.getParameter("searchMemberName");
 		String coachName = req.getParameter("coachName");
-	
-		logger.info(coachName);
+		
+		if(memberName != null){
+			PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
+			ArrayList<MemberDto> memberDto = dao.findLessonAndMemberDao(memberName);
+
+			for(int i=0; i<memberDto.size(); i++){
+				logger.info(memberDto.get(i).getMember_code());
+				logger.info(memberDto.get(i).getName());
+				logger.info(memberDto.get(i).getSex());
+			}
+			req.setAttribute("memberResult", memberDto);
+		}
 		
 		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
 		ArrayList<CoachDto> coachDto = dao.findLessonAndCoachDao(coachName);
@@ -872,10 +901,38 @@ public class PingPongController {
 		}
 		req.setAttribute("coachResult", coachDto);
 		req.setAttribute("view", "LessonFeeInput");
+		req.setAttribute("searchCoachName", coachName);
 		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
 		req.setAttribute("mainHomeTitle", "레슨 세부 정보");
-		req.getRequestDispatcher("/WEB-INF/views/LessonFeeInput.jsp").forward(req, res);
-		//return "MainHomeFrame";
+		
+		return "MainHomeFrame";
+	}
+	
+	/*
+	 * RequestMapping : FixedLessonAndCoach.do
+	 * MethodName : fixedLessonAndCoach
+	 * Parameter : Locale, HttpServletRequest
+	 * Return : String
+	 */
+	@RequestMapping(value = "FixedLessonAndCoach.do", method = RequestMethod.GET)
+	public String fixedLessonAndCoach(Locale locale, HttpServletRequest req, HttpServletResponse res) throws Exception{
+		logger.info("PingPong FixedLessonAndCoach.do", locale);
+		
+		req.setCharacterEncoding("UTF-8");
+		
+		String memberCode = req.getParameter("memberCode");	
+				
+		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
+		
+		//ArrayList<CoachDto> coachDto = dao.findLessonAndCoachDao(coachName);
+
+		/*req.setAttribute("coachResult", coachDto);
+		req.setAttribute("view", "LessonFeeInput");
+		req.setAttribute("searchCoachName", coachName);
+		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
+		req.setAttribute("mainHomeTitle", "레슨 세부 정보");*/
+		
+		return "MainHomeFrame";
 	}
 	
 	/*
