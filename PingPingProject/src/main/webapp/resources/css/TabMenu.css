@@ -38,10 +38,6 @@
     text-align: center; 
     font-size: 12px; 
 }
-.tab-wrap article table { 
-    border: 1px solid blue; 
-    /* padding: 30px;  */
-}
 .tab-wrap article:target h1 { 
     background-color: #F4F4F4; 
 }

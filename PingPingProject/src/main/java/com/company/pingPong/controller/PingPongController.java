@@ -589,8 +589,21 @@ public class PingPongController {
 		// 전체리스트, 월회원 기본 리스트 준비
 		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
 		ArrayList<MemberDto> defaultTMList = dao.defaultTotalMember();
+		
+		String tempRegDate = "";
+		for(int i=0; i<defaultTMList.size(); i++){
+			tempRegDate = defaultTMList.get(i).getRegisterday().substring(0, 11);
+			defaultTMList.get(i).setRegisterday(tempRegDate);
+		}
+		
+		String tempBdayDate = "";
+		for(int i=0; i<defaultTMList.size(); i++){
+			tempBdayDate = defaultTMList.get(i).getBirthday().substring(0, 11);
+			defaultTMList.get(i).setBirthday(tempBdayDate);
+		}
 		//ArrayList<MemberDto> defaultMMList = dao.defaultMonthMember();
 		
+		req.setAttribute("defaultTMList", defaultTMList);
 		req.setAttribute("view", "MainMemberManagerFrame");
 		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
 		req.setAttribute("mainHomeTitle", "회원정보 관리");
