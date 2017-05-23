@@ -23,16 +23,23 @@
 <body>
 	<div class="defaultPage" align="center">
 		<table border="1" class="outLineTable">
-			<c:forEach var="i" begin="1" end="36" step="1">
-				<c:if test="${i%6 == 1}">
+			<c:forEach var="bootrackItems" items="${ bootrackList }">
+				<c:if test="${bootrackItems.bootrack_code%6 == 1}">
 					<tr>
 				</c:if>
 					<td class="bootrack">
-						<p class="trackNum">${i}</p>
-						<p class="trackName">정성원</p>
+						<p class="trackNum">${bootrackItems.bootrack_code}</p>
+						<c:choose>
+							<c:when test="${bootrackItems.bootrack_status ne 'E'}">
+								<p class="trackName">${bootrackItems.name}</p>
+							</c:when>
+							<c:otherwise>
+								<p class="trackName">미사용</p>
+							</c:otherwise>
+						</c:choose>
 						<button type="button" class="trackBtn">o</button>
 					</td>
-				<c:if test="${i%6 == 0}">		
+				<c:if test="${bootrackItems.bootrack_code%6 == 0}">		
 					</tr>
 				</c:if>
 			</c:forEach>

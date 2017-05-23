@@ -1,26 +1,41 @@
 package com.company.pingPong.dto;
 
 public class BootrackDto {
-	String booktrack_code;
-	int member_code;
-	String booktrack_statue;
+	String bootrack_code;
+	String member_code;
+	String bootrack_status;
 	
-	public String getBooktrack_code() {
-		return booktrack_code;
+	String name;
+
+	public String getBootrack_code() {
+		return bootrack_code;
 	}
-	public void setBooktrack_code(String booktrack_code) {
-		this.booktrack_code = booktrack_code;
+
+	public void setBootrack_code(String bootrack_code) {
+		this.bootrack_code = bootrack_code;
 	}
-	public int getMember_code() {
+
+	public String getMember_code() {
 		return member_code;
 	}
-	public void setMember_code(int member_code) {
+
+	public void setMember_code(String member_code) {
 		this.member_code = member_code;
 	}
-	public String getBooktrack_statue() {
-		return booktrack_statue;
+
+	public String getBootrack_status() {
+		return bootrack_status;
 	}
-	public void setBooktrack_statue(String booktrack_statue) {
-		this.booktrack_statue = booktrack_statue;
+
+	public void setBootrack_status(String bootrack_status) {
+		this.bootrack_status = bootrack_status;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }

@@ -10,10 +10,19 @@
 <link href="resources/css/MainMemberTable.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
 <script type="text/javascript">
-	var $menuEle = $('dt'); // 탭메뉴를 변수에 지정
-	$menuEle.click(function() { // 탭메뉴 클릭 이벤트
-	   $('dd').addClass('hidden');
-	   $(this).next().removeClass('hidden');
+	$(function () {
+
+	    $(".tab_content").hide();
+	    $(".tab_content:first").show();
+
+	    $("ul.tabs li").click(function () {
+	        $("ul.tabs li").removeClass("active").css("color", "#333");
+	        $(this).addClass("active").css({"color": "darkred","font-weight": "bolder"});
+	        $(this).addClass("active").css("color", "darkred");
+	        $(".tab_content").hide()
+	        var activeTab = $(this).attr("rel");
+	        $("#" + activeTab).fadeIn()
+	    });
 	});
 	
 	$(function () {
@@ -93,124 +102,286 @@
 				</tr>
 				<tr class="dataSheet" height="300">
 					<td colspan="5">
-						<div class="tab-wrap">
-						    <ul>
-						        <li><a href="#tab1">tab1</a></li>
-						        <li><a href="#tab2">tab2</a></li>
-						    </ul>
-					        <article id="tab1">
-					        	<h1>전체 회원 정보</h1>
-					        	<div id="divHeadScroll">
-						            <table id="tblHead" border="0" style="text-align: center;">
-										<colgroup>
-											<col style="width:55px;"/>
-											<col style="width:30px;"/>
-											<col style="width:100px;"/>
-											<col style="width:30px;"/>
-											<col style="width:100px;"/>
-											<col style="width:30px;"/>
-											<col style="width:300px;"/>
-											<col style="width:140px;"/>
-											<col style="width:100px;"/>
-											<col style="width:100px;"/>
-											<col style="width:110px;"/>
-											<col style="width:17px;"/>
-										</colgroup>
-										<tr>
-											<td>이름</td>
-											<td>성별</td>
-											<td>연락처</td>
-											<td>나이</td>
-											<td>전형</td>
-											<td>부수</td>
-											<td>주소</td>
-											<td>이메일</td>
-											<td>생일</td>
-											<td>등록일</td>
-											<td>비고</td>
-											<td></td>
-										</tr>
-									</table>
-								</div>
-								<div id="divBodyScroll">
-									<table id="tblBody" border="1" style="text-align: center;">
-										<colgroup>
-					                        <col style="width:55px;" class="right_border" />
-					                        <col style="width:30px;" class="right_border" />
-					                        <col style="width:100px;" class="right_border" />
-					                        <col style="width:30px;" class="right_border" />
-					                        <col style="width:100px;" class="right_border" />
-					                        <col style="width:30px;" class="right_border" />
-					                        <col style="width:300px;" class="right_border" />
-					                        <col style="width:140px;" class="right_border" />
-					                        <col style="width:100px;" class="right_border" />
-					                        <col style="width:100px; "class="right_border" />
-					                        <col style="width:110px;" class="right_border" />
-					                    </colgroup>
-										<c:forEach var="TMList" items="${ defaultTMList }">
+						<div id="container">
+							<ul class="tabs">
+								<li class="active" rel="tab1">전체 회원 정보</li>
+								<li rel="tab2">월 회원 정보</li>
+								<li rel="tab3">레슨 회원 정보</li>
+								<li rel="tab4">코치 정보</li>
+							</ul>
+							<div class="tab_container">
+								<div id="tab1" class="tab_content">
+						        	<div id="divHeadScroll">
+							            <table id="tblHead" border="0" style="text-align: center;">
+											<colgroup>
+												<col style="width:55px;"/>
+												<col style="width:30px;"/>
+												<col style="width:100px;"/>
+												<col style="width:30px;"/>
+												<col style="width:100px;"/>
+												<col style="width:30px;"/>
+												<col style="width:300px;"/>
+												<col style="width:140px;"/>
+												<col style="width:100px;"/>
+												<col style="width:100px;"/>
+												<col style="width:110px;"/>
+												<col style="width:17px;"/>
+											</colgroup>
 											<tr>
-												<td>${ TMList.name }</td>
-												<c:choose>
-													<c:when test="${ TMList.sex eq 0}">
-														<td>남</td>
-													</c:when>
-													<c:otherwise>
-														<td>여</td>
-													</c:otherwise>
-												</c:choose>
-												<td>${ TMList.tel }</td>
-												<c:choose>
-													<c:when test="${ TMList.age eq 00 || TMList.age eq 0}">
-														<td></td>
-													</c:when>
-													<c:otherwise>
-														<td>${ TMList.age }</td>
-													</c:otherwise>
-												</c:choose>
-												<c:choose>
-													<c:when test="${ TMList.style eq 0}">
-														<td></td>
-													</c:when>
-													<c:when test="${ TMList.style eq 1}">
-														<td>펜홀더</td>
-													</c:when>
-													<c:when test="${ TMList.style eq 2}">
-														<td>쉐이크핸드</td>
-													</c:when>
-													<c:otherwise>
-														<td>중국식 펜홀더</td>
-													</c:otherwise>
-												</c:choose>
-												<td>${ TMList.grade }</td>
-												<td>${ TMList.addr }</td>
-												<td>${ TMList.email }</td>
-												<td>${ TMList.birthday }</td>
-												<td>${ TMList.registerday }</td>
-												<td>${ TMList.note }</td>
+												<td>이름</td>
+												<td>성별</td>
+												<td>연락처</td>
+												<td>나이</td>
+												<td>전형</td>
+												<td>부수</td>
+												<td>주소</td>
+												<td>이메일</td>
+												<td>생일</td>
+												<td>등록일</td>
+												<td>비고</td>
+												<td></td>
 											</tr>
-										</c:forEach>
-									</table>
+										</table>
+									</div>
+									<div id="divBodyScroll">
+										<table id="tblBody" border="1" style="text-align: center;">
+											<colgroup>
+						                        <col style="width:55px;" class="right_border" />
+						                        <col style="width:30px;" class="right_border" />
+						                        <col style="width:100px;" class="right_border" />
+						                        <col style="width:30px;" class="right_border" />
+						                        <col style="width:100px;" class="right_border" />
+						                        <col style="width:30px;" class="right_border" />
+						                        <col style="width:300px;" class="right_border" />
+						                        <col style="width:140px;" class="right_border" />
+						                        <col style="width:100px;" class="right_border" />
+						                        <col style="width:100px; "class="right_border" />
+						                        <col style="width:110px;" class="right_border" />
+						                    </colgroup>
+											<c:forEach var="TMList" items="${ defaultTMList }">
+												<tr>
+													<td>${ TMList.name }</td>
+													<c:choose>
+														<c:when test="${ TMList.sex eq 0}">
+															<td>남</td>
+														</c:when>
+														<c:otherwise>
+															<td>여</td>
+														</c:otherwise>
+													</c:choose>
+													<td>${ TMList.tel }</td>
+													<c:choose>
+														<c:when test="${ TMList.age eq 00 || TMList.age eq 0}">
+															<td></td>
+														</c:when>
+														<c:otherwise>
+															<td>${ TMList.age }</td>
+														</c:otherwise>
+													</c:choose>
+													<c:choose>
+														<c:when test="${ TMList.style eq 0}">
+															<td></td>
+														</c:when>
+														<c:when test="${ TMList.style eq 1}">
+															<td>펜홀더</td>
+														</c:when>
+														<c:when test="${ TMList.style eq 2}">
+															<td>쉐이크핸드</td>
+														</c:when>
+														<c:otherwise>
+															<td>중국식 펜홀더</td>
+														</c:otherwise>
+													</c:choose>
+													<td>${ TMList.grade }</td>
+													<td>${ TMList.addr }</td>
+													<td>${ TMList.email }</td>
+													<td>${ TMList.birthday }</td>
+													<td>${ TMList.registerday }</td>
+													<td>${ TMList.note }</td>
+												</tr>
+											</c:forEach>
+										</table>
+									</div>
 								</div>
-					        </article>
-					        <!-- <article id="tab2">
-					            <h1>월 회원 정보</h1>
-					            <table border="1" height="265" width="100%" cellpadding="0" cellspacing="0" style="text-align: center; overflow: auto;">
-									<tr>
-										<td width="100">유형</td>
-										<td width="140">금액</td>
-										<td width="140">지불일</td>
-										<td width="100">이름</td>
-										<td width="140">비고</td>
-									</tr>
-									<tr>
-										<td>월 회원</td>
-										<td>3000</td>
-										<td>2017-03-33</td>
-										<td>회원</td>
-										<td>김영기 회원님</td>
-									</tr>
-								</table>
-					        </article> -->
+								<div id="tab2" class="tab_content">
+						        	<div id="divHeadScroll">
+							            <table id="tblHead" border="0" style="text-align: center;">
+											<colgroup>
+												<col style="width:55px;"/>
+												<col style="width:30px;"/>
+												<col style="width:100px;"/>
+												<col style="width:30px;"/>
+												<col style="width:100px;"/>
+												<col style="width:30px;"/>
+												<col style="width:300px;"/>
+												<col style="width:140px;"/>
+												<col style="width:100px;"/>
+												<col style="width:100px;"/>
+												<col style="width:110px;"/>
+												<col style="width:17px;"/>
+											</colgroup>
+											<tr>
+												<td>이름</td>
+												<td>성별</td>
+												<td>연락처</td>
+												<td>나이</td>
+												<td>전형</td>
+												<td>부수</td>
+												<td>주소</td>
+												<td>이메일</td>
+												<td>생일</td>
+												<td>등록일</td>
+												<td>비고</td>
+												<td></td>
+											</tr>
+										</table>
+									</div>
+									<div id="divBodyScroll">
+										<table id="tblBody" border="1" style="text-align: center;">
+											<colgroup>
+						                        <col style="width:55px;" class="right_border" />
+						                        <col style="width:30px;" class="right_border" />
+						                        <col style="width:100px;" class="right_border" />
+						                        <col style="width:30px;" class="right_border" />
+						                        <col style="width:100px;" class="right_border" />
+						                        <col style="width:30px;" class="right_border" />
+						                        <col style="width:300px;" class="right_border" />
+						                        <col style="width:140px;" class="right_border" />
+						                        <col style="width:100px;" class="right_border" />
+						                        <col style="width:100px; "class="right_border" />
+						                        <col style="width:110px;" class="right_border" />
+						                    </colgroup>
+											<c:forEach var="MMList" items="${ defaultMMList }">
+												<tr>
+													<td>${ MMList.name }</td>
+													<c:choose>
+														<c:when test="${ MMList.sex eq 0}">
+															<td>남</td>
+														</c:when>
+														<c:otherwise>
+															<td>여</td>
+														</c:otherwise>
+													</c:choose>
+													<td>${ MMList.tel }</td>
+													<c:choose>
+														<c:when test="${ MMList.age eq 00 || MMList.age eq 0}">
+															<td></td>
+														</c:when>
+														<c:otherwise>
+															<td>${ MMList.age }</td>
+														</c:otherwise>
+													</c:choose>
+													<c:choose>
+														<c:when test="${ MMList.style eq 0}">
+															<td></td>
+														</c:when>
+														<c:when test="${ MMList.style eq 1}">
+															<td>펜홀더</td>
+														</c:when>
+														<c:when test="${ MMList.style eq 2}">
+															<td>쉐이크핸드</td>
+														</c:when>
+														<c:otherwise>
+															<td>중국식 펜홀더</td>
+														</c:otherwise>
+													</c:choose>
+													<td>${ MMList.grade }</td>
+													<td>${ MMList.addr }</td>
+													<td>${ MMList.email }</td>
+													<td>${ MMList.birthday }</td>
+													<td>${ MMList.month_registerdate }</td>
+													<td>${ MMList.note }</td>
+												</tr>
+											</c:forEach>
+										</table>
+									</div>
+								</div>
+								<div id="tab3" class="tab_content">
+									<%-- <div id="divHeadScroll">
+							            <table id="tblHead" border="0" style="text-align: center;">
+											<colgroup>
+												<col style="width:55px;"/>
+												<col style="width:30px;"/>
+												<col style="width:100px;"/>
+												<col style="width:30px;"/>
+												<col style="width:55px;"/>
+												<col style="width:100px;"/>
+												<col style="width:30px;"/>
+												<col style="width:100px;"/>
+												<col style="width:110px;"/>
+												<col style="width:17px;"/>
+											</colgroup>
+											<tr>
+												<td>이름</td>
+												<td>성별</td>
+												<td>연락처</td>
+												<td>나이</td>
+												<td>코치</td>
+												<td>전형</td>
+												<td>부수</td>
+												<td>등록일</td>
+												<td>비고</td>
+												<td></td>
+											</tr>
+										</table>
+									</div>
+									<div id="divBodyScroll">
+										<table id="tblBody" border="1" style="text-align: center;">
+											<colgroup>
+						                        <col style="width:55px;" class="right_border" />
+						                        <col style="width:30px;" class="right_border" />
+						                        <col style="width:100px;" class="right_border" />
+						                        <col style="width:30px;" class="right_border" />
+						                        <col style="width:55px;" class="right_border" />
+						                        <col style="width:100px;" class="right_border" />
+						                        <col style="width:30px;" class="right_border" />
+						                        <col style="width:100px;" class="right_border" />
+						                        <col style="width:110px;" class="right_border" />
+						                    </colgroup>
+											<c:forEach var="MMList" items="${ defaultMMList }">
+												<tr>
+													<td>${ MMList.name }</td>
+													<c:choose>
+														<c:when test="${ MMList.sex eq 0}">
+															<td>남</td>
+														</c:when>
+														<c:otherwise>
+															<td>여</td>
+														</c:otherwise>
+													</c:choose>
+													<td>${ MMList.tel }</td>
+													<c:choose>
+														<c:when test="${ MMList.age eq 00 || MMList.age eq 0}">
+															<td></td>
+														</c:when>
+														<c:otherwise>
+															<td>${ MMList.age }</td>
+														</c:otherwise>
+													</c:choose>
+													<td>${ MMList.name }</td>
+													<c:choose>
+														<c:when test="${ MMList.style eq 0}">
+															<td></td>
+														</c:when>
+														<c:when test="${ MMList.style eq 1}">
+															<td>펜홀더</td>
+														</c:when>
+														<c:when test="${ MMList.style eq 2}">
+															<td>쉐이크핸드</td>
+														</c:when>
+														<c:otherwise>
+															<td>중국식 펜홀더</td>
+														</c:otherwise>
+													</c:choose>
+													<td>${ MMList.grade }</td>
+													<td>${ MMList.month_registerdate }</td>
+													<td>${ MMList.note }</td>
+												</tr>
+											</c:forEach>
+										</table>
+									</div> --%>
+								</div>
+							</div>
 						</div>
 					</td>
 				</tr>

@@ -40,6 +40,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT member_code, id, manager_status, coach_status, registerday FROM member WHERE manager_status = 2 OR coach_status = 2 OR approval_status = 0
 	</select>
 	
+	<select id="getBootrackList" resultType="com.company.pingPong.dto.BootrackDto">
+		SELECT b.bootrack_code, m.name, b.bootrack_status FROM bootrack b LEFT OUTER JOIN member m ON b.member_code = m.member_code
+	</select>
+	
 	<update id="managerConfirmDao" parameterType="java.util.Map">
 		UPDATE member SET manager_status = ${managerStatus}, approval_status = 1 WHERE member_code = ${memberCode}
 	</update>
@@ -102,8 +106,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT member_code, name, sex, tel, age, addr, email, birthday, style, grade, registerday, note FROM member
 	</select>
 	
-	<!-- <select id="defaultMonthMember">
-		
+	<select id="defaultMonthMember" resultType="com.company.pingPong.dto.MemberDto">
+		SELECT mm.member_code, name, sex, tel, age, addr, email, birthday, style, grade, mm.month_registerdate, mm.note 
+		FROM member m INNER JOIN monthmember mm ON m.member_code = mm.member_code
+	</select>
+	
+	<!-- <select id="defaultLessonMember" resultType="com.company.pingPong.dto.MemberDto">
+		SELECT mm.member_code, name, sex, tel, age, coach, style, grade, registerdate, note 
+		FROM member m INNER JOIN monthmember mm ON m.member_code = mm.member_code
 	</select> -->
 	<!-- #{param} is considering database data type
 		${param} is non-considering database data type -->

@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.company.pingPong.dao.PingPongDao;
 import com.company.pingPong.dto.AccountDto;
+import com.company.pingPong.dto.BootrackDto;
 import com.company.pingPong.dto.CoachDto;
 import com.company.pingPong.dto.FeeDto;
 import com.company.pingPong.dto.MemberDto;
@@ -586,7 +587,7 @@ public class PingPongController {
 	public String mainMemberManagerFrame(Locale locale, HttpServletRequest req) {
 		logger.info("PingPong MainMemberManagerFrame.jsp", locale);
 		
-		// 전체리스트, 월회원 기본 리스트 준비
+		// 전체리스트 준비
 		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
 		ArrayList<MemberDto> defaultTMList = dao.defaultTotalMember();
 		
@@ -601,8 +602,27 @@ public class PingPongController {
 			tempBdayDate = defaultTMList.get(i).getBirthday().substring(0, 11);
 			defaultTMList.get(i).setBirthday(tempBdayDate);
 		}
-		//ArrayList<MemberDto> defaultMMList = dao.defaultMonthMember();
 		
+		// 월회원 리스트
+		ArrayList<MemberDto> defaultMMList = dao.defaultMonthMember();
+		
+		String tempMMRegDate = "";
+		for(int i=0; i<defaultMMList.size(); i++){
+			tempMMRegDate = defaultMMList.get(i).getMonth_registerdate().substring(0, 11);
+			defaultMMList.get(i).setMonth_registerdate(tempMMRegDate);
+		}
+		
+		String tempMMBdayDate = "";
+		for(int i=0; i<defaultMMList.size(); i++){
+			tempMMBdayDate = defaultMMList.get(i).getBirthday().substring(0, 11);
+			defaultMMList.get(i).setBirthday(tempMMBdayDate);
+		}
+		
+		// 레슨회원 리스트
+		//ArrayList<MemberDto> defaultLMList = dao.defaultLessonMember();
+		
+		
+		req.setAttribute("defaultMMList", defaultMMList);
 		req.setAttribute("defaultTMList", defaultTMList);
 		req.setAttribute("view", "MainMemberManagerFrame");
 		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
@@ -970,6 +990,10 @@ public class PingPongController {
 	public String mainBootrackManagerFrame(Locale locale, HttpServletRequest req) {
 		logger.info("PingPong MainBootrackManagerFrame.do", locale);
 		
+		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
+		ArrayList<BootrackDto> bootrackList = dao.getBootrackList();
+		
+		req.setAttribute("bootrackList", bootrackList);
 		req.setAttribute("view", "MainBootrackManagerFrame");
 		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
 		req.setAttribute("mainHomeTitle", "신발장 관리");

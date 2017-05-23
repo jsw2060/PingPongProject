@@ -21,7 +21,15 @@ public class MemberDto {
 	
 	private String fee_status;
 	
+	private String month_registerdate;
 	
+	
+	public String getMonth_registerdate() {
+		return month_registerdate;
+	}
+	public void setMonth_registerdate(String month_registerdate) {
+		this.month_registerdate = month_registerdate;
+	}
 	public String getMember_code() {
 		return member_code;
 	}

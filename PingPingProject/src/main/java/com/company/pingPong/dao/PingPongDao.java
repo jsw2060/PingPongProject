@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import com.company.pingPong.dto.AccountDto;
+import com.company.pingPong.dto.BootrackDto;
 import com.company.pingPong.dto.CoachDto;
 import com.company.pingPong.dto.FeeDto;
 import com.company.pingPong.dto.MemberDto;
@@ -33,6 +34,8 @@ public interface PingPongDao {
 	public ArrayList<MemberDto> getConfirmListDao();
 	// get list of waiting confirm
 	public ArrayList<MemberDto> getAccountListDao();
+	// get list of bootrack
+	public ArrayList<BootrackDto> getBootrackList();
 	// give an authorization to be a manager
 	public void managerConfirmDao(Map<String, String> map);
 	// give an authorization to be a coach
@@ -51,4 +54,5 @@ public interface PingPongDao {
 	public ArrayList<CoachDto> findLessonAndCoachDao(String coachName);
 	public ArrayList<MemberDto> defaultTotalMember();
 	public ArrayList<MemberDto> defaultMonthMember();
+	public ArrayList<MemberDto> defaultLessonMember();
 }
