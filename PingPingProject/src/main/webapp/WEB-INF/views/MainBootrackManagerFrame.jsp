@@ -19,31 +19,41 @@
 		background-color: #E6B34D;
 	}
 </style>
+<script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
+<script type="text/javascript">
+	$(function () {
+		$(".trackBtn").click(function(){
+			$("#bootrackEditDialogForm").submit();
+		});	
+	});
+</script>
 </head>
 <body>
-	<div class="defaultPage" align="center">
-		<table border="1" class="outLineTable">
-			<c:forEach var="bootrackItems" items="${ bootrackList }">
-				<c:if test="${bootrackItems.bootrack_code%6 == 1}">
-					<tr>
-				</c:if>
-					<td class="bootrack">
-						<p class="trackNum">${bootrackItems.bootrack_code}</p>
-						<c:choose>
-							<c:when test="${bootrackItems.bootrack_status ne 'E'}">
-								<p class="trackName">${bootrackItems.name}</p>
-							</c:when>
-							<c:otherwise>
-								<p class="trackName">미사용</p>
-							</c:otherwise>
-						</c:choose>
-						<button type="button" class="trackBtn">o</button>
-					</td>
-				<c:if test="${bootrackItems.bootrack_code%6 == 0}">		
-					</tr>
-				</c:if>
-			</c:forEach>
-		</table>
-	</div>
+	<form id="bootrackEditDialogForm" action="BootrackEditDialog.do" method="get">
+		<div class="defaultPage" align="center">
+			<table border="1" class="outLineTable">
+				<c:forEach var="bootrackItems" items="${ bootrackList }">
+					<c:if test="${bootrackItems.bootrack_code%6 == 1}">
+						<tr>
+					</c:if>
+						<td class="bootrack">
+							<p class="trackNum">${bootrackItems.bootrack_code}</p>
+							<c:choose>
+								<c:when test="${bootrackItems.bootrack_status ne 'E'}">
+									<p class="trackName">${bootrackItems.name}</p>
+								</c:when>
+								<c:otherwise>
+									<p class="trackName">미사용</p>
+								</c:otherwise>
+							</c:choose>
+							<button type="button" class="trackBtn">o</button>
+						</td>
+					<c:if test="${bootrackItems.bootrack_code%6 == 0}">		
+						</tr>
+					</c:if>
+				</c:forEach>
+			</table>
+		</div>
+	</form>
 </body>
 </html>

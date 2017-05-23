@@ -970,7 +970,7 @@ public class PingPongController {
 	
 	/*
 	 * RequestMapping : AccountEditDialog.do
-	 * MethodName : accountManagerFrame
+	 * MethodName : accountEditDialog
 	 * Parameter : Locale
 	 * Return : String
 	 */
@@ -997,6 +997,22 @@ public class PingPongController {
 		req.setAttribute("view", "MainBootrackManagerFrame");
 		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
 		req.setAttribute("mainHomeTitle", "신발장 관리");
+		return "MainHomeFrame";
+	}
+	
+	/*
+	 * RequestMapping : BootrackEditDialog.do
+	 * MethodName : bootrackEditDialog
+	 * Parameter : Locale, HttpServletRequest
+	 * Return : String
+	 */
+	@RequestMapping(value = "BootrackEditDialog.do", method = RequestMethod.GET)
+	public String bootrackEditDialog(Locale locale, HttpServletRequest req) {
+		logger.info("PingPong BootrackEditDialog.jsp", locale);
+		
+		req.setAttribute("view", "BootrackEditDialog");
+		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
+		req.setAttribute("mainHomeTitle", "신발장 정보 수정");
 		return "MainHomeFrame";
 	}
 	
