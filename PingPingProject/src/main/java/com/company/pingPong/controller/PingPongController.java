@@ -6,11 +6,18 @@
  */
 package com.company.pingPong.controller;
 
+import java.security.KeyFactory;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.spec.RSAPublicKeySpec;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.crypto.Cipher;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,7 +33,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.company.pingPong.dao.PingPongDao;
-import com.company.pingPong.dto.AccountDto;
 import com.company.pingPong.dto.BootrackDto;
 import com.company.pingPong.dto.CoachDto;
 import com.company.pingPong.dto.FeeDto;
@@ -36,21 +42,93 @@ import com.company.pingPong.dto.MemberDto;
 public class PingPongController {
 
 	private static final Logger logger = LoggerFactory.getLogger(PingPongController.class);
+	private static String RSA_WEB_KEY = "_RSA_WEB_KEY_";	// 개인키 session key
+	private static String RSA_INSTANCE = "RSA";				// rsa transformation
 	
 	@Autowired
 	private SqlSession sqlSession;
 	
 	/*
+	 * MethodName : initRsa
+	 * Parameter : HttpServletRequest
+	 */
+	public void initRsa(HttpServletRequest req) {
+		HttpSession session = req.getSession();
+		
+		KeyPairGenerator generator;
+		
+		try {
+			generator = KeyPairGenerator.getInstance(PingPongController.RSA_INSTANCE);
+			generator.initialize(1024);
+			
+			KeyPair keyPair = generator.genKeyPair();
+			KeyFactory keyFactory = KeyFactory.getInstance(PingPongController.RSA_INSTANCE);
+			PublicKey publicKey = keyPair.getPublic();
+			PrivateKey privateKey = keyPair.getPrivate();
+			
+			session.setAttribute(PingPongController.RSA_WEB_KEY, privateKey);	// Store RSA PrivateKey in a session
+			
+			RSAPublicKeySpec publicSpec = (RSAPublicKeySpec) keyFactory.getKeySpec(publicKey, RSAPublicKeySpec.class);
+			String publicKeyModulus = publicSpec.getModulus().toString(16);
+			String privateKeyExponent = publicSpec.getPublicExponent().toString(16);
+			
+			req.setAttribute("RSAModulus", publicKeyModulus);
+			req.setAttribute("RSAExponent", privateKeyExponent);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/*
 	 * RequestMapping : index.do
 	 * MethodName : loginHome
-	 * Parameter : Locale
+	 * Parameter : Locale, HttpServletRequest
 	 * Return : String
 	 */
 	@RequestMapping(value = "index.do")
-	public String loginHome(Locale locale) {
+	public String loginHome(Locale locale, HttpServletRequest req) {
 		logger.info("PingPong LoginHome.jsp", locale);
 		
+		// Create RSA Key
+		initRsa(req);
+		
 		return "LoginHome";
+	}
+	
+	/*
+	 * MethodName : hexToByteArray
+	 * Parameter : String hex
+	 * Return : byte[] bytes
+	 */
+	public static byte[] hexToByteArray(String hex) {
+		if(hex == null || hex.length() % 2 != 0) {
+			return new byte[] {};
+		}
+		
+		byte[] bytes = new byte[hex.length() / 2];
+		
+		for(int i = 0; i < hex.length(); i += 2) {
+			byte value = (byte) Integer.parseInt(hex.substring(i, i + 2), 16);
+			bytes[(int) Math.floor(i / 2)] = value;
+		}
+		
+		return bytes;
+	}
+	
+	/*
+	 * MethodName : decryptRsa
+	 * Parameter : securityValue
+	 * Return : String
+	 */
+	private String decryptRsa(PrivateKey privateKey, String securedValue) throws Exception {
+		Cipher cipher = Cipher.getInstance(PingPongController.RSA_INSTANCE);
+		byte[] encryptedBytes = hexToByteArray(securedValue);
+		cipher.init(Cipher.DECRYPT_MODE, privateKey);
+		byte[] decryptedBytes = cipher.doFinal(encryptedBytes);
+		String decryptedValue = new String(decryptedBytes, "UTF-8");
+		
+		return decryptedValue;
 	}
 	
 	/*
@@ -60,13 +138,23 @@ public class PingPongController {
 	 * Return : String
 	 */
 	@RequestMapping(value = "Login.do")
-	public String login(Locale locale, HttpServletRequest req) {
+	public String login(Locale locale, HttpServletRequest req) throws Exception{
 		logger.info("PingPong Login.jsp", locale);
 		
 		// receive id and password from url
-		String id = req.getParameter("id");
-		String pwd = req.getParameter("pwd");
+		String id = (String)req.getParameter("USER_ID");
+		String pwd = (String)req.getParameter("USER_PW");
 		String name = "";
+		
+		HttpSession session = req.getSession();
+		PrivateKey privateKey = (PrivateKey)session.getAttribute(PingPongController.RSA_WEB_KEY);
+		
+		// 복호화
+		id = decryptRsa(privateKey, id);
+		pwd = decryptRsa(privateKey, pwd);
+		
+		// 개인키 삭제
+		session.removeAttribute(PingPongController.RSA_WEB_KEY);
 		
 		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
 		
@@ -93,8 +181,6 @@ public class PingPongController {
 					name = "가입자";
 				}
 				
-				HttpSession session = req.getSession();
-			
 				session.setAttribute("loginMemberCode", dto.getMember_code());
 				session.setAttribute("loginId", dto.getId());
 				session.setAttribute("loginPwd", dto.getPassword());
@@ -125,11 +211,19 @@ public class PingPongController {
 				req.setAttribute("mainHomeTitle", "황남숙 탁구교실 통합관리 프로그램");
 				return "MainHomeFrame";
 			} else {
+				
+				// Create RSA Key
+				initRsa(req);
+				
 				System.out.println("해당 비밀번호가 없음");
 				req.setAttribute("errorMsg", "계정이나 비밀번호가 올바르지 않습니다.");
 				return "LoginHome";
 			}
 		} else {
+			
+			// Create RSA Key
+			initRsa(req);
+			
 			System.out.println("해당 아이디가 없음");
 			req.setAttribute("errorMsg", "계정이나 비밀번호가 올바르지 않습니다.");
 			return "LoginHome";
@@ -148,6 +242,9 @@ public class PingPongController {
 		
 		HttpSession session=req.getSession();
 		session.invalidate();
+		
+		// Create RSA Key
+			initRsa(req);
 
 		return "LoginHome";
 	}

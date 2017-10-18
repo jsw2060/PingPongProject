@@ -52,7 +52,7 @@
 						<table>
 							<tr class="situationSheet">
 								<td colspan="4">
-									<input type="text" style="width: 575px; background-color: #606060;" readonly="readonly"">
+									<input type="text" style="width: 575px; background-color: #606060;" readonly="readonly">
 								</td>
 							</tr>
 							<tr>
