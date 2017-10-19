@@ -919,6 +919,9 @@ public class PingPongController {
 		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
 		dao.joinApplyAccountDao(dto);
 		
+		// Create RSA Key
+			initRsa(req);
+		
 		return "LoginHome";
 	}
 	

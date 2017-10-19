@@ -17,6 +17,8 @@ public class MemberDto {
 	private String style;
 	private String grade;
 	private String registerday;
+	private String join_status;
+	private String join_date;
 	private String note;
 	
 	private String fee_status;
@@ -139,5 +141,17 @@ public class MemberDto {
 	}
 	public void setFee_status(String fee_status) {
 		this.fee_status = fee_status;
+	}
+	public String getJoin_status() {
+		return join_status;
+	}
+	public void setJoin_status(String join_status) {
+		this.join_status = join_status;
+	}
+	public String getJoin_date() {
+		return join_date;
+	}
+	public void setJoin_date(String join_date) {
+		this.join_date = join_date;
 	}
 }

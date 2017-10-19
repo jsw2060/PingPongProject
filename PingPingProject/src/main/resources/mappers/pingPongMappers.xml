@@ -21,7 +21,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<insert id="joinApplyAccountDao" parameterType="com.company.pingPong.dto.MemberDto">
-		INSERT INTO member(member_code, id, password, manager_status, coach_status, name, age, sex, tel, email, addr, birthday, style, grade, note) VALUES((SELECT NVL(MAX(member_code)+1,1)FROM member), #{id}, #{password}, #{manager_status}, #{coach_status}, #{name}, #{age}, #{sex}, #{tel}, #{email}, #{addr}, #{birthday}, #{style}, #{grade}, #{note})
+		INSERT INTO member(member_code, id, password, manager_status, coach_status, name, age, sex, tel, email, addr, birthday, style, grade, note, approval_status, join_status, join_date) VALUES((SELECT NVL(MAX(member_code)+1,1)FROM member), #{id}, #{password}, #{manager_status}, #{coach_status}, #{name}, #{age}, #{sex}, #{tel}, #{email}, #{addr}, #{birthday}, #{style}, #{grade}, #{note}, 0, 1, sysdate)
 	</insert>
 	
 	<select id="findMonthAndMemberDao" parameterType="String" resultType="com.company.pingPong.dto.MemberDto">
