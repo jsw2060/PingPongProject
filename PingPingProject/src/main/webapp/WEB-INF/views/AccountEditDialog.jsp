@@ -7,10 +7,12 @@
 <link href="resources/css/DialogLayout.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-	<div>
-		<div>
+	<div align="center">
+		<br/>
+		<div style="text-align: center;">
 			<h1>계정 정보 수정</h1>
 		</div>
+		<br/>
 		<div>
 			<label>ID:</label>
 			<input type="text">
@@ -60,7 +62,58 @@
 			<input type="button" value="취소">
 		</div>
 	</div>
-	
-	
 </body>
+
+
+	<!-- <form id="InsertGeneralFee" action="InsertGeneralFee.do">  -->
+		
+		<div>
+			<table width="350" border="1">
+				<tr>
+					<td width="150" align="center">이용 시간: </td>
+					<td>
+						<select id="playTimeBox" name="playTime" style="width: 200px;">
+							<option value="0">-- 시간 --</option>
+							<option value="30">30분</option>
+							<option value="60">1시간</option>
+							<option value="90">1시간 30분</option>
+							<option value="120">2시간</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td width="150" align="center">테이블 수: </td>
+					<td>
+						<select id="tableNumBox" name="tableNum" style="width: 200px;">
+							<option value="0">-- 갯수 --</option>
+							<option value="1">1대</option>
+							<option value="2">2대</option>
+							<option value="3">3대</option>
+							<option value="4">4대</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" colspan="2">
+						<input type="radio" class="radioInput" name="status" value="0">일반
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="radio" class="radioInput" name="status" value="1">학생
+					</td>
+				</tr>
+				<tr>
+					<td align="center" colspan="2">
+						<p>이용 시간과 이용 테이블 수를 입력하세요.</p>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center">
+						<input type="button" class="dialogBtn" id="enterBtn" value="입력">
+						<input type="button" class="dialogBtn" onclick="javascript:history.back()" value="취소">
+					</td>
+				</tr>
+			</table>
+		</div>
+
+
+
 </html>

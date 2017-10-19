@@ -101,7 +101,7 @@
 					</td>
 				</tr>
 				<tr class="dataSheet" height="300">
-					<td colspan="5">
+					<td colspan="5" style="vertical-align: top;">
 						<div id="container">
 							<ul class="tabs">
 								<li class="active" rel="tab1">전체 회원 정보</li>

@@ -51,10 +51,19 @@
 		});
 		$(".selectedData").click(function(){
 			alert("클릭");
-			var selectedCode = $(".selectedRow").val();
-			alert(selectedCode);
+			var str = "";
+			var tdArr = new Array();	// 배열 선언
+			var selectedTr = $(this);
+			var selectedTd = selectedTr.children();
+			var indexNum = selectedTd.children();
+			console.log(selectedTr.text());
+			console.log("여기부터 val값");
+			console.log(indexNum.eq(0).val());
+			
+			// 계정수정 버튼 선택시
 			$("#accountUpdateBtn").click(function(){
-				
+				console.log(indexNum.eq(0).val() + "의 계정정보 수정");
+				$("#AccountForm").submit();	
 			});
 		});
 	});
@@ -62,10 +71,10 @@
 </head>
 <body>
 	<div class="defaultPage">
-		<form action="AccountUpdate.do">
+		<form id="AccountForm" action="AccountUpdate.do">
 		<table class="outLineTable" border="1px;" align="center">
 			<tr>
-				<td colspan="4" height="460">
+				<td colspan="4" height="460" style="vertical-align: top;">
 					<ul style="margin-top: 0px; padding-left: 0px; border: 1px solid gray; background-color: #E1E1E1;">
 						<li class="menu1"><a><p class="innerMenu">승인대기 목록</p></a>
 							<table class="hide1" border="1" cellpadding="0" cellspacing="0" align="center">
@@ -110,12 +119,12 @@
 						<li class="menu2"><a><p class="innerMenu">계정 목록</p></a>
 							<table class="hide2" border="1" cellpadding="0" cellspacing="0" align="center">
 								<tr class="tableHead">
-									<td rowspan="2" width="120">ID</td>
-									<td colspan="2" width="120">권한여부</td>
-									<td rowspan="2" width="60">이름</td>
-									<td rowspan="2" width="60">성별</td>
+									<td rowspan="2" width="100">ID</td>
+									<td colspan="2" width="150">권한여부</td>
+									<td rowspan="2" width="70">이름</td>
+									<td rowspan="2" width="50">성별</td>
 									<td rowspan="2" width="120">연락처</td>
-									<td rowspan="2" width="120">가입일</td>
+									<td rowspan="2" width="110">가입일</td>
 								</tr>
 								<tr class="tableHead">
 									<td>관리자</td>
@@ -123,7 +132,7 @@
 								</tr>
 								<c:forEach var="members" items="${ memberList }">
 									<tr class="selectedData" style="background-color: #F5F5F5;">
-										<td>${ members.id }<input type="text" class="selectedRow" value="${ members.member_code }"></td>
+										<td>${ members.id }<input type="hidden" class="selectedRow" value="${ members.member_code }"></td>
 										<c:choose>
 											<c:when test="${ members.manager_status eq 1 }">
 												<td>Y</td>

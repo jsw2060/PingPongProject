@@ -789,6 +789,22 @@ public class PingPongController {
 	}
 	
 	/*
+	 * RequestMapping : AccountUpdate.do
+	 * MethodName : mainLessonManagerFrame
+	 * Parameter : Locale
+	 * Return : String
+	 */
+	@RequestMapping(value = "AccountUpdate.do", method = RequestMethod.GET)
+	public String accountUpdate(Locale locale, HttpServletRequest req) {
+		logger.info("PingPong AccountEditDialog.jsp", locale);
+		
+		req.setAttribute("view", "AccountEditDialog");
+		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
+		req.setAttribute("mainHomeTitle", "계정 수정");
+		return "MainHomeFrame";
+	}
+	
+	/*
 	 * RequestMapping : AuthorizationConfirm.do
 	 * MethodName : authorizationConfirm
 	 * Parameter : Locale, HttpServletRequest
