@@ -67,6 +67,15 @@
 				console.log("저장? " + document.getElementById("selectedId").value);
 				$("#AccountForm").submit();	
 			});
+			
+			// 계정삭제 버튼 선택시
+			$("#accountDeleteBtn").click(function(){
+				console.log(indexNum.eq(0).val() + "의 계정정보 삭제");
+				document.getElementById("selectedId").value = indexNum.eq(0).val();
+				console.log("저장? " + document.getElementById("selectedId").value);
+				$("#AccountForm").attr("action", "AccountDelete.do");
+				$("#AccountForm").submit();
+			});
 		});
 	});
 </script>
@@ -111,7 +120,7 @@
 											<td>N</td>
 										</c:otherwise>
 									</c:choose>
-									<td>${ result.registerday }</td>
+									<td>${ result.join_date }</td>
 									<td><a href="AuthorizationConfirm.do?id=${ result.id }&member_code=${ result.member_code }&manager_status=${ result.manager_status }&coach_status=${ result.coach_status }&agreeBtn=1">승</a></td>
 									<td><a href="AuthorizationConfirm.do?id=${ result.id }&member_code=${ result.member_code }&manager_status=${ result.manager_status }&coach_status=${ result.coach_status }&agreeBtn=0">거</a></td>
 								</tr>
@@ -168,7 +177,7 @@
 												<td>${ members.tel }</td>
 											</c:otherwise>
 										</c:choose>
-										<td>${ members.registerday }</td>
+										<td>${ members.join_date }</td>
 									</tr>
 								</c:forEach>
 							</table>

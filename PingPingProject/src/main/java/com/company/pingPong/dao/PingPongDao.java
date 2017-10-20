@@ -18,32 +18,46 @@ public interface PingPongDao {
 	
 	// confirm Id when someone request login
 	public int loginIdDao(String id);
+	
 	// confirm password when someone request password
 	public int loginPwdDao(String pwd);
+	
 	// confirm login data when someone request login
 	public MemberDto loginDao(Map<String, String> map);
+	
 	// inform a name who login successed
 	public String loginNameDao(Map<String, String> map);
+	
 	// request join and create an account
 	public void joinApplyAccountDao(MemberDto dto);
+	
 	// find members who joined as a monthmember or just a member
 	public ArrayList<MemberDto> findMonthAndMemberDao(String memberName);
+	
 	// find members who registered a lesson or just a member
 	public ArrayList<MemberDto> findLessonAndMemberDao(String coachName);
+	
 	// get list of member
 	public ArrayList<MemberDto> getConfirmListDao();
+	
 	// get list of waiting confirm
 	public ArrayList<MemberDto> getAccountListDao();
+	
 	// search accountList by member_code
 	public ArrayList<MemberDto> searchAccountListDao(String selectedId);
+	
 	// get list of bootrack
 	public ArrayList<BootrackDto> getBootrackList();
+	
 	// give an authorization to be a manager
 	public void managerConfirmDao(Map<String, String> map);
+	
 	// give an authorization to be a coach
 	public void coachConfirmDao(Map<String, String> map);
+	
 	// give an authorization to be a member
 	public void memberConfirmDao(String memberCode);
+	
 	public ArrayList<FeeDto> getDateFeeList(String searchFeeDate);
 	public ArrayList<FeeDto> getFeeList();
 	public void insertGeneralFeeDao(Map<String, String> data);
@@ -57,4 +71,5 @@ public interface PingPongDao {
 	public ArrayList<MemberDto> defaultTotalMember();
 	public ArrayList<MemberDto> defaultMonthMember();
 	public ArrayList<MemberDto> defaultLessonMember();
+	public void deleteAccount(String memberCode);
 }

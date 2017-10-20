@@ -243,10 +243,7 @@ public class PingPongController {
 		HttpSession session=req.getSession();
 		session.invalidate();
 		
-		// Create RSA Key
-			initRsa(req);
-
-		return "LoginHome";
+		return "redirect:/index.do";
 	}
 	
 	/*
@@ -769,15 +766,15 @@ public class PingPongController {
 		ArrayList<MemberDto> confList = dao.getConfirmListDao();
 		String tempDate = "";
 		for(int i=0; i<confList.size(); i++){
-			tempDate = confList.get(i).getRegisterday().substring(0, 11);
-			confList.get(i).setRegisterday(tempDate);
+			tempDate = confList.get(i).getJoin_date().substring(0, 11);
+			confList.get(i).setJoin_date(tempDate);
 		}
 		// list of account
 		ArrayList<MemberDto> dtos = dao.getAccountListDao();
 		String tempMemberDate = "";
 		for(int i=0; i<dtos.size(); i++){
-			tempMemberDate = dtos.get(i).getRegisterday().substring(0, 11);
-			dtos.get(i).setRegisterday(tempMemberDate);
+			tempMemberDate = dtos.get(i).getJoin_date().substring(0, 11);
+			dtos.get(i).setJoin_date(tempMemberDate);
 		}
 		
 		req.setAttribute("confirmList", confList);
@@ -812,6 +809,26 @@ public class PingPongController {
 		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
 		req.setAttribute("mainHomeTitle", "계정 수정");
 		return "MainHomeFrame";
+	}
+	
+	/*
+	 * RequestMapping : AccountDelete.do
+	 * MethodName : mainLessonManagerFrame
+	 * Parameter : Locale
+	 * Return : String
+	 */
+	@RequestMapping(value = "AccountDelete.do", method = RequestMethod.GET)
+	public String accountDelete(Locale locale, HttpServletRequest req) {
+		logger.info("PingPong AccountDelete.do", locale);
+		
+		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
+		
+		String selecteId = req.getParameter("selectedId");
+		System.out.println("선택된 id " + selecteId);
+		
+		dao.deleteAccount(selecteId);
+		
+		return "redirect:/AccountManagerFrame.do";
 	}
 	
 	/*
@@ -851,12 +868,12 @@ public class PingPongController {
 			ArrayList<MemberDto> confList = dao.getConfirmListDao();
 			String tempDate = "";
 			for(int i=0; i<confList.size(); i++){
-				tempDate = confList.get(i).getRegisterday().substring(0, 11);
-				confList.get(i).setRegisterday(tempDate);
+				tempDate = confList.get(i).getJoin_date().substring(0, 11);
+				confList.get(i).setJoin_date(tempDate);
 			}
 			req.setAttribute("confirmList", confList);
 		} else {													// reject
-			if(managerStatus != null && Integer.parseInt(managerStatus) == 2){
+			/*if(managerStatus != null && Integer.parseInt(managerStatus) == 2){
 				data.put("memberCode", memberCode);
 				data.put("managerStatus", "0");
 				dao.managerConfirmDao(data);
@@ -865,13 +882,17 @@ public class PingPongController {
 				data.put("memberCode", memberCode);
 				data.put("coachStatus", "0");
 				dao.coachConfirmDao(data);
-			}
+			}*/
+			
+			// delete
+			dao.deleteAccount(memberCode);
+			
 			// list of waiting confirm
 			ArrayList<MemberDto> confList = dao.getConfirmListDao();
 			String tempDate = "";
 			for(int i=0; i<confList.size(); i++){
-				tempDate = confList.get(i).getRegisterday().substring(0, 11);
-				confList.get(i).setRegisterday(tempDate);
+				tempDate = confList.get(i).getJoin_date().substring(0, 11);
+				confList.get(i).setJoin_date(tempDate);
 			}
 			req.setAttribute("confirmList", confList);
 		}
