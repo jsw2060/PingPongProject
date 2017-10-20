@@ -36,6 +36,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT m.member_code, m.id, m.manager_status, m.coach_status, m.name, m.sex, m.tel, m.registerday FROM member m
 	</select>
 	
+	<select id="searchAccountListDao" parameterType="String" resultType="com.company.pingPong.dto.MemberDto">
+		SELECT m.member_code, m.id, m.password, m.manager_status, m.coach_status, m.name, m.sex, m.tel, m.registerday FROM member m WHERE m.member_code = #{selectedId}
+	</select>
+	
 	<select id="getConfirmListDao" resultType="com.company.pingPong.dto.MemberDto">
 		SELECT member_code, id, manager_status, coach_status, registerday FROM member WHERE manager_status = 2 OR coach_status = 2 OR approval_status = 0
 	</select>

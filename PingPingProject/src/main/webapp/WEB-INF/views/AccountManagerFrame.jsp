@@ -63,6 +63,8 @@
 			// 계정수정 버튼 선택시
 			$("#accountUpdateBtn").click(function(){
 				console.log(indexNum.eq(0).val() + "의 계정정보 수정");
+				document.getElementById("selectedId").value = indexNum.eq(0).val();
+				console.log("저장? " + document.getElementById("selectedId").value);
 				$("#AccountForm").submit();	
 			});
 		});
@@ -175,7 +177,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td><input type="text"></td>
+				<td><input type="text"><input type="hidden" id="selectedId" name="selectedId" value=""></td>
 				<td><input type="button" id="accountUpdateBtn" value="계정 수정"></td>
 				<td><input type="button" id="accountDeleteBtn" value="계정 삭제"></td>
 			</tr>

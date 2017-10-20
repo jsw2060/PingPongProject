@@ -798,6 +798,16 @@ public class PingPongController {
 	public String accountUpdate(Locale locale, HttpServletRequest req) {
 		logger.info("PingPong AccountEditDialog.jsp", locale);
 		
+		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
+		
+		String selecteId = req.getParameter("selectedId");
+		System.out.println("선택된 id " + selecteId);
+		
+		ArrayList<MemberDto> selectedInfo = dao.searchAccountListDao(selecteId);
+		
+		System.out.println(selectedInfo.get(0).getId());
+		
+		req.setAttribute("selectedInfo", selectedInfo);
 		req.setAttribute("view", "AccountEditDialog");
 		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
 		req.setAttribute("mainHomeTitle", "계정 수정");

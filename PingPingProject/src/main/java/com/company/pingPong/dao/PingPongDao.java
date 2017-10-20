@@ -34,6 +34,8 @@ public interface PingPongDao {
 	public ArrayList<MemberDto> getConfirmListDao();
 	// get list of waiting confirm
 	public ArrayList<MemberDto> getAccountListDao();
+	// search accountList by member_code
+	public ArrayList<MemberDto> searchAccountListDao(String selectedId);
 	// get list of bootrack
 	public ArrayList<BootrackDto> getBootrackList();
 	// give an authorization to be a manager
