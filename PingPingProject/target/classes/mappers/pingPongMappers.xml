@@ -60,6 +60,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		UPDATE member SET approval_status = 1 WHERE member_code = #{memberCode}
 	</update>
 	
+	<update id="accountUpdateDao" parameterType="java.util.Map">
+		UPDATE member SET id = #{id}, password = #{pwd}, manger_status = #{mng_status}, coach_status = #{coach_status} WHERE member_code = #{code}
+	</update>
+	
 	<select id="getFeeList" resultType="com.company.pingPong.dto.FeeDto">
 		SELECT fee.*, member.member_code, member.name FROM fee LEFT OUTER JOIN (
 		(SELECT lesson.fee_code, member.member_code, member.name FROM lesson LEFT OUTER JOIN member ON lesson.member_code = member.member_code) UNION ALL

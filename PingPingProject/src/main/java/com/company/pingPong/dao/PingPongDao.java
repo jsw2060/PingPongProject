@@ -58,6 +58,9 @@ public interface PingPongDao {
 	// give an authorization to be a member
 	public void memberConfirmDao(String memberCode);
 	
+	// update account
+	public void accountUpdateDao(Map<String, String> map);
+	
 	public ArrayList<FeeDto> getDateFeeList(String searchFeeDate);
 	public ArrayList<FeeDto> getFeeList();
 	public void insertGeneralFeeDao(Map<String, String> data);

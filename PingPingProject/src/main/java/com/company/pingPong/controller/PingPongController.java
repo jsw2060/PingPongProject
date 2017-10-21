@@ -793,13 +793,13 @@ public class PingPongController {
 	}
 	
 	/*
-	 * RequestMapping : AccountUpdate.do
-	 * MethodName : mainLessonManagerFrame
+	 * RequestMapping : AccountEditDialog.do
+	 * MethodName : accountEditDialog
 	 * Parameter : Locale
 	 * Return : String
 	 */
-	@RequestMapping(value = "AccountUpdate.do", method = RequestMethod.GET)
-	public String accountUpdate(Locale locale, HttpServletRequest req) {
+	@RequestMapping(value = "AccountEditDialog.do", method = RequestMethod.GET)
+	public String accountEditDialog(Locale locale, HttpServletRequest req) {
 		logger.info("PingPong AccountEditDialog.jsp", locale);
 		
 		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
@@ -816,6 +816,41 @@ public class PingPongController {
 		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
 		req.setAttribute("mainHomeTitle", "계정 수정");
 		return "MainHomeFrame";
+	}
+	
+	/*
+	 * RequestMapping : AccountUpdate.do
+	 * MethodName : accountUpdate
+	 * Parameter : Locale
+	 * Return : String
+	 */
+	@RequestMapping(value = "AccountUpdate.do", method = RequestMethod.GET)
+	public String accountUpdate(Locale locale, HttpServletRequest req) {
+		logger.info("PingPong AccountUpdate.do", locale);
+		
+		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
+		
+		// 수정 정보 값을 req로 긁어옴
+		String code = req.getParameter("updateCode");
+		String id = req.getParameter("updateId");
+		String pwd = req.getParameter("updatePwd");
+		String mng_status = req.getParameter("updateMng");
+		String coach_status = req.getParameter("updateCoach");
+		
+		System.out.println("yooseongc want to know mng_status : " + mng_status);
+		
+		Map<String, String> map = new HashMap<String, String>();
+		System.out.println(map);
+		map.put("code", code);
+		map.put("id", id);
+		map.put("pwd", pwd);
+		map.put("mng_status", mng_status);
+		map.put("coach_status", coach_status);
+		
+		// 수정 DAO 생성 필요		
+		//ArrayList<MemberDto> selectedInfo = dao.searchAccountListDao(selecteId);
+		
+		return "redirect:/AccountManagerFrame.do";
 	}
 	
 	/*
@@ -1120,18 +1155,6 @@ public class PingPongController {
 		req.setAttribute("mainHomeTitle", "레슨 세부 정보");*/
 		
 		return "MainHomeFrame";
-	}
-	
-	/*
-	 * RequestMapping : AccountEditDialog.do
-	 * MethodName : accountEditDialog
-	 * Parameter : Locale
-	 * Return : String
-	 */
-	@RequestMapping(value = "AccountEditDialog.do", method = RequestMethod.GET)
-	public String accountEditDialog(Locale locale, Model model) {
-		logger.info("PingPong AccountEditDialog.jsp", locale);
-		return "AccountEditDialog";
 	}
 	
 	/*

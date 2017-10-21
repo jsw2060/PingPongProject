@@ -82,7 +82,7 @@
 </head>
 <body>
 	<div class="defaultPage">
-		<form id="AccountForm" action="AccountUpdate.do">
+		<form id="AccountForm" action="AccountEditDialog.do">
 		<table class="outLineTable" border="1px;" align="center">
 			<tr>
 				<td colspan="4" height="460" style="vertical-align: top;">
