@@ -196,7 +196,14 @@
 													<td>${ TMList.addr }</td>
 													<td>${ TMList.email }</td>
 													<td>${ TMList.birthday }</td>
-													<td>${ TMList.registerday }</td>
+													<c:choose>
+														<c:when test="${ TMList.registerday eq null || TMList.registerday eq ''}">
+															<td></td>
+														</c:when>
+														<c:otherwise>
+															<td>${ TMList.registerday }</td>
+														</c:otherwise>
+													</c:choose>
 													<td>${ TMList.note }</td>
 												</tr>
 											</c:forEach>

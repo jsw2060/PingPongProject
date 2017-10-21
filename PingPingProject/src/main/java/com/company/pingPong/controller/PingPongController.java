@@ -684,10 +684,17 @@ public class PingPongController {
 		// 전체리스트 준비
 		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
 		ArrayList<MemberDto> defaultTMList = dao.defaultTotalMember();
+		// join_status = 0 가입자, 1 일회원, 2 월회원
 		
 		String tempRegDate = "";
 		for(int i=0; i<defaultTMList.size(); i++){
-			tempRegDate = defaultTMList.get(i).getRegisterday().substring(0, 11);
+			
+			if(defaultTMList.get(i).getRegisterday() != null) {
+				tempRegDate = defaultTMList.get(i).getRegisterday().substring(0, 11);
+			} else {
+				tempRegDate = "";
+			}
+			
 			defaultTMList.get(i).setRegisterday(tempRegDate);
 		}
 		
