@@ -37,10 +37,14 @@
 						<tr>
 					</c:if>
 						<td class="bootrack">
-							<p class="trackNum">${bootrackItems.bootrack_code}</p>
+							<p class="trackNum">${bootrackItems.bootrack_code}
+								<input type="hidden" name="bootrackCd" value="${bootrackItems.bootrack_code}">
+							</p>
+							<input type="hidden" name="bootrackSt" value="${bootrackItems.bootrack_status}">
 							<c:choose>
-								<c:when test="${bootrackItems.bootrack_status ne 'E'}">
+								<c:when test="${bootrackItems.bootrack_status ne NULL}">
 									<p class="trackName">${bootrackItems.name}</p>
+									<input type="hidden" name="bootrackUser" value="${bootrackItems.name}">
 								</c:when>
 								<c:otherwise>
 									<p class="trackName">미사용</p>

@@ -1195,6 +1195,23 @@ public class PingPongController {
 	public String bootrackEditDialog(Locale locale, HttpServletRequest req) {
 		logger.info("PingPong BootrackEditDialog.jsp", locale);
 		
+		String bootrackCd = req.getParameter("bootrackCd");
+		String bootrackSt = req.getParameter("bootrackSt");
+		String bootrackName = req.getParameter("bootrackUser");
+		
+		System.out.println("bootrackCd " + bootrackCd);
+		System.out.println("bootrackSt " + bootrackSt);
+		System.out.println("bootrackName " + bootrackName);
+		
+		if(bootrackSt == "0") {
+			req.setAttribute("bootrackCd", bootrackCd);
+			req.setAttribute("bootrackSt", bootrackSt);
+		} else {
+			req.setAttribute("bootrackCd", bootrackCd);
+			req.setAttribute("bootrackSt", bootrackSt);
+			req.setAttribute("bootrackName", bootrackName);
+		}
+		
 		req.setAttribute("view", "BootrackEditDialog");
 		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
 		req.setAttribute("mainHomeTitle", "신발장 정보 수정");
