@@ -14,7 +14,7 @@
 		});
 		
 		$("#updateMngCk").on("change", function() {
-			console.log(this);
+
 			var that = $(this);
 			if (that.val() == '1') {
 				alert('관리자 체크 해제');
@@ -31,13 +31,23 @@
 			}
 		});
 		
-		// mng_status == 0 일 때, 1일 때
-		// checked 걸고 풀고
-		//$("#AccountEditForm").is(":checked") == true
+		$("#updateCoachCk").on("change", function() {
 
-		// coach_status == 0 일 때, 1일 때
-		// checked 걸고 풀고
-		//$("#updateCoach").is(":checked") == true
+			var that = $(this);
+			if (that.val() == '1') {
+				alert('코치 체크 해제');
+				that.val('0');
+				that.removeAttr('checked');
+				$("#updateCoach").val(that.val());
+			} else if (that.val() == '0') {
+				alert('코치 체크');
+				that.val('1');
+				that.attr('checked', true);
+				$("#updateCoach").val(that.val());
+			} else {
+				alert('check logic!!');
+			}
+		});
 		
 	});
 </script>
@@ -75,6 +85,7 @@
 				<tr>
 					<td colspan="2" align="center">
 					<input type="hidden" id="updateMng" name="updateMng" value="${infos.manager_status}">
+					<input type="hidden" id="updateCoach" name="updateCoach" value="${infos.coach_status}">
 					
 					<c:choose>
 						<c:when test="${ infos.manager_status eq 1}">
@@ -87,10 +98,10 @@
 					&nbsp;&nbsp;
 					<c:choose>
 						<c:when test="${ infos.coach_status eq 1}">
-							코치 권한 <input type="checkbox" name="updateCoach" value="1" id="updateCoach" checked="checked">
+							코치 권한 <input type="checkbox" name="updateCoachCk" value="1" id="updateCoachCk" checked="checked">
 						</c:when>
 						<c:otherwise>
-							코치 권한 <input type="checkbox" name="updateCoach" value="0" id="updateCoach">
+							코치 권한 <input type="checkbox" name="updateCoachCk" value="0" id="updateCoachCk">
 						</c:otherwise>
 					</c:choose>
 					</td>

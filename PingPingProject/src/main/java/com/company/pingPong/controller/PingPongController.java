@@ -837,18 +837,26 @@ public class PingPongController {
 		String mng_status = req.getParameter("updateMng");
 		String coach_status = req.getParameter("updateCoach");
 		
-		System.out.println("yooseongc want to know mng_status : " + mng_status);
+		if(mng_status == null) {
+			mng_status = "0";
+		}
+		if(coach_status == null) {
+			coach_status = "0";
+		}
+		
+		System.out.println("mng_status" + mng_status);
+		System.out.println("coach_status" + coach_status);
 		
 		Map<String, String> map = new HashMap<String, String>();
-		System.out.println(map);
+		
 		map.put("code", code);
 		map.put("id", id);
 		map.put("pwd", pwd);
 		map.put("mng_status", mng_status);
 		map.put("coach_status", coach_status);
 		
-		// 수정 DAO 생성 필요		
-		//ArrayList<MemberDto> selectedInfo = dao.searchAccountListDao(selecteId);
+		// 수정 DAO
+		dao.accountUpdateDao(map);
 		
 		return "redirect:/AccountManagerFrame.do";
 	}

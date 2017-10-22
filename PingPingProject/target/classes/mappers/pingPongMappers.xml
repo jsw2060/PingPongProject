@@ -61,7 +61,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	<update id="accountUpdateDao" parameterType="java.util.Map">
-		UPDATE member SET id = #{id}, password = #{pwd}, manger_status = #{mng_status}, coach_status = #{coach_status} WHERE member_code = #{code}
+		UPDATE member SET id = #{id}, password = #{pwd}, manager_status = #{mng_status}, coach_status = #{coach_status} WHERE member_code = #{code}
 	</update>
 	
 	<select id="getFeeList" resultType="com.company.pingPong.dto.FeeDto">
