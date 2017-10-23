@@ -17,7 +17,6 @@
 
 			var that = $(this);
 			if (that.val() == '1') {
-				alert('관리자 체크 해제');
 				that.val('0');
 				//that.removeAttr('checked');
 				//$("#updateMng").val(that.val());
@@ -76,12 +75,18 @@
 							<input type="text" width="100px" value="${bootrackName }">
 						</c:otherwise>
 					</c:choose>
-						<input type="button" value="검색">
-						<input type="button" value="추가">
+						<input type="button" id="searchBtn" value="검색">
+						<input type="button" id="addBtn" value="추가">
 					</td>
 				</tr>
 				<tr>
-					
+					<td>
+						<div>
+							<table>
+								
+							</table>
+						</div>
+					</td>
 				</tr>
 				<tr>
 					<td colspan="2" align="center">

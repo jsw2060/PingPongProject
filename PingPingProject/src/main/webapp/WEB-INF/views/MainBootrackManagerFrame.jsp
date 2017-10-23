@@ -21,8 +21,11 @@
 </style>
 <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
 <script type="text/javascript">
+	// certificate selected button
 	$(function () {
 		$(".trackBtn").click(function(){
+			document.getElementById("selectedCd").value = $(this).attr("value");
+			
 			$("#bootrackEditDialogForm").submit();
 		});	
 	});
@@ -37,26 +40,23 @@
 						<tr>
 					</c:if>
 						<td class="bootrack">
-							<p class="trackNum">${bootrackItems.bootrack_code}
-								<input type="hidden" name="bootrackCd" value="${bootrackItems.bootrack_code}">
-							</p>
-							<input type="hidden" name="bootrackSt" value="${bootrackItems.bootrack_status}">
+							<p class="trackNum">${bootrackItems.bootrack_code}</p>
 							<c:choose>
-								<c:when test="${bootrackItems.bootrack_status ne NULL}">
+								<c:when test="${bootrackItems.bootrack_status ne 0}">
 									<p class="trackName">${bootrackItems.name}</p>
-									<input type="hidden" name="bootrackUser" value="${bootrackItems.name}">
 								</c:when>
 								<c:otherwise>
 									<p class="trackName">미사용</p>
 								</c:otherwise>
 							</c:choose>
-							<button type="button" class="trackBtn">o</button>
+							<button type="button" class="trackBtn" value="${bootrackItems.bootrack_code}">o</button>
 						</td>
 					<c:if test="${bootrackItems.bootrack_code%6 == 0}">		
 						</tr>
 					</c:if>
 				</c:forEach>
 			</table>
+			<input type="hidden" name="selectedCd" id="selectedCd" value="">
 		</div>
 	</form>
 </body>

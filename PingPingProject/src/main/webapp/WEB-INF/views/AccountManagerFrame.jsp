@@ -51,8 +51,6 @@
 		});
 		$(".selectedData").click(function(){
 			alert("클릭");
-			var str = "";
-			var tdArr = new Array();	// 배열 선언
 			var selectedTr = $(this);
 			var selectedTd = selectedTr.children();
 			var indexNum = selectedTd.children();

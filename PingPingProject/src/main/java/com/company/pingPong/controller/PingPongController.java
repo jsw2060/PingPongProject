@@ -1195,19 +1195,26 @@ public class PingPongController {
 	public String bootrackEditDialog(Locale locale, HttpServletRequest req) {
 		logger.info("PingPong BootrackEditDialog.jsp", locale);
 		
-		String bootrackCd = req.getParameter("bootrackCd");
-		String bootrackSt = req.getParameter("bootrackSt");
-		String bootrackName = req.getParameter("bootrackUser");
+		String selectedCd = req.getParameter("selectedCd");
+		int selectedIdx = Integer.parseInt(selectedCd);
+		String bootrackSt = "";
+		String bootrackName = "";
 		
-		System.out.println("bootrackCd " + bootrackCd);
+		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
+		ArrayList<BootrackDto> bootrackList = dao.getBootrackList();
+		
+		bootrackSt = bootrackList.get(selectedIdx).getBootrack_status();
+		bootrackName = bootrackList.get(selectedIdx).getName();
+		
+		System.out.println("bootrackCd " + selectedCd);
 		System.out.println("bootrackSt " + bootrackSt);
 		System.out.println("bootrackName " + bootrackName);
 		
 		if(bootrackSt == "0") {
-			req.setAttribute("bootrackCd", bootrackCd);
+			req.setAttribute("bootrackCd", selectedCd);
 			req.setAttribute("bootrackSt", bootrackSt);
 		} else {
-			req.setAttribute("bootrackCd", bootrackCd);
+			req.setAttribute("bootrackCd", selectedCd);
 			req.setAttribute("bootrackSt", bootrackSt);
 			req.setAttribute("bootrackName", bootrackName);
 		}
