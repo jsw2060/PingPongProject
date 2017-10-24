@@ -13,6 +13,7 @@
 			$("#AccountEditForm").submit();
 		}); */
 		
+		
 		// Use, notUse selection
 		$("#selectBox").on("change", function() {
 
