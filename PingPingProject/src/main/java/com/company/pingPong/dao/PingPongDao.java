@@ -1,6 +1,7 @@
 package com.company.pingPong.dao;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import com.company.pingPong.dto.AccountDto;
@@ -60,6 +61,9 @@ public interface PingPongDao {
 	
 	// update account
 	public void accountUpdateDao(Map<String, String> map);
+	
+	// search accountList by member_name
+	public List<Map> searchAccountListByNameDao(String memberName);
 	
 	public ArrayList<FeeDto> getDateFeeList(String searchFeeDate);
 	public ArrayList<FeeDto> getFeeList();

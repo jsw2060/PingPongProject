@@ -14,11 +14,11 @@ import java.security.PublicKey;
 import java.security.spec.RSAPublicKeySpec;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import javax.crypto.Cipher;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -31,6 +31,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.company.pingPong.dao.PingPongDao;
 import com.company.pingPong.dto.BootrackDto;
@@ -1203,8 +1204,14 @@ public class PingPongController {
 		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
 		ArrayList<BootrackDto> bootrackList = dao.getBootrackList();
 		
-		bootrackSt = bootrackList.get(selectedIdx).getBootrack_status();
-		bootrackName = bootrackList.get(selectedIdx).getName();
+		for(int idx=0; idx<bootrackList.size(); idx++) {
+			System.out.println("Num " + bootrackList.get(idx).getBootrack_code());
+			System.out.println("Status " + bootrackList.get(idx).getBootrack_status());
+			System.out.println("Name " + bootrackList.get(idx).getName());
+		}
+		
+		bootrackSt = bootrackList.get(selectedIdx-1).getBootrack_status();
+		bootrackName = bootrackList.get(selectedIdx-1).getName();
 		
 		System.out.println("bootrackCd " + selectedCd);
 		System.out.println("bootrackSt " + bootrackSt);
@@ -1223,6 +1230,35 @@ public class PingPongController {
 		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
 		req.setAttribute("mainHomeTitle", "신발장 정보 수정");
 		return "MainHomeFrame";
+	}
+	
+	/*
+	 * RequestMapping : BootrackSearch.do
+	 * MethodName : bootrackSearch
+	 * Parameter : Locale, HttpServletRequest
+	 * Return : String
+	 */
+	@RequestMapping(value = "BootrackSearch.do", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Map> bootrackSearch(Locale locale, HttpServletRequest req) {
+		logger.info("PingPong BootrackSearch.do", locale);
+		
+		String searchName = req.getParameter("searchName");
+		System.out.println("searchName " + searchName);
+		
+		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
+		List<Map> findedMemberList = dao.searchAccountListByNameDao(searchName);
+		
+		for(int idx=0; idx<findedMemberList.size(); idx++) {
+			if(findedMemberList.get(idx).get("BOOTRACK_CODE") == null) {
+				findedMemberList.get(idx).put("BOOTRACK_CODE", "");
+			}
+			if(findedMemberList.get(idx).get("BOOTRACK_STATUS") == null) {
+				findedMemberList.get(idx).put("BOOTRACK_STATUS", 0);
+			}
+		}
+
+		return findedMemberList;
 	}
 	
 	/*

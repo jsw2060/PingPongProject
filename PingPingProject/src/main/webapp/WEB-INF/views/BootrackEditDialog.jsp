@@ -13,21 +13,114 @@
 			$("#AccountEditForm").submit();
 		}); */
 		
+		// Use, notUse selection
 		$("#selectBox").on("change", function() {
 
 			var that = $(this);
-			if (that.val() == '1') {
+			
+			console.log("that.val", that.val());
+
+			if (that.val() == '0') { // 사용 -> 미사용
+				
+				$("#use").removeAttr('selected');
+				$("#notUse").attr('selected', true);
+				
 				that.val('0');
-				//that.removeAttr('checked');
-				//$("#updateMng").val(that.val());
-			} else if (that.val() == '0') {
-				alert('관리자 체크');
+				console.log(that.val());
+				
+				console.log("값 ", $("#searchName").val());
+				
+				$("#searchName").val("");
+				$("#searchName").removeAttr('value');
+				console.log("값 ", $("#searchName").val());
+				$("#searchName").attr('disabled', true);
+				
+			} else if (that.val() == '1') { // 미사용 -> 사용
+				
+				$("#notUse").removeAttr('selected');
+				$("#use").attr('selected', true);
+				
 				that.val('1');
-				//that.attr('checked', true);
-				//$("#updateMng").val(that.val());
+				console.log(that.val());
+				
+				$("#searchName").removeAttr('disabled', true);
+				$("#searchName").attr('value', "");
+				
 			} else {
 				alert('check logic!!');
 			}
+		});
+		
+		// member searching
+		$("#searchBtn").click(function () {
+			
+			// 검색 테이블 초기화
+			$("#searchResult").children().remove();
+			var searchName = $("#searchName").val();
+			
+			console.log("입력값 " + searchName);
+			
+			jQuery.ajax({
+				type:"GET",
+				url:"http://localhost:8080/pingPong/BootrackSearch.do?searchName=" + searchName + "",
+				dataType: "JSON",
+				success: function(data) {
+					console.log("sending success ");
+					console.log(data);
+					
+					var temp = "";
+					var obj_length = Object.keys(data).length;
+					var sexTemp = "";
+					var statusTemp = "";
+					
+					if(data != null) {
+						for(var idx = 0; idx < obj_length; idx++) {
+							if(data[idx].SEX == 0) {
+								sexTemp = "M";
+							} else {
+								sexTemp = "W";
+							}
+							
+							if(data[idx].BOOTRACK_STATUS == 0) {
+								statusTemp = "X";
+							} else {
+								statusTemp = "O";
+							}
+							
+							temp = "<td>" + data[idx].MEMBER_CODE + "</td>"
+							+ "<td>" + data[idx].NAME + "</td>"
+							+ "<td>" + sexTemp + "</td>"
+							+ "<td>" + statusTemp + "</td>"
+							+ "<td>" + data[idx].BOOTRACK_CODE + "</td>";
+						}
+					} else {
+						temp = "<td colspan='5'>데이터가 없습니다</td>";
+					}
+					
+					console.log("temp ", temp);
+					$("#searchResult").append(temp);
+					
+				},
+				error: function(xhr, option, error) {
+					console.log("sending fail");
+					console.log("오류코드 " + xhr.status);
+					console.log(error);
+				}
+			})
+		});
+		
+		// table selection
+		$("#searchResult").click(function() {
+			alert("클릭");
+			var selectedTr = $(this);
+			var selectedTd = selectedTr.children();
+			console.log("selectedTd ", selectedTd);
+			var indexNum = selectedTd.eq(0).text();
+			
+			console.log("여기부터 val값");
+			console.log(indexNum);
+			// store temporary info of selected member
+			document.getElementById("selectedMember").value = indexNum;
 		});
 	});
 </script>
@@ -41,7 +134,7 @@
 		</div>
 		<br/>
 		<div>
-			<table width="350" border="1">
+			<table width="440" border="1">
 				<tr>
 					<td align="center" colspan="2">
 						신발장 ${bootrackCd }
@@ -50,15 +143,15 @@
 				<tr>
 					<td width="150" align="center">상태: </td>
 					<td>
-						<select name="selectBox" style="width: 160px;">
+						<select id="selectBox" style="width: 173px;">
 							<c:choose>
 								<c:when test="${bootrackSt eq 0}">
-									<option value="0" selected="selected">미사용</option>
-									<option value="1">사용</option>
+									<option id="notUse" value="0" selected="selected">미사용</option>
+									<option id="use" value="1">사용</option>
 								</c:when>
 								<c:otherwise>
-									<option value="0">미사용</option>
-									<option value="1" selected="selected">사용</option>
+									<option id="notUse" value="0">미사용</option>
+									<option id="use" value="1" selected="selected">사용</option>
 								</c:otherwise>
 							</c:choose>
 						</select>
@@ -69,10 +162,10 @@
 					<td>
 					<c:choose>
 						<c:when test="${bootrackSt eq 0}">
-							<input type="text" width="100px" value="">
+							<input type="text" width="100px" id="searchName" name="searchName" value="" disabled="disabled">
 						</c:when>
 						<c:otherwise>
-							<input type="text" width="100px" value="${bootrackName }">
+							<input type="text" width="100px" id="searchName" name="searchName" value="${bootrackName }">
 						</c:otherwise>
 					</c:choose>
 						<input type="button" id="searchBtn" value="검색">
@@ -80,10 +173,21 @@
 					</td>
 				</tr>
 				<tr>
-					<td>
+					<td colspan="2">
 						<div>
-							<table>
-								
+							<table style="background-color: #E1E1E1; text-align: center;" align="center" width="430px;" border="1">
+								<tr style="background-color: #DEDEDE;">
+									<td rowspan="2">번호</td>
+									<td rowspan="2">이름</td>
+									<td rowspan="2">성별</td>
+									<td colspan="2">사물함사용</td>
+								</tr>
+								<tr>
+									<td>여부</td>
+									<td>번호</td>
+								</tr>
+								<tr id="searchResult">
+								</tr>
 							</table>
 						</div>
 					</td>
@@ -92,6 +196,7 @@
 					<td colspan="2" align="center">
 						<input type="button" class="dialogBtn" id="enterBtn" value="등록">
 						<input type="button" class="dialogBtn" onclick="javascript:history.back()" value="취소">
+						<input type="hidden" id="selectedMember" value="">
 					</td>
 				</tr>
 			</table>		
