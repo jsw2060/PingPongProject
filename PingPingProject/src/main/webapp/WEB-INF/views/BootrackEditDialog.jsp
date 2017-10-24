@@ -8,10 +8,12 @@
 <link href="resources/css/DialogLayout.css" rel="stylesheet" type="text/css">
 <script type="text/javascript">
 	$(document).ready(function(){
-		/* $("#enterBtn").click(function(){
-			console.log("계정 수정");
-			$("#AccountEditForm").submit();
-		}); */
+		
+		// when click enter button
+		$("#enterBtn").click(function(){
+			console.log("등록");
+			$("#BootrackEditForm").submit();	
+		});
 		
 		
 		// Use, notUse selection
@@ -35,6 +37,8 @@
 				$("#searchName").removeAttr('value');
 				console.log("값 ", $("#searchName").val());
 				$("#searchName").attr('disabled', true);
+				
+				document.getElementById("selectedMember").value = "";
 				
 			} else if (that.val() == '1') { // 미사용 -> 사용
 				
@@ -128,7 +132,7 @@
 </head>
 <body>
 	<div align="center">
-	<!-- <form id="AccountEditForm" action="AccountUpdate.do"> -->
+	<form id="BootrackEditForm" action="BootrackUpdate.do">
 		<br/>
 		<div style="text-align: center;">
 			<h1>신발장 정보 수정</h1>
@@ -197,13 +201,13 @@
 					<td colspan="2" align="center">
 						<input type="button" class="dialogBtn" id="enterBtn" value="등록">
 						<input type="button" class="dialogBtn" onclick="javascript:history.back()" value="취소">
-						<input type="hidden" id="selectedMember" value="">
+						<input type="hidden" id="selectedMember" name="selectedMember" value="">
+						<input type="hidden" id="selectedBootrack" name="selectedBootrack" value="${bootrackCd }">
 					</td>
 				</tr>
 			</table>		
 		</div>
-		<%-- </c:forEach> --%>
-		<!-- </form> -->
+		</form>
 	</div>
 </body>
 </html>

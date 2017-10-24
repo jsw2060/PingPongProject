@@ -62,6 +62,9 @@ public interface PingPongDao {
 	// update account
 	public void accountUpdateDao(Map<String, String> map);
 	
+	// update bootrack
+	public void bootrackUpdateDao(Map<String, String> map);
+	
 	// search accountList by member_name
 	public List<Map> searchAccountListByNameDao(String memberName);
 	

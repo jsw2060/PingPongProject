@@ -1204,12 +1204,6 @@ public class PingPongController {
 		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
 		ArrayList<BootrackDto> bootrackList = dao.getBootrackList();
 		
-		for(int idx=0; idx<bootrackList.size(); idx++) {
-			System.out.println("Num " + bootrackList.get(idx).getBootrack_code());
-			System.out.println("Status " + bootrackList.get(idx).getBootrack_status());
-			System.out.println("Name " + bootrackList.get(idx).getName());
-		}
-		
 		bootrackSt = bootrackList.get(selectedIdx-1).getBootrack_status();
 		bootrackName = bootrackList.get(selectedIdx-1).getName();
 		
@@ -1259,6 +1253,46 @@ public class PingPongController {
 		}
 
 		return findedMemberList;
+	}
+	
+	/*
+	 * RequestMapping : BootrackUpdate.do
+	 * MethodName : accountUpdate
+	 * Parameter : Locale
+	 * Return : String
+	 */
+	@RequestMapping(value = "BootrackUpdate.do", method = RequestMethod.GET)
+	public String bootrackUpdate(Locale locale, HttpServletRequest req) {
+		logger.info("PingPong BootrackUpdate.do", locale);
+		
+		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
+		
+		// 수정 정보 값을 req로 긁어옴
+		String selectedMember = req.getParameter("selectedMember");
+		String selectedBootrack = req.getParameter("selectedBootrack");
+		String selectedStatus = "1";
+		
+		System.out.println("selectedMemb " + selectedMember);
+		System.out.println("selectedBootrack " + selectedBootrack);
+		System.out.println("selectedSt " + selectedStatus);
+		
+		if(selectedMember == null || selectedMember == "") {
+			selectedStatus = "0";
+			selectedMember = "";
+		}
+		
+		System.out.println("selectedMemb" + selectedMember);
+		
+		Map<String, String> map = new HashMap<String, String>();
+		
+		map.put("selMemb", selectedMember);
+		map.put("selectedBootrack", selectedBootrack);
+		map.put("selSt", selectedStatus);
+		
+		// 수정 DAO
+		dao.bootrackUpdateDao(map);
+		
+		return "redirect:/MainBootrackManagerFrame.do";
 	}
 	
 	/*
