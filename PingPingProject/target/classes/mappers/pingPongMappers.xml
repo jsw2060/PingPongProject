@@ -68,6 +68,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		UPDATE member SET id = #{id}, password = #{pwd}, manager_status = #{mng_status}, coach_status = #{coach_status} WHERE member_code = #{code}
 	</update>
 	
+	<update id="bootrackUpdateDao" parameterType="java.util.Map">
+		UPDATE bootrack SET bootrack_code = #{selectedBootrack}, member_code = #{selMemb}, bootrack_status = #{selSt} WHERE bootrack_code = #{selectedBootrack}
+	</update>
+	
 	<select id="getFeeList" resultType="com.company.pingPong.dto.FeeDto">
 		SELECT fee.*, member.member_code, member.name FROM fee LEFT OUTER JOIN (
 		(SELECT lesson.fee_code, member.member_code, member.name FROM lesson LEFT OUTER JOIN member ON lesson.member_code = member.member_code) UNION ALL
