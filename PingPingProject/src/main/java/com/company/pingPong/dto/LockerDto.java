@@ -6,6 +6,8 @@ public class LockerDto {
 	String locker_purpose;
 	String locker_article;
 	
+	String name;
+	
 	public String getLocker_code() {
 		return locker_code;
 	}
@@ -29,5 +31,11 @@ public class LockerDto {
 	}
 	public void setLocker_article(String locker_article) {
 		this.locker_article = locker_article;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 }

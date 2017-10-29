@@ -37,6 +37,7 @@ import com.company.pingPong.dao.PingPongDao;
 import com.company.pingPong.dto.BootrackDto;
 import com.company.pingPong.dto.CoachDto;
 import com.company.pingPong.dto.FeeDto;
+import com.company.pingPong.dto.LockerDto;
 import com.company.pingPong.dto.MemberDto;
 
 @Controller
@@ -1305,9 +1306,60 @@ public class PingPongController {
 	public String mainLockerManagerFrame(Locale locale, HttpServletRequest req) {
 		logger.info("PingPong MainLockerManagerFrame.do", locale);
 		
+		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
+		
+		ArrayList<LockerDto> lockerList = dao.getLockerList();
+		
+		req.setAttribute("lockerList", lockerList);
 		req.setAttribute("view", "MainLockerManagerFrame");
 		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
 		req.setAttribute("mainHomeTitle", "사물함 관리");
+		return "MainHomeFrame";
+	}
+	
+	/*
+	 * RequestMapping : LockerEditDialog.do
+	 * MethodName : lockerEditDialog
+	 * Parameter : Locale, HttpServletRequest
+	 * Return : String
+	 */
+	@RequestMapping(value = "LockerEditDialog.do", method = RequestMethod.GET)
+	public String lockerEditDialog(Locale locale, HttpServletRequest req) {
+		logger.info("PingPong LockerEditDialog.jsp", locale);
+		
+		String selectedCd = req.getParameter("selectedCd");
+		int selectedIdx = Integer.parseInt(selectedCd);
+		
+		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
+		ArrayList<LockerDto> lockerList = dao.getLockerList();
+		
+		String selectPurpose = lockerList.get(selectedIdx-1).getLocker_purpose();
+		String selectName = lockerList.get(selectedIdx-1).getName();
+		String selectStuff = lockerList.get(selectedIdx-1).getLocker_article();
+		
+		System.out.println("lockerCd " + selectedCd);
+		System.out.println("lockerPurpose " + selectPurpose);
+		System.out.println("lockerName " + selectName);
+		System.out.println("lockerStuff " + selectStuff);
+		
+		if(selectPurpose == "0") {  		// for Members
+			req.setAttribute("lockerCd", selectedCd);
+			req.setAttribute("lockerPurpose", selectPurpose);
+			req.setAttribute("lockerName", selectName);
+			
+		} else if(selectPurpose == "1") {   // for stuffs
+			req.setAttribute("lockerCd", selectedCd);
+			req.setAttribute("lockerPurpose", selectPurpose);
+			req.setAttribute("lockerStuff", selectStuff);
+			
+		} else {							// not used
+			req.setAttribute("lockerCd", selectedCd);
+			req.setAttribute("lockerPurpose", selectPurpose);
+		}
+		
+		req.setAttribute("view", "LockerEditDialog");
+		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
+		req.setAttribute("mainHomeTitle", "사물함 정보 수정");
 		return "MainHomeFrame";
 	}
 	

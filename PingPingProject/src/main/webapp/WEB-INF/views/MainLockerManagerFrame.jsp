@@ -8,20 +8,24 @@
 <link href="resources/css/FrameLayout.css" rel="stylesheet" type="text/css">
 <link href="resources/css/TabMenu2.css" rel="stylesheet" type="text/css">
 <style type="text/css">
-	.trackNum{
+	.lockerNum{
 		margin: 0;
 		font-weight: bold;
 	}
-	.trackName{
+	.lockerName{
 		margin: 0;
 		font-weight: bold;
 	}
-	.bootrack{
+	.lockerPurpose{
+		margin: 0;
+		font-weight: bold;
+	}
+	.locker{
 		background-color: #E6B34D;
 		width: 70px;
 		height: 87px;
 	}
-	.trackBtn{
+	.lockerBtn{
 		width: 23px;
 		height: 23px;
 	}
@@ -32,10 +36,20 @@
 	   $('dd').addClass('hidden');
 	   $(this).next().removeClass('hidden');
 	})
+	
+	// certificate selected button
+	$(function () {
+		$(".lockerBtn").click(function(){
+			document.getElementById("selectedCd").value = $(this).attr("value");
+			
+			$("#lockerEditDialogForm").submit();
+		});	
+	});
 </script>
 </head>
 <body>
 	<div class="defaultPage" align="center">
+		<form id="lockerEditDialogForm" action="LockerEditDialog.do">
 		<table border="1" class="outLineTable">	
 			<tr>
 				<td style="vertical-align: top;">
@@ -45,7 +59,8 @@
 				        <li><a href="#tab2">tab2</a></li>
 				        <li><a href="#tab3">tab3</a></li>
 				    </ul>
-				    <c:forEach var="i" begin="1" end="120" step="1">
+				    <c:forEach var="lockerItems" items="${ lockerList }">
+				    	<c:set var="i" value="${lockerItems.locker_code }"/>
 				    	<c:if test="${ (i - 1) % 40 eq 0 }">
 				    		<c:choose>
 				    			<c:when test="${(i - 1) / 40 + 1 eq 1 }">
@@ -66,10 +81,23 @@
 				    	<c:if test="${ i%8 == 1 }">
 									<tr>
 						</c:if>
-										<td class="bootrack">
-											<p class="trackNum">${i}</p>
-											<p class="trackName">정성원</p>
-											<button type="button" class="trackBtn">o</button>
+										<td class="locker">
+											<p class="lockerNum">${i}</p>
+											<c:choose>
+												<c:when test="${lockerItems.locker_purpose eq 0}">
+													<p class="lockerPurpose">회원용</p>
+													<p class="lockerName">${lockerItems.name }</p>
+												</c:when>
+												<c:when test="${lockerItems.locker_purpose eq 1}">
+													<p class="lockerPurpose">비품용</p>
+													<p class="lockerName">${lockerItems.locker_article }</p>
+												</c:when>
+												<c:otherwise>
+													<p class="lockerPurpose">미사용</p>
+													<p class="lockerName">&nbsp;</p>
+												</c:otherwise>
+											</c:choose>
+											<button type="button" class="lockerBtn" value="${i}">o</button>
 										</td>
 						<c:if test="${ i%8 == 0 }">		
 									</tr>
@@ -83,6 +111,8 @@
 				</td>
 			</tr>
 		</table>
+		<input type="hidden" id="selectedCd" name="selectedCd" value="">
+		</form>
 	</div>
 </body>
 </html>

@@ -8,6 +8,7 @@ import com.company.pingPong.dto.AccountDto;
 import com.company.pingPong.dto.BootrackDto;
 import com.company.pingPong.dto.CoachDto;
 import com.company.pingPong.dto.FeeDto;
+import com.company.pingPong.dto.LockerDto;
 import com.company.pingPong.dto.MemberDto;
 
 
@@ -67,6 +68,9 @@ public interface PingPongDao {
 	
 	// search accountList by member_name
 	public List<Map> searchAccountListByNameDao(String memberName);
+	
+	// get lockerList
+	public ArrayList<LockerDto> getLockerList();
 	
 	public ArrayList<FeeDto> getDateFeeList(String searchFeeDate);
 	public ArrayList<FeeDto> getFeeList();

@@ -52,6 +52,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT b.bootrack_code, m.name, b.bootrack_status FROM bootrack b LEFT OUTER JOIN member m ON b.member_code = m.member_code
 	</select>
 	
+	<select id="getLockerList" resultType="com.company.pingPong.dto.LockerDto">
+		SELECT l.locker_code, m.name, l.locker_purpose, l.locker_article FROM locker l LEFT OUTER JOIN member m ON l.member_code = m.member_code
+	</select>
+	
 	<update id="managerConfirmDao" parameterType="java.util.Map">
 		UPDATE member SET manager_status = ${managerStatus}, approval_status = 1 WHERE member_code = ${memberCode}
 	</update>
