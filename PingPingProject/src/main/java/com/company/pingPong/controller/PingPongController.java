@@ -1242,7 +1242,7 @@ public class PingPongController {
 		System.out.println("searchName " + searchName);
 		
 		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
-		List<Map> findedMemberList = dao.searchAccountListByNameDao(searchName);
+		List<Map> findedMemberList = dao.searchAccountListByNameForBootrackDao(searchName);
 		
 		for(int idx=0; idx<findedMemberList.size(); idx++) {
 			if(findedMemberList.get(idx).get("BOOTRACK_CODE") == null) {
@@ -1336,18 +1336,21 @@ public class PingPongController {
 		String selectPurpose = lockerList.get(selectedIdx-1).getLocker_purpose();
 		String selectName = lockerList.get(selectedIdx-1).getName();
 		String selectStuff = lockerList.get(selectedIdx-1).getLocker_article();
+		String selectMemberCode = String.valueOf(lockerList.get(selectedIdx-1).getMember_code());
 		
 		System.out.println("lockerCd " + selectedCd);
 		System.out.println("lockerPurpose " + selectPurpose);
 		System.out.println("lockerName " + selectName);
 		System.out.println("lockerStuff " + selectStuff);
+		System.out.println("lockerMemberCode " + selectMemberCode);
 		
-		if(selectPurpose == "0") {  		// for Members
+		if(Integer.parseInt(selectPurpose) == 0) {  		// for Members
 			req.setAttribute("lockerCd", selectedCd);
 			req.setAttribute("lockerPurpose", selectPurpose);
 			req.setAttribute("lockerName", selectName);
+			req.setAttribute("lockerMemberCode", selectMemberCode);
 			
-		} else if(selectPurpose == "1") {   // for stuffs
+		} else if(Integer.parseInt(selectPurpose) == 1) {   // for stuffs
 			req.setAttribute("lockerCd", selectedCd);
 			req.setAttribute("lockerPurpose", selectPurpose);
 			req.setAttribute("lockerStuff", selectStuff);
@@ -1363,4 +1366,69 @@ public class PingPongController {
 		return "MainHomeFrame";
 	}
 	
+	/*
+	 * RequestMapping : LockerSearch.do
+	 * MethodName : lockerSearch
+	 * Parameter : Locale, HttpServletRequest
+	 * Return : String
+	 */
+	@RequestMapping(value = "LockerSearch.do", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Map> lockerSearch(Locale locale, HttpServletRequest req) {
+		logger.info("PingPong LockerSearch.do", locale);
+		
+		String searchName = req.getParameter("searchName");
+		System.out.println("searchName " + searchName);
+		
+		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
+		List<Map> findedMemberList = dao.searchAccountListByNameForLockerDao(searchName);
+		
+		for(int idx=0; idx<findedMemberList.size(); idx++) {
+			if(findedMemberList.get(idx).get("LOCKER_CODE") == null) {
+				findedMemberList.get(idx).put("LOCKER_CODE", "");
+			}
+			if(findedMemberList.get(idx).get("LOCKER_PURPOSE") == null) {
+				findedMemberList.get(idx).put("LOCKER_PURPOSE", 2);
+			}
+		}
+
+		return findedMemberList;
+	}
+	
+	/*
+	 * RequestMapping : LockerUpdate.do
+	 * MethodName : accountUpdate
+	 * Parameter : Locale
+	 * Return : String
+	 */
+	@RequestMapping(value = "LockerUpdate.do", method = RequestMethod.GET)
+	public String lockerUpdate(Locale locale, HttpServletRequest req) {
+		logger.info("PingPong LockerUpdate.do", locale);
+		
+		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
+		
+		// 수정 정보 값을 req로 긁어옴
+		String selectedMember = req.getParameter("selectedMember");
+		String selectedLocker = req.getParameter("selectedLocker");
+		String selectedPurpose = req.getParameter("selectedPurpose");
+		String selectedArticle = req.getParameter("selectedArticle");
+		
+		System.out.println("selectedMemb " + selectedMember);
+		System.out.println("selectedLocker " + selectedLocker);
+		System.out.println("selectedPurpose " + selectedPurpose);
+		System.out.println("selectedArticle " + selectedArticle);
+		System.out.println("selectedMemb " + selectedMember);
+		
+		Map<String, String> map = new HashMap<String, String>();
+		
+		map.put("selectedMemb", selectedMember);
+		map.put("selectedLocker", selectedLocker);
+		map.put("selectedPurpose", selectedPurpose);
+		map.put("selectedArticle", selectedArticle);
+		
+		// 수정 DAO
+		dao.lockerUpdateForMemberDao(map);
+		
+		return "redirect:/MainLockerManagerFrame.do";
+	}
 }

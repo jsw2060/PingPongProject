@@ -66,11 +66,18 @@ public interface PingPongDao {
 	// update bootrack
 	public void bootrackUpdateDao(Map<String, String> map);
 	
-	// search accountList by member_name
-	public List<Map> searchAccountListByNameDao(String memberName);
+	// search accountList by member_name for bootrack
+	public List<Map> searchAccountListByNameForBootrackDao(String memberName);
 	
 	// get lockerList
 	public ArrayList<LockerDto> getLockerList();
+	
+	// search accountList by member_name for locker
+	public List<Map> searchAccountListByNameForLockerDao(String memberName);
+	
+	// update locker
+	public void lockerUpdateForMemberDao(Map<String, String> map);
+	
 	
 	public ArrayList<FeeDto> getDateFeeList(String searchFeeDate);
 	public ArrayList<FeeDto> getFeeList();

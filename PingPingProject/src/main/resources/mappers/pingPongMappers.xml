@@ -40,8 +40,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT m.member_code, m.id, m.password, m.manager_status, m.coach_status, m.name, m.sex, m.tel, m.join_date FROM member m WHERE m.member_code = #{selectedId}
 	</select>
 	
-	<select id="searchAccountListByNameDao" parameterType="String" resultType="java.util.HashMap">
+	<select id="searchAccountListByNameForBootrackDao" parameterType="String" resultType="java.util.HashMap">
 		SELECT DISTINCT m.member_code, m.name, m.sex, b.bootrack_status, b.bootrack_code FROM member m LEFT OUTER JOIN bootrack b ON m.member_code = b.member_code WHERE m.manager_status != 2 AND m.coach_status != 2 AND m.approval_status = 1 AND m.name = #{memberName}
+	</select>
+	
+	<select id="searchAccountListByNameForLockerDao" parameterType="String" resultType="java.util.HashMap">
+		SELECT DISTINCT m.member_code, m.name, m.sex, l.locker_purpose, l.locker_code FROM member m LEFT OUTER JOIN locker l ON m.member_code = l.member_code WHERE m.manager_status != 2 AND m.coach_status != 2 AND m.approval_status = 1 AND m.name = #{memberName}
 	</select>
 	
 	<select id="getConfirmListDao" resultType="com.company.pingPong.dto.MemberDto">
@@ -53,7 +57,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="getLockerList" resultType="com.company.pingPong.dto.LockerDto">
-		SELECT l.locker_code, m.name, l.locker_purpose, l.locker_article FROM locker l LEFT OUTER JOIN member m ON l.member_code = m.member_code
+		SELECT l.locker_code, m.name, l.locker_purpose, l.locker_article, l.member_code FROM locker l LEFT OUTER JOIN member m ON l.member_code = m.member_code
 	</select>
 	
 	<update id="managerConfirmDao" parameterType="java.util.Map">
@@ -74,6 +78,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<update id="bootrackUpdateDao" parameterType="java.util.Map">
 		UPDATE bootrack SET bootrack_code = #{selectedBootrack}, member_code = #{selMemb}, bootrack_status = #{selSt} WHERE bootrack_code = #{selectedBootrack}
+	</update>
+	
+	<update id="lockerUpdateForMemberDao" parameterType="java.util.Map">
+		UPDATE locker SET locker_code = #{selectedLocker}, member_code = #{selectedMemb}, locker_purpose = #{selectedPurpose}, locker_article = #{selectedArticle} WHERE locker_code = #{selectedLocker}
 	</update>
 	
 	<select id="getFeeList" resultType="com.company.pingPong.dto.FeeDto">
