@@ -139,6 +139,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM member m INNER JOIN monthmember mm ON m.member_code = mm.member_code
 	</select>
 	
+	<select id="defaultTotalCoach" resultType="com.company.pingPong.dto.CoachDto">
+		
+	</select>
+	
 	<delete id="deleteAccount" parameterType="String">
 		DELETE FROM member WHERE member_code = #{memberCode}
 	</delete>

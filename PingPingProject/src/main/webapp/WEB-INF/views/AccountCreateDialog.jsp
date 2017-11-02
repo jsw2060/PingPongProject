@@ -192,16 +192,16 @@
 					<tr>
 						<td><label class="editLabel">*전화번호:</label></td>
 						<td colspan="2" width="250" align="center">
-							<input class="editInput" type="text" id="userTel" name="userTel" placeholder="예시)01024336500" maxlength="11">
+							<input class="editInput" type="tel" id="userTel" name="userTel" placeholder="예시)01024336500" maxlength="11">
 						</td>
 					</tr>
 					<tr>
 						<td><label class="editLabel">이메일:</label></td>
 						<td colspan="2" width="250" align="center">
 							<input style="width: 80px; box-shadow: 3px 3px 5px 1px #A2A2A2;
-							margin: 10px 10px 10px 10px;" type="text" id="userEmail1" name="userEmail1">@
+							margin: 10px 10px 10px 10px;" type="email" id="userEmail1" name="userEmail"><!-- @
 							<input style="width: 80px; box-shadow: 3px 3px 5px 1px #A2A2A2;
-							margin: 10px 10px 10px 10px;" type="text" id="userEmail2" name="userEmail2">
+							margin: 10px 10px 10px 10px;" type="text" id="userEmail2" name="userEmail2"> -->
 						</td>
 					</tr>
 					<tr>

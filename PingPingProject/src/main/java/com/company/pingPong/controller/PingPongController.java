@@ -725,11 +725,130 @@ public class PingPongController {
 		//ArrayList<MemberDto> defaultLMList = dao.defaultLessonMember();
 		
 		
+		// 코치리스트 준비
+		//ArrayList<MemberDto> defaultCoachList = dao.defaultTotalCoach();
+		
+		
+		
 		req.setAttribute("defaultMMList", defaultMMList);
 		req.setAttribute("defaultTMList", defaultTMList);
 		req.setAttribute("view", "MainMemberManagerFrame");
 		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
 		req.setAttribute("mainHomeTitle", "회원정보 관리");
+		return "MainHomeFrame";
+	}
+	
+	/*
+	 * RequestMapping : MemberEditDialog.do
+	 * MethodName : memberEditDialog
+	 * Parameter : Locale, HttpServletRequest
+	 * Return : String
+	 */
+	@RequestMapping(value = "MemberEditDialog.do", method = RequestMethod.GET)
+	public String memberEditDialog(Locale locale, HttpServletRequest req) {
+		logger.info("PingPong MemberEditDialog.jsp", locale);
+		
+		String sendedId = req.getParameter("memberId");
+		String sendedName = req.getParameter("memberName");
+		String sendedSex = req.getParameter("memberSex");
+		String sendedTel = req.getParameter("memberTel");
+		String sendedAge = req.getParameter("memberAge");
+		String sendedBday = req.getParameter("memberBday");
+		String sendedAddr = req.getParameter("memberAddr");
+		String sendedEmail = req.getParameter("memberEmail");
+		String sendedStyle = req.getParameter("memberStyle");
+		String sendedGrade = req.getParameter("memberGrade");
+		String sendedRegDay = req.getParameter("memberRegDay");
+		String sendedNote = req.getParameter("memberNote");
+		
+		sendedBday = sendedBday.trim();
+		sendedRegDay = sendedRegDay.trim();
+		
+		System.out.println("sendedBday " + sendedBday);
+		System.out.println("sendedStyle " + sendedStyle);
+		System.out.println("sendedGrade " + sendedGrade);
+		System.out.println("sendedSex " + sendedSex);
+		
+		req.setAttribute("memberId", sendedId);
+		req.setAttribute("memberName", sendedName);
+		req.setAttribute("memberSex", sendedSex);
+		req.setAttribute("memberTel", sendedTel);
+		req.setAttribute("memberAge", sendedAge);
+		req.setAttribute("memberBday", sendedBday);
+		req.setAttribute("memberAddr", sendedAddr);
+		req.setAttribute("memberEmail", sendedEmail);
+		req.setAttribute("memberStyle", sendedStyle);
+		req.setAttribute("memberGrade", sendedGrade);
+		req.setAttribute("memberRegDay", sendedRegDay);
+		req.setAttribute("memberNote", sendedNote);
+		
+		/*
+		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
+		ArrayList<LockerDto> lockerList = dao.getLockerList();
+		
+		String selectPurpose = lockerList.get(selectedIdx-1).getLocker_purpose();
+		String selectName = lockerList.get(selectedIdx-1).getName();
+		String selectStuff = lockerList.get(selectedIdx-1).getLocker_article();
+		String selectMemberCode = String.valueOf(lockerList.get(selectedIdx-1).getMember_code());
+		
+		System.out.println("lockerCd " + selectedCd);
+		System.out.println("lockerPurpose " + selectPurpose);
+		System.out.println("lockerName " + selectName);
+		System.out.println("lockerStuff " + selectStuff);
+		System.out.println("lockerMemberCode " + selectMemberCode);
+		
+		if(Integer.parseInt(selectPurpose) == 0) {  		// for Members
+			req.setAttribute("lockerCd", selectedCd);
+			req.setAttribute("lockerPurpose", selectPurpose);
+			req.setAttribute("lockerName", selectName);
+			req.setAttribute("lockerMemberCode", selectMemberCode);
+			
+		} else if(Integer.parseInt(selectPurpose) == 1) {   // for stuffs
+			req.setAttribute("lockerCd", selectedCd);
+			req.setAttribute("lockerPurpose", selectPurpose);
+			req.setAttribute("lockerStuff", selectStuff);
+			
+		} else {							// not used
+			req.setAttribute("lockerCd", selectedCd);
+			req.setAttribute("lockerPurpose", selectPurpose);
+		}*/
+		
+		req.setAttribute("view", "MemberEditDialog");
+		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
+		req.setAttribute("mainHomeTitle", "회원 정보 수정");
+		return "MainHomeFrame";
+	}
+	
+	/*
+	 * RequestMapping : MonthMemberEditDialog.do
+	 * MethodName : monthMemberEditDialog
+	 * Parameter : Locale, HttpServletRequest
+	 * Return : String
+	 */
+	@RequestMapping(value = "MonthMemberEditDialog.do", method = RequestMethod.GET)
+	public String monthMemberEditDialog(Locale locale, HttpServletRequest req) {
+		logger.info("PingPong MonthMemberEditDialog.jsp", locale);
+		
+		String sendedId = req.getParameter("memberId");
+		String sendedName = req.getParameter("memberName");
+		String sendedSex = req.getParameter("memberSex");
+		String sendedTel = req.getParameter("memberTel");
+		String sendedAge = req.getParameter("memberAge");
+		String sendedBday = req.getParameter("memberBday");
+		String sendedAddr = req.getParameter("memberAddr");
+		String sendedEmail = req.getParameter("memberEmail");
+		String sendedStyle = req.getParameter("memberStyle");
+		String sendedGrade = req.getParameter("memberGrade");
+		String sendedRegDay = req.getParameter("memberRegDay");
+		String sendedNote = req.getParameter("memberNote");
+		
+		sendedBday = sendedBday.trim();
+		sendedRegDay = sendedRegDay.trim();
+		
+		req.setAttribute("memberRegDay", sendedRegDay);
+		req.setAttribute("view", "MonthMemberEditDialog");
+		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
+		req.setAttribute("mainHomeTitle", "월 회원 수정");
 		return "MainHomeFrame";
 	}
 	
@@ -989,7 +1108,8 @@ public class PingPongController {
 		String age = req.getParameter("userAge");
 		String sex = req.getParameter("userSex");
 		String tel = req.getParameter("userTel");
-		String email = req.getParameter("userEmail1") + req.getParameter("userEmail2");
+		/*String email = req.getParameter("userEmail1") + req.getParameter("userEmail2");*/
+		String email = req.getParameter("userEmail");
 		String addr = req.getParameter("userAddr");
 		String birthday = req.getParameter("userBday");
 		String grade = req.getParameter("userGrade");

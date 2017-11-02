@@ -92,5 +92,6 @@ public interface PingPongDao {
 	public ArrayList<MemberDto> defaultTotalMember();
 	public ArrayList<MemberDto> defaultMonthMember();
 	public ArrayList<MemberDto> defaultLessonMember();
+	public ArrayList<CoachDto> defaultTotalCoach();
 	public void deleteAccount(String memberCode);
 }
