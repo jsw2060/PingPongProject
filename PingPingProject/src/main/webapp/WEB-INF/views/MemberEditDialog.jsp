@@ -8,30 +8,32 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
 <script type="text/javascript">
+// selecting sex
+function selection(num) {
+	if(num == 0) {
+		document.getElementById("userFemale").removeAttribute("checked");
+		document.getElementById("userMale").setAttribute("checked", "checked");
+		document.getElementById("updateSex").setAttribute("value", "0");
+	} else {
+		document.getElementById("userMale").removeAttribute("checked");
+		document.getElementById("userFemale").setAttribute("checked", "checked");
+		document.getElementById("updateSex").setAttribute("value", "1");
+	}
+}
+
+function validation(names) {
+	var temp = document.getElementById(names).value;
+	if("" == temp || null == temp) {
+		var previousName = names.replace("update", "user");
+		document.getElementById(names).value = document.getElementById(previousName).value;
+		console.log("값  " + document.getElementById(previousName));
+	}
+}
+
 $(document).ready(function(){
 	$("#userName").on("change", function() {
 		$("#updateName").attr('value', $(this).val());
 	});
-	
-	console.log("선택 되어 있나?", $("#userSex:radio[value='0']").is(":checked"));
-	
-	
-	if($("#userSex:radio[value='0']").is(":checked") == true){
-		$("#userSex").on("change", function (){
-			$("#userSex:radio[value='0']").removeAttr("checked");
-			$("#userSex:radio[value='1']").attr("checked", true);
-			console.log("여자선택");
-		});
-		
-	}
-		/* if($("#userSex").val() == 0) {
-			console.log("남자선택");
-		} else {
-			console.log("여자선택");
-		} */
-	
-	
-	
 	
 	$("#userTel").on("change", function() {
 		$("#updateTel").attr('value', $(this).val());
@@ -53,52 +55,186 @@ $(document).ready(function(){
 		$("#updateEmail").attr('value', $(this).val());
 	});
 	
-	console.log("userName ", $("#selectedName").val());
-	// locker purpose selection
-	$("#selectBox").on("change", function() {
+	// style selection
+	$("#chooseStyle").on("change", function() {
 
 		var that = $(this);
 		console.log("that.val", that.val());
 
 		switch(that.val()) {
 		
-		case '0':	// 다른용도 -> 회원용
-			alert("회원용");
+		case '0':	
 		
-			$("#forStuff").removeAttr('selected');
-			$("#notUse").removeAttr('selected');
-			$("#forMember").attr('selected', true);
-			
-			$("#lockerArticle").attr('disabled', true);
-			$("#searchName").removeAttr('disabled');
-			document.getElementById("selectedPurpose").value = '0';
-			break;
-		case '1': // 다른 용도 -> 비품용
-			alert("비품용");
-			
-			$("#forMember").removeAttr('selected');
-			$("#notUse").removeAttr('selected');
-			$("#forStuff").attr('selected', true);
-			
-			$("#searchName").attr('disabled', true);
-			$("#lockerArticle").removeAttr('disabled');
-			document.getElementById("selectedPurpose").value = '1';
-			break;
-		case '2': // 다른용도 -> 미사용
-			alert("미사용");
-			
-			$("#forStuff").removeAttr('selected');
-			$("#forMember").removeAttr('selected');
+			$("#penholder").removeAttr('selected');
+			$("#shakehand").removeAttr('selected');
+			$("#chinese").removeAttr('selected');
 			$("#notUse").attr('selected', true);
 			
-			$("#lockerArticle").attr('disabled', true);
-			$("#searchName").attr('disabled', true);
-			document.getElementById("selectedPurpose").value = '2';
+			document.getElementById("updateStyle").value = '0';
+			break;
+		case '1': 
+			
+			$("#shakehand").removeAttr('selected');
+			$("#notUse").removeAttr('selected');
+			$("#chinese").removeAttr('selected');
+			$("#penholder").attr('selected', true);
+			
+			document.getElementById("updateStyle").value = '1';
+			break;
+		case '2': 
+			
+			$("#penholder").removeAttr('selected');
+			$("#notUse").removeAttr('selected');
+			$("#chinese").removeAttr('selected');
+			$("#shakehand").attr('selected', true);
+			
+			document.getElementById("updateStyle").value = '2';
+			break;
+		case '3':
+			$("#penholder").removeAttr('selected');
+			$("#notUse").removeAttr('selected');
+			$("#shakehand").removeAttr('selected');
+			$("#chinese").attr('selected', true);
+			
+			document.getElementById("updateStyle").value = '2';
 			break;
 		default: 
 			alert("check logic!!");
-			break;
+			break;	
+		}
+	});
+	
+	// grade selection
+	$("#chooseGrade").on("change", function() {
+
+		var that = $(this);
+		console.log("that.val", that.val());
+
+		switch(that.val()) {
 		
+		case '0':	
+		
+			$("#one").removeAttr('selected');
+			$("#two").removeAttr('selected');
+			$("#three").removeAttr('selected');
+			$("#four").removeAttr('selected');
+			$("#five").removeAttr('selected');
+			$("#six").removeAttr('selected');
+			$("#seven").removeAttr('selected');
+			$("#eight").removeAttr('selected');
+			$("#notUse").attr('selected', true);
+			
+			document.getElementById("updateGrade").value = '0';
+			break;
+		case '1': 
+			
+			$("#notUse").removeAttr('selected');
+			$("#two").removeAttr('selected');
+			$("#three").removeAttr('selected');
+			$("#four").removeAttr('selected');
+			$("#five").removeAttr('selected');
+			$("#six").removeAttr('selected');
+			$("#seven").removeAttr('selected');
+			$("#eight").removeAttr('selected');
+			$("#one").attr('selected', true);
+			
+			document.getElementById("updateGrade").value = '1';
+			break;
+		case '2': 
+			
+			$("#one").removeAttr('selected');
+			$("#notUse").removeAttr('selected');
+			$("#three").removeAttr('selected');
+			$("#four").removeAttr('selected');
+			$("#five").removeAttr('selected');
+			$("#six").removeAttr('selected');
+			$("#seven").removeAttr('selected');
+			$("#eight").removeAttr('selected');
+			$("#two").attr('selected', true);
+			
+			document.getElementById("updateGrade").value = '2';
+			break;
+		case '3':
+			$("#one").removeAttr('selected');
+			$("#two").removeAttr('selected');
+			$("#notUse").removeAttr('selected');
+			$("#four").removeAttr('selected');
+			$("#five").removeAttr('selected');
+			$("#six").removeAttr('selected');
+			$("#seven").removeAttr('selected');
+			$("#eight").removeAttr('selected');
+			$("#three").attr('selected', true);
+			
+			document.getElementById("updateGrade").value = '3';
+			break;
+		case '4':
+			$("#one").removeAttr('selected');
+			$("#two").removeAttr('selected');
+			$("#three").removeAttr('selected');
+			$("#notUse").removeAttr('selected');
+			$("#five").removeAttr('selected');
+			$("#six").removeAttr('selected');
+			$("#seven").removeAttr('selected');
+			$("#eight").removeAttr('selected');
+			$("#four").attr('selected', true);
+			
+			document.getElementById("updateGrade").value = '4';
+			break;
+		case '5':
+			$("#one").removeAttr('selected');
+			$("#two").removeAttr('selected');
+			$("#three").removeAttr('selected');
+			$("#four").removeAttr('selected');
+			$("#notUse").removeAttr('selected');
+			$("#six").removeAttr('selected');
+			$("#seven").removeAttr('selected');
+			$("#eight").removeAttr('selected');
+			$("#five").attr('selected', true);
+			
+			document.getElementById("updateGrade").value = '5';
+			break;
+		case '6':
+			$("#one").removeAttr('selected');
+			$("#two").removeAttr('selected');
+			$("#three").removeAttr('selected');
+			$("#four").removeAttr('selected');
+			$("#five").removeAttr('selected');
+			$("#notUse").removeAttr('selected');
+			$("#seven").removeAttr('selected');
+			$("#eight").removeAttr('selected');
+			$("#six").attr('selected', true);
+			
+			document.getElementById("updateGrade").value = '6';
+			break;
+		case '7':
+			$("#one").removeAttr('selected');
+			$("#two").removeAttr('selected');
+			$("#three").removeAttr('selected');
+			$("#four").removeAttr('selected');
+			$("#five").removeAttr('selected');
+			$("#six").removeAttr('selected');
+			$("#notUse").removeAttr('selected');
+			$("#eight").removeAttr('selected');
+			$("#seven").attr('selected', true);
+			
+			document.getElementById("updateGrade").value = '7';
+			break;
+		case '8':
+			$("#one").removeAttr('selected');
+			$("#two").removeAttr('selected');
+			$("#three").removeAttr('selected');
+			$("#four").removeAttr('selected');
+			$("#five").removeAttr('selected');
+			$("#six").removeAttr('selected');
+			$("#seven").removeAttr('selected');
+			$("#notUse").removeAttr('selected');
+			$("#eight").attr('selected', true);
+			
+			document.getElementById("updateGrade").value = '8';
+			break;
+		default: 
+			alert("check logic!!");
+			break;		
 		}
 	
 	});
@@ -111,12 +247,28 @@ $(document).ready(function(){
 		$("#updateNote").attr('value', $(this).val());
 	});
 	
+	$("#enterBtn").on("click", function() {
+		console.log("회원 수정");
+		validation("updateName");
+		validation("updateSex");
+		validation("updateTel");
+		validation("updateAge");
+		validation("updateBday");
+		validation("updateAddr");
+		validation("updateEmail");
+		validation("updateStyle");
+		validation("updateGrade");
+		validation("updateRegDay");
+		validation("updateNote");
+		
+		$("#MemberEditForm").submit();
+	});
 });
 </script>
 </head>
 <body>
 	<div align="center">
-	<form id="AccountEditForm" action="AccountUpdate.do">
+	<form id="MemberEditForm" action="MemberUpdate.do">
 		<div style="text-align: center;">
 			<h1>회원 정보 수정</h1>
 		</div>
@@ -130,16 +282,17 @@ $(document).ready(function(){
 					</td>
 					<td width="100" align="center">*성별: </td>
 					<td align="center" width="150">
+						<input type="hidden" id="userSex" value="${memberSex }">
 						<c:choose>
 							<c:when test="${memberSex == 1}">
-								<input type="radio" class="radioInput" id="userSex" name="userMale" value="0">남자
+								<input type="radio" class="radioInput" id="userMale" name="userMale" onchange="selection(0)" value="0">남자
 								&nbsp;&nbsp;&nbsp;&nbsp;
-								<input type="radio" class="radioInput" id="userSex" name="userFemale" value="1" checked="checked">여자
+								<input type="radio" class="radioInput" id="userFemale" name="userFemale" onchange="selection(1)" value="1" checked="checked">여자
 							</c:when>
 							<c:otherwise>
-								<input type="radio" class="radioInput" id="userSex" name="userMale" value="0" checked="checked">남자
+								<input type="radio" class="radioInput" id="userMale" name="userMale" onchange="selection(0)" value="0" checked="checked">남자
 								&nbsp;&nbsp;&nbsp;&nbsp;
-								<input type="radio" class="radioInput" id="userSex" name="userFemale" value="1">여자
+								<input type="radio" class="radioInput" id="userFemale" name="userFemale" onchange="selection(1)" value="1" >여자
 							</c:otherwise>
 						</c:choose>
 					</td>
@@ -177,148 +330,150 @@ $(document).ready(function(){
 				<tr>
 					<td width="100" align="center">전형: </td>
 					<td align="center">
-						<select id="userStyle" name="userStyle" style="width: 120px;">
+						<input type="hidden" id="userStyle" value="${memberStyle}">
+						<select id="chooseStyle" name="chooseStyle" style="width: 120px;">
 							<c:choose>
 								<c:when test="${memberStyle eq 1 }">
-									<option value="0">-- 전형 --</option>
-									<option value="1" selected="selected">펜홀더</option>
-									<option value="2">쉐이크핸드</option>
-									<option value="3">중국식 펜홀더</option>
+									<option id="notUse" value="0">-- 전형 --</option>
+									<option id="penholder" value="1" selected="selected">펜홀더</option>
+									<option id="shakehand" value="2">쉐이크핸드</option>
+									<option id="chinese" value="3">중국식 펜홀더</option>
 								</c:when>
 								<c:when test="${memberStyle eq 2 }">
-									<option value="0">-- 전형 --</option>
-									<option value="1">펜홀더</option>
-									<option value="2" selected="selected">쉐이크핸드</option>
-									<option value="3">중국식 펜홀더</option>
+									<option id="notUse" value="0">-- 전형 --</option>
+									<option id="penholder" value="1">펜홀더</option>
+									<option id="shakehand" value="2" selected="selected">쉐이크핸드</option>
+									<option id="chinese" value="3">중국식 펜홀더</option>
 								</c:when>
 								<c:when test="${memberStyle eq 3 }">
-									<option value="0">-- 전형 --</option>
-									<option value="1">펜홀더</option>
-									<option value="2">쉐이크핸드</option>
-									<option value="3" selected="selected">중국식 펜홀더</option>
+									<option id="notUse" value="0">-- 전형 --</option>
+									<option id="penholder" value="1">펜홀더</option>
+									<option id="shakehand" value="2">쉐이크핸드</option>
+									<option id="chinese" value="3" selected="selected">중국식 펜홀더</option>
 								</c:when>
 								<c:otherwise>
-									<option value="0" selected="selected">-- 전형 --</option>
-									<option value="1">펜홀더</option>
-									<option value="2">쉐이크핸드</option>
-									<option value="3">중국식 펜홀더</option>
+									<option id="notUse" value="0" selected="selected">-- 전형 --</option>
+									<option id="penholder" value="1">펜홀더</option>
+									<option id="shakehand" value="2">쉐이크핸드</option>
+									<option id="chinese" value="3">중국식 펜홀더</option>
 								</c:otherwise>
 							</c:choose>
 						</select>
 					</td>
 					<td width="100" align="center" colspan="2">부수: </td>
 					<td align="center">
-						<select id="userGrade" name="userGrade" style="width: 120px;">
+						<input type="hidden" id="userGrade" value="${memberGrade}">
+						<select id="chooseGrade" name="chooseGrade" style="width: 120px;">
 							<c:choose>
 								<c:when test="${memberGrade == 1 }">
-									<option value="0">-- 부수 --</option>
-									<option value="1" selected="selected">0부</option>
-									<option value="2">1부</option>
-									<option value="3">2부</option>
-									<option value="4">3부</option>
-									<option value="5">4부</option>
-									<option value="6">5부</option>
-									<option value="7">6부</option>
-									<option value="8">7부</option>
+									<option id="notUse" value="0">-- 부수 --</option>
+									<option id="one" value="1" selected="selected">0부</option>
+									<option id="two" value="2">1부</option>
+									<option id="three" value="3">2부</option>
+									<option id="four" value="4">3부</option>
+									<option id="five" value="5">4부</option>
+									<option id="six" value="6">5부</option>
+									<option id="seven" value="7">6부</option>
+									<option id="eight" value="8">7부</option>
 								</c:when>
 								<c:when test="${memberGrade == 1 }">
-									<option value="0">-- 부수 --</option>
-									<option value="1" selected="selected">0부</option>
-									<option value="2">1부</option>
-									<option value="3">2부</option>
-									<option value="4">3부</option>
-									<option value="5">4부</option>
-									<option value="6">5부</option>
-									<option value="7">6부</option>
-									<option value="8">7부</option>
+									<option id="notUse" value="0">-- 부수 --</option>
+									<option id="one" value="1" selected="selected">0부</option>
+									<option id="two" value="2">1부</option>
+									<option id="three" value="3">2부</option>
+									<option id="four" value="4">3부</option>
+									<option id="five" value="5">4부</option>
+									<option id="six" value="6">5부</option>
+									<option id="seven" value="7">6부</option>
+									<option id="eight" value="8">7부</option>
 								</c:when>
 								<c:when test="${memberGrade == 2 }">
-									<option value="0">-- 부수 --</option>
-									<option value="1">0부</option>
-									<option value="2" selected="selected">1부</option>
-									<option value="3">2부</option>
-									<option value="4">3부</option>
-									<option value="5">4부</option>
-									<option value="6">5부</option>
-									<option value="7">6부</option>
-									<option value="8">7부</option>
+									<option id="notUse" value="0">-- 부수 --</option>
+									<option id="one" value="1">0부</option>
+									<option id="two" value="2" selected="selected">1부</option>
+									<option id="three" value="3">2부</option>
+									<option id="four" value="4">3부</option>
+									<option id="five" value="5">4부</option>
+									<option id="six" value="6">5부</option>
+									<option id="seven" value="7">6부</option>
+									<option id="eight" value="8">7부</option>
 								</c:when>
 								<c:when test="${memberGrade == 3 }">
-									<option value="0">-- 부수 --</option>
-									<option value="1">0부</option>
-									<option value="2">1부</option>
-									<option value="3" selected="selected">2부</option>
-									<option value="4">3부</option>
-									<option value="5">4부</option>
-									<option value="6">5부</option>
-									<option value="7">6부</option>
-									<option value="8">7부</option>
+									<option id="notUse" value="0">-- 부수 --</option>
+									<option id="one" value="1">0부</option>
+									<option id="two" value="2">1부</option>
+									<option id="three" value="3" selected="selected">2부</option>
+									<option id="four" value="4">3부</option>
+									<option id="five" value="5">4부</option>
+									<option id="six" value="6">5부</option>
+									<option id="seven" value="7">6부</option>
+									<option id="eight" value="8">7부</option>
 								</c:when>
 								<c:when test="${memberGrade == 4 }">
-									<option value="0">-- 부수 --</option>
-									<option value="1">0부</option>
-									<option value="2">1부</option>
-									<option value="3">2부</option>
-									<option value="4" selected="selected">3부</option>
-									<option value="5">4부</option>
-									<option value="6">5부</option>
-									<option value="7">6부</option>
-									<option value="8">7부</option>
+									<option id="notUse" value="0">-- 부수 --</option>
+									<option id="one" value="1">0부</option>
+									<option id="two" value="2">1부</option>
+									<option id="three" value="3">2부</option>
+									<option id="four" value="4" selected="selected">3부</option>
+									<option id="five" value="5">4부</option>
+									<option id="six" value="6">5부</option>
+									<option id="seven" value="7">6부</option>
+									<option id="eight" value="8">7부</option>
 								</c:when>
 								<c:when test="${memberGrade == 5 }">
-									<option value="0">-- 부수 --</option>
-									<option value="1">0부</option>
-									<option value="2">1부</option>
-									<option value="3">2부</option>
-									<option value="4">3부</option>
-									<option value="5" selected="selected">4부</option>
-									<option value="6">5부</option>
-									<option value="7">6부</option>
-									<option value="8">7부</option>
+									<option id="notUse" value="0">-- 부수 --</option>
+									<option id="one" value="1">0부</option>
+									<option id="two" value="2">1부</option>
+									<option id="three" value="3">2부</option>
+									<option id="four" value="4">3부</option>
+									<option id="five" value="5" selected="selected">4부</option>
+									<option id="six" value="6">5부</option>
+									<option id="seven" value="7">6부</option>
+									<option id="eight" value="8">7부</option>
 								</c:when>
 								<c:when test="${memberGrade == 6 }">
-									<option value="0">-- 부수 --</option>
-									<option value="1">0부</option>
-									<option value="2">1부</option>
-									<option value="3">2부</option>
-									<option value="4">3부</option>
-									<option value="5">4부</option>
-									<option value="6" selected="selected">5부</option>
-									<option value="7">6부</option>
-									<option value="8">7부</option>
+									<option id="notUse" value="0">-- 부수 --</option>
+									<option id="one" value="1">0부</option>
+									<option id="two" value="2">1부</option>
+									<option id="three" value="3">2부</option>
+									<option id="four" value="4">3부</option>
+									<option id="five" value="5">4부</option>
+									<option id="six" value="6" selected="selected">5부</option>
+									<option id="seven" value="7">6부</option>
+									<option id="eight" value="8">7부</option>
 								</c:when>
 								<c:when test="${memberGrade == 7 }">
-									<option value="0">-- 부수 --</option>
-									<option value="1">0부</option>
-									<option value="2">1부</option>
-									<option value="3">2부</option>
-									<option value="4">3부</option>
-									<option value="5">4부</option>
-									<option value="6">5부</option>
-									<option value="7" selected="selected">6부</option>
-									<option value="8">7부</option>
+									<option id="notUse" value="0">-- 부수 --</option>
+									<option id="one" value="1">0부</option>
+									<option id="two" value="2">1부</option>
+									<option id="three" value="3">2부</option>
+									<option id="four" value="4">3부</option>
+									<option id="five" value="5">4부</option>
+									<option id="six" value="6">5부</option>
+									<option id="seven" value="7" selected="selected">6부</option>
+									<option id="eight" value="8">7부</option>
 								</c:when>
 								<c:when test="${memberGrade == 8 }">
-									<option value="0">-- 부수 --</option>
-									<option value="1">0부</option>
-									<option value="2">1부</option>
-									<option value="3">2부</option>
-									<option value="4">3부</option>
-									<option value="5">4부</option>
-									<option value="6">5부</option>
-									<option value="7">6부</option>
-									<option value="8" selected="selected">7부</option>
+									<option id="notUse" value="0">-- 부수 --</option>
+									<option id="one" value="1">0부</option>
+									<option id="two" value="2">1부</option>
+									<option id="three" value="3">2부</option>
+									<option id="four" value="4">3부</option>
+									<option id="five" value="5">4부</option>
+									<option id="six" value="6">5부</option>
+									<option id="seven" value="7">6부</option>
+									<option id="eight" value="8" selected="selected">7부</option>
 								</c:when>
 								<c:otherwise>
-									<option value="0" selected="selected">-- 부수 --</option>
-									<option value="1">0부</option>
-									<option value="2">1부</option>
-									<option value="3">2부</option>
-									<option value="4">3부</option>
-									<option value="5">4부</option>
-									<option value="6">5부</option>
-									<option value="7">6부</option>
-									<option value="8">7부</option>
+									<option id="notUse" value="0" selected="selected">-- 부수 --</option>
+									<option id="one" value="1">0부</option>
+									<option id="two" value="2">1부</option>
+									<option id="three" value="3">2부</option>
+									<option id="four" value="4">3부</option>
+									<option id="five" value="5">4부</option>
+									<option id="six" value="6">5부</option>
+									<option id="seven" value="7">6부</option>
+									<option id="eight" value="8">7부</option>
 								</c:otherwise>
 							</c:choose>
 						</select>

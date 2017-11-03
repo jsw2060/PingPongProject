@@ -80,6 +80,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		UPDATE bootrack SET bootrack_code = #{selectedBootrack}, member_code = #{selMemb}, bootrack_status = #{selSt} WHERE bootrack_code = #{selectedBootrack}
 	</update>
 	
+	<update id="memberUpdateDao" parameterType="java.util.Map">
+		UPDATE member SET name = #{name}, age = #{age}, sex = #{sex}, tel = #{tel}, email = #{email}, addr = #{addr}, birthday = #{bDay}, style = #{style}, grade = #{grade}, registerday = #{regDay}, note = #{note} WHERE member_code = #{code}
+	</update>
+	
 	<update id="lockerUpdateForMemberDao" parameterType="java.util.Map">
 		UPDATE locker SET locker_code = #{selectedLocker}, member_code = #{selectedMemb}, locker_purpose = #{selectedPurpose}, locker_article = #{selectedArticle} WHERE locker_code = #{selectedLocker}
 	</update>

@@ -782,41 +782,71 @@ public class PingPongController {
 		req.setAttribute("memberRegDay", sendedRegDay);
 		req.setAttribute("memberNote", sendedNote);
 		
-		/*
-		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
-		ArrayList<LockerDto> lockerList = dao.getLockerList();
-		
-		String selectPurpose = lockerList.get(selectedIdx-1).getLocker_purpose();
-		String selectName = lockerList.get(selectedIdx-1).getName();
-		String selectStuff = lockerList.get(selectedIdx-1).getLocker_article();
-		String selectMemberCode = String.valueOf(lockerList.get(selectedIdx-1).getMember_code());
-		
-		System.out.println("lockerCd " + selectedCd);
-		System.out.println("lockerPurpose " + selectPurpose);
-		System.out.println("lockerName " + selectName);
-		System.out.println("lockerStuff " + selectStuff);
-		System.out.println("lockerMemberCode " + selectMemberCode);
-		
-		if(Integer.parseInt(selectPurpose) == 0) {  		// for Members
-			req.setAttribute("lockerCd", selectedCd);
-			req.setAttribute("lockerPurpose", selectPurpose);
-			req.setAttribute("lockerName", selectName);
-			req.setAttribute("lockerMemberCode", selectMemberCode);
-			
-		} else if(Integer.parseInt(selectPurpose) == 1) {   // for stuffs
-			req.setAttribute("lockerCd", selectedCd);
-			req.setAttribute("lockerPurpose", selectPurpose);
-			req.setAttribute("lockerStuff", selectStuff);
-			
-		} else {							// not used
-			req.setAttribute("lockerCd", selectedCd);
-			req.setAttribute("lockerPurpose", selectPurpose);
-		}*/
-		
 		req.setAttribute("view", "MemberEditDialog");
 		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
 		req.setAttribute("mainHomeTitle", "회원 정보 수정");
 		return "MainHomeFrame";
+	}
+	
+	/*
+	 * RequestMapping : MemberUpdate.do
+	 * MethodName : memberUpdate
+	 * Parameter : Locale
+	 * Return : String
+	 */
+	@RequestMapping(value = "MemberUpdate.do", method = RequestMethod.GET)
+	public String memberUpdate(Locale locale, HttpServletRequest req) {
+		logger.info("PingPong AccountUpdate.do", locale);
+		
+		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
+		
+		// 수정 정보 값을 req로 긁어옴
+		String code = req.getParameter("userCode");
+		String name = req.getParameter("updateName");
+		String sex = req.getParameter("updateSex");
+		String tel = req.getParameter("updateTel");
+		String age = req.getParameter("updateAge");
+		String bDay = req.getParameter("updateBday");
+		String addr = req.getParameter("updateAddr");
+		String email = req.getParameter("updateEmail");
+		String style = req.getParameter("updateStyle");
+		String grade = req.getParameter("updateGrade");
+		String regDay = req.getParameter("updateRegDay");
+		String note = req.getParameter("updateNote");
+		
+		logger.warn("code " + code);
+		logger.warn("name " + name);
+		logger.warn("sex " + sex);
+		logger.warn("tel " + tel);
+		logger.warn("age " + age);
+		logger.warn("bDay " + bDay);
+		logger.warn("addr " + addr);
+		logger.warn("email " + email);
+		logger.warn("style " + style);
+		logger.warn("grade " + grade);
+		logger.warn("regDay " + regDay);
+		logger.warn("note " + note);
+		
+		// map에 모아서 전송 준비
+		Map<String, String> map = new HashMap<String, String>();
+		
+		map.put("code", code);
+		map.put("name", name);
+		map.put("sex", sex);
+		map.put("tel", tel);
+		map.put("age", age);
+		map.put("bDay", bDay);
+		map.put("addr", addr);
+		map.put("email", email);
+		map.put("style", style);
+		map.put("grade", grade);
+		map.put("regDay", regDay);
+		map.put("note", note);
+		
+		// 수정 DAO
+		dao.memberUpdateDao(map);
+		
+		return "redirect:/MainMemberManagerFrame.do";
 	}
 	
 	/*
