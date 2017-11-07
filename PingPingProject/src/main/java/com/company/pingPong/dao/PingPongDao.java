@@ -72,6 +72,9 @@ public interface PingPongDao {
 	// search accountList by member_name for bootrack
 	public List<Map> searchAccountListByNameForBootrackDao(String memberName);
 	
+	// search accountList by member_name for coach
+	public List<Map> searchAccountListByNameForCoachDao(String memberName);
+	
 	// get lockerList
 	public ArrayList<LockerDto> getLockerList();
 	
@@ -81,6 +84,11 @@ public interface PingPongDao {
 	// update locker
 	public void lockerUpdateForMemberDao(Map<String, String> map);
 	
+	// update Coach
+	public void insertCoachDao(Map<String, String> map);
+	
+	// set Coach status
+	public void checkCoachStatusDao();
 	
 	public ArrayList<FeeDto> getDateFeeList(String searchFeeDate);
 	public ArrayList<FeeDto> getFeeList();

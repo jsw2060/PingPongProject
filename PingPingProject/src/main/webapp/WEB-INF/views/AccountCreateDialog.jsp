@@ -198,7 +198,7 @@
 					<tr>
 						<td><label class="editLabel">이메일:</label></td>
 						<td colspan="2" width="250" align="center">
-							<input style="width: 80px; box-shadow: 3px 3px 5px 1px #A2A2A2;
+							<input style="width: 200px; box-shadow: 3px 3px 5px 1px #A2A2A2;
 							margin: 10px 10px 10px 10px;" type="email" id="userEmail1" name="userEmail"><!-- @
 							<input style="width: 80px; box-shadow: 3px 3px 5px 1px #A2A2A2;
 							margin: 10px 10px 10px 10px;" type="text" id="userEmail2" name="userEmail2"> -->

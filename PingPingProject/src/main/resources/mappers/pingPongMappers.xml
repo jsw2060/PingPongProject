@@ -48,6 +48,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT DISTINCT m.member_code, m.name, m.sex, l.locker_purpose, l.locker_code FROM member m LEFT OUTER JOIN locker l ON m.member_code = l.member_code WHERE m.manager_status != 2 AND m.coach_status != 2 AND m.approval_status = 1 AND m.name = #{memberName}
 	</select>
 	
+	<select id="searchAccountListByNameForCoachDao" parameterType="String" resultType="java.util.HashMap">
+		SELECT DISTINCT m.member_code, m.name, m.sex, m.coach_status FROM member m WHERE m.approval_status = 1 AND m.name = #{memberName}
+	</select>
+	
 	<select id="getConfirmListDao" resultType="com.company.pingPong.dto.MemberDto">
 		SELECT member_code, id, manager_status, coach_status, join_date FROM member WHERE manager_status = 2 OR coach_status = 2 OR approval_status = 0
 	</select>
@@ -113,6 +117,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="insertMonthFeeDao" parameterType="java.util.Map">
 		INSERT INTO fee(fee_code, fee_type, fee_amount, note) VALUES((SELECT NVL(MAX(fee_code)+1,1)FROM fee), #{feeType}, #{feeAmount}, #{feeNote})
 	</insert>
+	
+	<insert id="insertCoachDao" parameterType="java.util.Map">
+		INSERT INTO coach(coach_code, member_code, coach_registerdate, work_weekday, note) VALUES((SELECT NVL(MAX(coach_code)+1,1)FROM coach), #{coachName}, #{coachRegDay}, #{coachDay}, #{coachNote} )
+	</insert>
+	
+	<update id="checkCoachStatusDao">
+		UPDATE /*+BYPASS_UJVC*/ member m SET m.coach_status = 1 WHERE EXISTS (SELECT DISTINCT c.member_code FROM member m, coach c WHERE m.member_code = c.member_code)
+	</update>
 	
 	<select id="getPrevFeeCode" resultType="String">
 		SELECT NVL(MAX(fee_code),1)FROM fee

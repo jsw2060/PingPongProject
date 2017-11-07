@@ -796,7 +796,7 @@ public class PingPongController {
 	 */
 	@RequestMapping(value = "MemberUpdate.do", method = RequestMethod.GET)
 	public String memberUpdate(Locale locale, HttpServletRequest req) {
-		logger.info("PingPong AccountUpdate.do", locale);
+		logger.info("PingPong MemberUpdate.do", locale);
 		
 		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
 		
@@ -880,6 +880,78 @@ public class PingPongController {
 		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
 		req.setAttribute("mainHomeTitle", "월 회원 수정");
 		return "MainHomeFrame";
+	}
+	
+	/*
+	 * RequestMapping : CoachAddDialog.do
+	 * MethodName : coachAddDialog
+	 * Parameter : Locale, HttpServletRequest
+	 * Return : String
+	 */
+	@RequestMapping(value = "CoachAddDialog.do", method = RequestMethod.GET)
+	public String coachAddDialog(Locale locale, HttpServletRequest req) {
+		logger.info("PingPong CoachAddDialog.jsp", locale);
+		
+		req.setAttribute("view", "CoachAddDialog");
+		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
+		req.setAttribute("mainHomeTitle", "코치 추가");
+		return "MainHomeFrame";
+	}
+	
+	/*
+	 * RequestMapping : CoachSearch.do
+	 * MethodName : coachSearch
+	 * Parameter : Locale, HttpServletRequest
+	 * Return : String
+	 */
+	@RequestMapping(value = "CoachSearch.do", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Map> coachSearch(Locale locale, HttpServletRequest req) {
+		logger.info("PingPong CoachSearch.do", locale);
+		
+		String searchName = req.getParameter("searchName");
+		System.out.println("searchName " + searchName);
+		
+		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
+		List<Map> findedMemberList = dao.searchAccountListByNameForCoachDao(searchName);
+
+		return findedMemberList;
+	}
+	
+	/*
+	 * RequestMapping : AddCoach.do
+	 * MethodName : addCoach
+	 * Parameter : Locale, HttpServletRequest
+	 * Return : String
+	 */
+	@RequestMapping(value = "AddCoach.do", method = RequestMethod.GET)
+	public String addCoach(Locale locale, HttpServletRequest req) {
+		logger.info("PingPong AddCoach.do", locale);
+		
+		String coachName = req.getParameter("selectedMember");
+		String coachDay = req.getParameter("coachDay");
+		String coachRegDay = req.getParameter("coachRegDay");
+		String coachNote = req.getParameter("coachNote");
+		
+		System.out.println("coachName " + coachName);
+		System.out.println("coachDay " + coachDay);
+		System.out.println("coachRegDay " + coachRegDay);
+		System.out.println("coachNote " + coachNote);
+		
+		// map에 모아서 전송 준비
+		Map<String, String> map = new HashMap<String, String>();
+		
+		map.put("coachName", coachName);
+		map.put("coachDay", coachDay);
+		map.put("coachRegDay", coachRegDay);
+		map.put("coachNote", coachNote);
+		
+		// 수정 DAO
+		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
+		dao.insertCoachDao(map);
+		dao.checkCoachStatusDao();
+		
+		return "redirect:/MainMemberManagerFrame.do";
 	}
 	
 	/*

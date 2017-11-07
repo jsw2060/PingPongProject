@@ -95,6 +95,18 @@
 			$("#MemberEditForm").attr("action", "MonthMemberEditDialog.do").submit();
 		});
 	});
+	
+	$(function() {
+		$("#coachAddBtn").click(function() {
+			$("#MemberEditForm").attr("action", "CoachAddDialog.do").submit();
+		});
+	});
+	
+	$(function() {
+		$("#coachEditBtn").click(function() {
+			$("#MemberEditForm").attr("action", "CoachEditDialog.do").submit();
+		});
+	});
 </script>
 </head>
 <body>
@@ -566,9 +578,9 @@
 					</tr>
 					<tr>
 						<td colspan="5">
-							<input type="button" value="코치 추가">
-							<input type="button" value="코치 수정">
-							<input type="button" value="코치 삭제">
+							<input type="button" id="coachAddBtn" value="코치 추가">
+							<input type="button" id="coachEditBtn" value="코치 수정">
+							<input type="button" id="coachDelBtn" value="코치 삭제">
 						</td>
 					</tr>					
 				</table>
