@@ -90,6 +90,12 @@ public interface PingPongDao {
 	// set Coach status
 	public void checkCoachStatusDao();
 	
+	// getting Coach Info
+	public ArrayList<CoachDto> searchCoachByMemberIdDao(String memberCode);
+	
+	// edit Coach
+	public void editCoachDao(Map<String, String> map);
+	
 	public ArrayList<FeeDto> getDateFeeList(String searchFeeDate);
 	public ArrayList<FeeDto> getFeeList();
 	public void insertGeneralFeeDao(Map<String, String> data);

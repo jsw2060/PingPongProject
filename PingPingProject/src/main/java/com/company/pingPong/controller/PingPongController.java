@@ -12,6 +12,7 @@ import java.security.KeyPairGenerator;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.spec.RSAPublicKeySpec;
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -726,12 +727,17 @@ public class PingPongController {
 		
 		
 		// 코치리스트 준비
-		//ArrayList<MemberDto> defaultCoachList = dao.defaultTotalCoach();
+		ArrayList<CoachDto> defaultCoachList = dao.defaultTotalCoach();
 		
-		
+		String tempCoachRegdate = "";
+		for(int i=0; i<defaultCoachList.size(); i++) {
+			tempCoachRegdate = defaultCoachList.get(i).getCoach_registerdate().substring(0, 11);
+			defaultCoachList.get(i).setCoach_registerdate(tempCoachRegdate);			
+		}
 		
 		req.setAttribute("defaultMMList", defaultMMList);
 		req.setAttribute("defaultTMList", defaultTMList);
+		req.setAttribute("defaultCoachList", defaultCoachList);
 		req.setAttribute("view", "MainMemberManagerFrame");
 		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
 		req.setAttribute("mainHomeTitle", "회원정보 관리");
@@ -950,6 +956,127 @@ public class PingPongController {
 		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
 		dao.insertCoachDao(map);
 		dao.checkCoachStatusDao();
+		
+		return "redirect:/MainMemberManagerFrame.do";
+	}
+	
+	/*
+	 * RequestMapping : CoachEditDialog.do
+	 * MethodName : coachEditDialog
+	 * Parameter : Locale, HttpServletRequest
+	 * Return : String
+	 */
+	@RequestMapping(value = "CoachEditDialog.do", method = RequestMethod.GET)
+	public String coachEditDialog(Locale locale, HttpServletRequest req) {
+		logger.info("PingPong CoachEditDialog.jsp", locale);
+
+		String coachMemberCode = req.getParameter("memberId");		
+		System.out.println("coachMemberCode " + coachMemberCode);
+		
+		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
+		ArrayList<CoachDto> CoachInfoList = dao.searchCoachByMemberIdDao(coachMemberCode);
+		
+		for(int i=0; i<CoachInfoList.size(); i++) {
+		
+			logger.info("id ",CoachInfoList.get(i).getMember_code());
+			logger.info("name ",CoachInfoList.get(i).getName());
+			logger.info("sex ",CoachInfoList.get(i).getSex());
+			logger.info("registerdate ",CoachInfoList.get(i).getCoach_registerdate());
+			logger.info("workweekday ",CoachInfoList.get(i).getWork_weekday());
+		}
+		
+		req.setAttribute("CoachInfoList", CoachInfoList);
+		req.setAttribute("view", "CoachEditDialog");
+		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
+		req.setAttribute("mainHomeTitle", "코치 수정");
+		return "MainHomeFrame";
+	}
+	
+	/*
+	 * RequestMapping : EditCoach.do
+	 * MethodName : editCoach
+	 * Parameter : Locale, HttpServletRequest
+	 * Return : String
+	 */
+	@RequestMapping(value = "EditCoach.do", method = RequestMethod.GET)
+	public String editCoach(Locale locale, HttpServletRequest req) {
+		logger.info("PingPong EditCoach.do", locale);
+		
+		// 변경된 값을 받아온다.
+		String memberCode = req.getParameter("sendMemberCode");
+		String coachRegDay = req.getParameter("sendRegDay");
+		String coachWorkWeekday = req.getParameter("sendWorkWeekday");
+		String coachNote = req.getParameter("sendNote");
+		
+		System.out.println("memberCode " + memberCode);
+		System.out.println("coachRegDay " + coachRegDay);
+		System.out.println("coachWorkWeekday " + coachWorkWeekday);
+		System.out.println("coachNote " + coachNote);
+		
+		// 변경값이 없을 때는, 과거값을 그대로 가져옴
+		if(coachRegDay.equals(null) || coachRegDay == "" || coachRegDay.equals("null")) {
+			coachRegDay = req.getParameter("coachRegDay");
+		}
+		
+		// 변경값이 없는 레슨요일
+		if(coachWorkWeekday.equals(null) || coachWorkWeekday == "" || coachWorkWeekday.equals("null")) {
+			coachWorkWeekday = req.getParameter("coachWorkDay");
+		} else {
+			String[] tempList;
+			String[] storage = {"false", "false", "false", "false", "false", "false", "false"};
+			// tempList에 각 요일 저장
+			tempList = coachWorkWeekday.split("");
+			
+			for(int i=0; i< tempList.length; i++) {
+				System.out.println("tempList[" + i + "] " +tempList[i]);
+			}
+			
+			for(int i=0; i<tempList.length; i++) {
+				if(tempList[i].equals("월")) {
+					System.out.println("뭐야");
+					storage[0] = tempList[i];
+				} else if(tempList[i].equals("화")) {
+					storage[1] = tempList[i];
+				} else if(tempList[i].equals("수")) {
+					storage[2] = tempList[i];
+				} else if(tempList[i].equals("목")) {
+					storage[3] = tempList[i];
+				} else if(tempList[i].equals("금")) {
+					storage[4] = tempList[i];
+				} else if(tempList[i].equals("토")) {
+					storage[5] = tempList[i];
+				} else if(tempList[i].equals("일")) {
+					storage[6] = tempList[i];
+				}
+			}
+			
+			coachWorkWeekday = "";
+			for(int j=0; j<storage.length; j++) {
+				System.out.println("수정근무일 " + storage[j]);
+				coachWorkWeekday = coachWorkWeekday + storage[j] + ",";
+			}
+			coachWorkWeekday = coachWorkWeekday.substring(0, coachWorkWeekday.length()-1);
+		}
+		if(coachNote.equals(null) || coachNote == "" || coachNote.equals("null")) {
+			coachNote = req.getParameter("coachNote");
+		}
+		
+		System.out.println("memberCode " + memberCode);
+		System.out.println("coachRegDay " + coachRegDay);
+		System.out.println("coachWorkWeekday " + coachWorkWeekday);
+		System.out.println("coachNote " + coachNote);
+		
+		// map에 모아서 전송 준비
+		Map<String, String> map = new HashMap<String, String>();
+		
+		map.put("memberCode", memberCode);
+		map.put("coachRegDay", coachRegDay);
+		map.put("coachWorkWeekday", coachWorkWeekday);
+		map.put("coachNote", coachNote);
+		
+		// 수정 DAO
+		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
+		dao.editCoachDao(map);
 		
 		return "redirect:/MainMemberManagerFrame.do";
 	}

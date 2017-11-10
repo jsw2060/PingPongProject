@@ -156,12 +156,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="defaultTotalCoach" resultType="com.company.pingPong.dto.CoachDto">
-		
+		SELECT m.member_code, m.name, m.sex, m.tel, c.work_weekday, m.age, m.style, m.grade, c.coach_registerdate, c.note FROM member m INNER JOIN coach c ON m.member_code = c.member_code 
 	</select>
 	
 	<delete id="deleteAccount" parameterType="String">
 		DELETE FROM member WHERE member_code = #{memberCode}
 	</delete>
+	
+	<select id="searchCoachByMemberIdDao" parameterType="String" resultType="com.company.pingPong.dto.CoachDto">
+		SELECT DISTINCT m.member_code, m.name, m.sex, m.coach_status, c.work_weekday, c.coach_registerdate, c.note FROM member m, coach c WHERE m.approval_status = 1 AND m.member_code = c.member_code AND m.member_code = #{memberCode}
+	</select>
+	
+	<update id="editCoachDao" parameterType="java.util.Map">
+		UPDATE coach SET coach_registerdate = #{coachRegDay}, work_weekday = #{coachWorkWeekday}, note = #{coachNote} WHERE member_code = #{memberCode}
+	</update>
 	
 	<!-- <select id="defaultLessonMember" resultType="com.company.pingPong.dto.MemberDto">
 		SELECT mm.member_code, name, sex, tel, age, coach, style, grade, registerdate, note 

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -17,7 +18,6 @@
 	    $("ul.tabs li").click(function () {
 	        $("ul.tabs li").removeClass("active").css("color", "#333");
 	        $(this).addClass("active").css({"color": "darkred","font-weight": "bolder"});
-	        /* $(this).addClass("active").css("color", "darkred"); */
 	        $(".tab_content").hide()
 	        var activeTab = $(this).attr("rel");
 	        $("#" + activeTab).fadeIn()
@@ -67,6 +67,17 @@
 			var note = selectedTd.eq(10).text();
 			
 			console.log("code ", code);
+			console.log("id ", id);
+			console.log("sex ", sex);
+			console.log("tel ", tel);
+			console.log("age ", age);
+			console.log("style ", style);
+			console.log("grade ", grade);
+			console.log("addr ", addr);
+			console.log("email ", email);
+			console.log("bday ", bday);
+			console.log("regDay ", regDay);
+			console.log("note ", note);
 			
 			document.getElementById("memberId").value = code;
 			document.getElementById("memberName").value = id;
@@ -464,25 +475,23 @@
 													<col style="width:55px;"/>
 													<col style="width:30px;"/>
 													<col style="width:100px;"/>
-													<col style="width:30px;"/>
 													<col style="width:55px;"/>
+													<col style="width:30px;"/>
 													<col style="width:100px;"/>
 													<col style="width:30px;"/>
 													<col style="width:100px;"/>
 													<col style="width:110px;"/>
-													<col style="width:17px;"/>
 												</colgroup>
 												<tr>
 													<td>이름</td>
 													<td>성별</td>
 													<td>연락처</td>
+													<td>레슨요일</td>
 													<td>나이</td>
-													<td>코치</td>
 													<td>전형</td>
 													<td>부수</td>
 													<td>등록일</td>
 													<td>비고</td>
-													<td></td>
 												</tr>
 											</table>
 										</div>
@@ -492,51 +501,53 @@
 							                        <col style="width:55px;" class="right_border" />
 							                        <col style="width:30px;" class="right_border" />
 							                        <col style="width:100px;" class="right_border" />
-							                        <col style="width:30px;" class="right_border" />
 							                        <col style="width:55px;" class="right_border" />
+							                        <col style="width:30px;" class="right_border" />
 							                        <col style="width:100px;" class="right_border" />
 							                        <col style="width:30px;" class="right_border" />
 							                        <col style="width:100px;" class="right_border" />
 							                        <col style="width:110px;" class="right_border" />
 							                    </colgroup>
-												<c:forEach var="MMList" items="${ defaultMMList }">
+												<c:forEach var="CoachList" items="${ defaultCoachList }">
 													<tr>
-														<td>${ MMList.name }</td>
+														<td>${ CoachList.name }<input type="hidden" value="${ CoachList.member_code }"></td>
 														<c:choose>
-															<c:when test="${ MMList.sex eq 0}">
+															<c:when test="${ CoachList.sex eq 0}">
 																<td>남</td>
 															</c:when>
 															<c:otherwise>
 																<td>여</td>
 															</c:otherwise>
 														</c:choose>
-														<td>${ MMList.tel }</td>
+														<td>${ CoachList.tel }</td>
+														<c:set var="tempWeekDay" value="${ fn:replace(CoachList.work_weekday,'false', '')}"/>
+														<c:set var="tempWorkWeekDay" value="${ fn:replace(tempWeekDay,',', '')}"/>
+														<td>${ tempWorkWeekDay }</td>
 														<c:choose>
-															<c:when test="${ MMList.age eq 00 || MMList.age eq 0}">
+															<c:when test="${ CoachListList.age eq 00 || CoachList.age eq 0}">
 																<td></td>
 															</c:when>
 															<c:otherwise>
-																<td>${ MMList.age }</td>
+																<td>${ CoachList.age }</td>
 															</c:otherwise>
 														</c:choose>
-														<td>${ MMList.name }</td>
 														<c:choose>
-															<c:when test="${ MMList.style eq 0}">
+															<c:when test="${ CoachList.style eq 0}">
 																<td></td>
 															</c:when>
-															<c:when test="${ MMList.style eq 1}">
+															<c:when test="${ CoachList.style eq 1}">
 																<td>펜홀더</td>
 															</c:when>
-															<c:when test="${ MMList.style eq 2}">
+															<c:when test="${ CoachList.style eq 2}">
 																<td>쉐이크핸드</td>
 															</c:when>
 															<c:otherwise>
 																<td>중국식 펜홀더</td>
 															</c:otherwise>
 														</c:choose>
-														<td>${ MMList.grade }</td>
-														<td>${ MMList.month_registerdate }</td>
-														<td>${ MMList.note }</td>
+														<td>${ CoachList.grade }</td>
+														<td>${ CoachList.coach_registerdate }</td>
+														<td>${ CoachList.note }</td>
 													</tr>
 												</c:forEach>
 											</table>

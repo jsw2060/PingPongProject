@@ -1,16 +1,20 @@
 package com.company.pingPong.dto;
 
-import java.sql.Timestamp;
-
 public class CoachDto {
 	String coach_code;
 	String member_code;
+	String coach_status;
 	String coach_registerdate;
 	String work_weekday;
 	String note;
 	
 	String name;
 	String sex;
+	String tel;
+	String age;
+	String style;
+	String grade;
+	
 	
 	public String getCoach_code() {
 		return coach_code;
@@ -54,4 +58,35 @@ public class CoachDto {
 	public void setSex(String sex) {
 		this.sex = sex;
 	}
+	public String getTel() {
+		return tel;
+	}
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
+	public String getAge() {
+		return age;
+	}
+	public void setAge(String age) {
+		this.age = age;
+	}
+	public String getStyle() {
+		return style;
+	}
+	public void setStyle(String style) {
+		this.style = style;
+	}
+	public String getGrade() {
+		return grade;
+	}
+	public void setGrade(String grade) {
+		this.grade = grade;
+	}
+	public String getCoach_status() {
+		return coach_status;
+	}
+	public void setCoach_status(String coach_status) {
+		this.coach_status = coach_status;
+	}
+	
 }
