@@ -93,95 +93,320 @@
 			document.getElementById("memberNote").value = note;
 			
 		});
-	});
 	
-	$(function() {
 		$("#memberEditBtn").click(function() {
 			$("#MemberEditForm").submit();
 		});
-	});
 	
-	$(function() {
 		$("#monthMemberEditBtn").click(function() {
 			$("#MemberEditForm").attr("action", "MonthMemberEditDialog.do").submit();
 		});
-	});
-	
-	$(function() {
+
 		$("#coachAddBtn").click(function() {
 			$("#MemberEditForm").attr("action", "CoachAddDialog.do").submit();
 		});
-	});
 	
-	$(function() {
 		$("#coachEditBtn").click(function() {
 			$("#MemberEditForm").attr("action", "CoachEditDialog.do").submit();
 		});
 	});
+	
+	$(function() {
+		$("#searchName").on("change", function() {
+			document.getElementById("searchingName").value = document.getElementById("searchName").value;
+		});
+		
+		// sex selection
+		$("#searchSex").on("change", function() {
+			
+			var that = $(this);
+			console.log("that.val", that.val());
+
+			switch(that.val()) {
+			
+			case '0':
+				$("#notUse").removeAttr('selected');
+				$("#female").removeAttr('selected');
+				$("#male").attr('selected', true);
+				
+				document.getElementById("searchingSex").value = '0';
+				break;
+			case '1':
+				$("#notUse").removeAttr('selected');
+				$("#male").removeAttr('selected');
+				$("#female").attr('selected', true);
+				
+				document.getElementById("searchingSex").value = '1';
+				break;
+			default: 
+				alert("check logic!!");
+				break;	
+			}
+		});
+		
+		// style selection
+		$("#searchStyle").on("change", function() {
+
+			var that = $(this);
+			console.log("that.val", that.val());
+
+			switch(that.val()) {
+			
+			case '0':	
+			
+				$("#penholder").removeAttr('selected');
+				$("#shakehand").removeAttr('selected');
+				$("#chinese").removeAttr('selected');
+				$("#notUse").attr('selected', true);
+				
+				document.getElementById("searchingStyle").value = '0';
+				break;
+			case '1': 
+				
+				$("#shakehand").removeAttr('selected');
+				$("#notUse").removeAttr('selected');
+				$("#chinese").removeAttr('selected');
+				$("#penholder").attr('selected', true);
+				
+				document.getElementById("searchingStyle").value = '1';
+				break;
+			case '2': 
+				
+				$("#penholder").removeAttr('selected');
+				$("#notUse").removeAttr('selected');
+				$("#chinese").removeAttr('selected');
+				$("#shakehand").attr('selected', true);
+				
+				document.getElementById("searchingStyle").value = '2';
+				break;
+			case '3':
+				$("#penholder").removeAttr('selected');
+				$("#notUse").removeAttr('selected');
+				$("#shakehand").removeAttr('selected');
+				$("#chinese").attr('selected', true);
+				
+				document.getElementById("searchingStyle").value = '3';
+				break;
+			default: 
+				alert("check logic!!");
+				break;	
+			}
+		});
+		
+		// grade selection
+		$("#searchGrade").on("change", function() {
+
+			var that = $(this);
+			console.log("that.val", that.val());
+
+			switch(that.val()) {
+			
+			case '0':	
+			
+				$("#one").removeAttr('selected');
+				$("#two").removeAttr('selected');
+				$("#three").removeAttr('selected');
+				$("#four").removeAttr('selected');
+				$("#five").removeAttr('selected');
+				$("#six").removeAttr('selected');
+				$("#seven").removeAttr('selected');
+				$("#eight").removeAttr('selected');
+				$("#notUse").attr('selected', true);
+				
+				document.getElementById("searchingGrade").value = '0';
+				break;
+			case '1': 
+				
+				$("#notUse").removeAttr('selected');
+				$("#two").removeAttr('selected');
+				$("#three").removeAttr('selected');
+				$("#four").removeAttr('selected');
+				$("#five").removeAttr('selected');
+				$("#six").removeAttr('selected');
+				$("#seven").removeAttr('selected');
+				$("#eight").removeAttr('selected');
+				$("#one").attr('selected', true);
+				
+				document.getElementById("searchingGrade").value = '1';
+				break;
+			case '2': 
+				
+				$("#one").removeAttr('selected');
+				$("#notUse").removeAttr('selected');
+				$("#three").removeAttr('selected');
+				$("#four").removeAttr('selected');
+				$("#five").removeAttr('selected');
+				$("#six").removeAttr('selected');
+				$("#seven").removeAttr('selected');
+				$("#eight").removeAttr('selected');
+				$("#two").attr('selected', true);
+				
+				document.getElementById("searchingGrade").value = '2';
+				break;
+			case '3':
+				$("#one").removeAttr('selected');
+				$("#two").removeAttr('selected');
+				$("#notUse").removeAttr('selected');
+				$("#four").removeAttr('selected');
+				$("#five").removeAttr('selected');
+				$("#six").removeAttr('selected');
+				$("#seven").removeAttr('selected');
+				$("#eight").removeAttr('selected');
+				$("#three").attr('selected', true);
+				
+				document.getElementById("searchingGrade").value = '3';
+				break;
+			case '4':
+				$("#one").removeAttr('selected');
+				$("#two").removeAttr('selected');
+				$("#three").removeAttr('selected');
+				$("#notUse").removeAttr('selected');
+				$("#five").removeAttr('selected');
+				$("#six").removeAttr('selected');
+				$("#seven").removeAttr('selected');
+				$("#eight").removeAttr('selected');
+				$("#four").attr('selected', true);
+				
+				document.getElementById("searchingGrade").value = '4';
+				break;
+			case '5':
+				$("#one").removeAttr('selected');
+				$("#two").removeAttr('selected');
+				$("#three").removeAttr('selected');
+				$("#four").removeAttr('selected');
+				$("#notUse").removeAttr('selected');
+				$("#six").removeAttr('selected');
+				$("#seven").removeAttr('selected');
+				$("#eight").removeAttr('selected');
+				$("#five").attr('selected', true);
+				
+				document.getElementById("searchingGrade").value = '5';
+				break;
+			case '6':
+				$("#one").removeAttr('selected');
+				$("#two").removeAttr('selected');
+				$("#three").removeAttr('selected');
+				$("#four").removeAttr('selected');
+				$("#five").removeAttr('selected');
+				$("#notUse").removeAttr('selected');
+				$("#seven").removeAttr('selected');
+				$("#eight").removeAttr('selected');
+				$("#six").attr('selected', true);
+				
+				document.getElementById("searchingGrade").value = '6';
+				break;
+			case '7':
+				$("#one").removeAttr('selected');
+				$("#two").removeAttr('selected');
+				$("#three").removeAttr('selected');
+				$("#four").removeAttr('selected');
+				$("#five").removeAttr('selected');
+				$("#six").removeAttr('selected');
+				$("#notUse").removeAttr('selected');
+				$("#eight").removeAttr('selected');
+				$("#seven").attr('selected', true);
+				
+				document.getElementById("searchingGrade").value = '7';
+				break;
+			case '8':
+				$("#one").removeAttr('selected');
+				$("#two").removeAttr('selected');
+				$("#three").removeAttr('selected');
+				$("#four").removeAttr('selected');
+				$("#five").removeAttr('selected');
+				$("#six").removeAttr('selected');
+				$("#seven").removeAttr('selected');
+				$("#notUse").removeAttr('selected');
+				$("#eight").attr('selected', true);
+				
+				document.getElementById("searchingGrade").value = '8';
+				break;
+			default: 
+				alert("check logic!!");
+				break;		
+			}
+		
+		});
+		
+		
+		
+		$("#startDate").on("change", function() {
+			$("#searchingStart").attr('value', $(this).val());
+		});
+		
+		$("#endDate").on("change", function() {
+			$("#searchingEnd").attr('value', $(this).val());
+		});
+		
+		$("#searchBtn").on("click", function() {
+			$("#MemberEditForm").attr("action", "singleMemberSearch.do");
+			$("#MemberEditForm").submit();	
+		});
+		
+		$("#totalSearchBtn").on("click", function() {
+			$("#MemberEditForm").attr("action", "totalMemberSearch.do");
+			$("#MemberEditForm").submit();	
+		});
+	});
+	
 </script>
 </head>
 <body>
 	<form id="MemberEditForm" action="MemberEditDialog.do">
 		<div class="defaultPage" align="center">
 			<div>
-				<table border="1" class="outLineTable">
+				<table class="outLineTable">
 					<tr>
 						<td>
 							<label>이름:</label>
-							<input type="text" style="width: 75px;">
+							<input type="text" id="searchName" style="width: 75px;">
 						</td>
 						<td>
 							<label>성별:</label>
-							<select>
-								<option value="" selected="selected">-- 전체 --</option>
-								<option value="">남</option>
-								<option value="">여</option>
+							<select id="searchSex">
+								<option id="notUse" value="" selected="selected">-- 전체 --</option>
+								<option id="male" value="0">남</option>
+								<option id="female" value="1">여</option>
 							</select>
 						</td>
 						<td>
 							<label>전형:</label>
-							<select>
-								<option value="" selected="selected">-- 전체 --</option>
-								<option value="">펜홀더</option>
-								<option value="">쉐이크핸드</option>
-								<option value="">중국식 펜홀더</option>
+							<select id="searchStyle">
+								<option id="notUse" value="0" selected="selected">-- 전체 --</option>
+								<option id="penholder" value="1">펜홀더</option>
+								<option id="shakehand" value="2">쉐이크핸드</option>
+								<option id="chinese" value="3">중국식 펜홀더</option>
 							</select>
 						</td>
 						<td>
 							<label>부수:</label>
-							<select>
-								<option value="" selected="selected">-- 전체 --</option>
-								<option value="">0부</option>
-								<option value="">1부</option>
-								<option value="">2부</option>
-								<option value="">3부</option>
-								<option value="">4부</option>
-								<option value="">5부</option>
-								<option value="">6부</option>
-								<option value="">7부</option>
+							<select id="searchGrade">
+								<option id="notUse" value="0" selected="selected">-- 전체 --</option>
+								<option id="one" value="1">0부</option>
+								<option id="two" value="2">1부</option>
+								<option id="three" value="3">2부</option>
+								<option id="four" value="4">3부</option>
+								<option id="five" value="5">4부</option>
+								<option id="six" value="6">5부</option>
+								<option id="seven" value="7">6부</option>
+								<option id="eight" value="8">7부</option>
 							</select>
 						</td>
 						<td>
-							<input type="button" value="검">
+							<button type="button" style="border-bottom-style: hidden;" id="searchBtn">
+								<img style="width: 25px;" alt="검색버튼" src="resources/Collection/Single Browse.png">
+							</button>
 						</td>
 					</tr>
 					<tr>
-						<td>
-							<label>권한:</label>
-							<select>
-								<option value="" selected="selected">-- 전체 --</option>
-								<option value="">마스터</option>
-								<option value="">관리자</option>
-								<option value="">코치</option>
-								<option value="">일반</option>
-							</select>
-						</td>
-						<td colspan="3">
+						<td colspan="4">
 							<label>기간:</label>
-							<input type="date"> - <input type="date">
+							<input type="date" id="startDate" style="width: 200px;">&nbsp; ~ &nbsp;<input type="date" id="endDate" style="width: 200px;">
 						</td>
 						<td>
-							<input type="button" value="검">
+							<button type="button" style="border-bottom-style: hidden;" id="totalSearchBtn">
+								<img style="width: 25px;" alt="전체검색버튼" src="resources/Collection/Total Browse.png">
+							</button>
 						</td>
 					</tr>
 					<tr class="dataSheet" height="300">
@@ -190,25 +415,25 @@
 								<ul class="tabs">
 									<li class="active" rel="tab1">전체 회원 정보</li>
 									<li rel="tab2">월 회원 정보</li>
-									<li rel="tab3">레슨 회원 정보</li>
+									<!-- <li rel="tab3">레슨 회원 정보</li> -->
 									<li rel="tab4">코치 정보</li>
 								</ul>
 								<div class="tab_container">
-									<div id="tab1" class="tab_content">
-							        	<div id="divHeadScroll">
+									<div id="tab1" class="tab_content" style="overflow:scroll; width: 590px; height: 260px;">
+							        	<div id="divHeadScroll" style="width: 740px;">
 								            <table id="tblHead" border="0" style="text-align: center;">
 												<colgroup>
-													<col style="width:55px;"/>
-													<col style="width:30px;"/>
-													<col style="width:100px;"/>
-													<col style="width:30px;"/>
-													<col style="width:100px;"/>
-													<col style="width:30px;"/>
-													<col style="width:300px;"/>
-													<col style="width:140px;"/>
-													<col style="width:100px;"/>
-													<col style="width:100px;"/>
-													<col style="width:110px;"/>
+													<col style="width:60px;"/>
+							                        <col style="width:30px;"/>
+							                        <col style="width:90px;"/>
+							                        <col style="width:30px;"/>
+							                        <col style="width:50px;"/>
+							                        <col style="width:30px;"/>
+							                        <col style="width:200px;"/>
+							                        <col style="width:100px;"/>
+							                        <col style="width:50px;"/>
+							                        <col style="width:50px;"/>
+							                        <col style="width:50px;"/>
 												</colgroup>
 												<tr>
 													<td>이름</td>
@@ -225,20 +450,20 @@
 												</tr>
 											</table>
 										</div>
-										<div id="divBodyScroll">
+										<div id="divBodyScroll" style="width: 740px;">
 											<table id="tblBody" border="1" style="text-align: center;">
 												<colgroup>
-							                        <col style="width:55px;" class="right_border" />
+							                        <col style="width:60px;" class="right_border" />
 							                        <col style="width:30px;" class="right_border" />
-							                        <col style="width:100px;" class="right_border" />
+							                        <col style="width:90px;" class="right_border" />
 							                        <col style="width:30px;" class="right_border" />
-							                        <col style="width:100px;" class="right_border" />
+							                        <col style="width:50px;" class="right_border" />
 							                        <col style="width:30px;" class="right_border" />
-							                        <col style="width:300px;" class="right_border" />
-							                        <col style="width:140px;" class="right_border" />
+							                        <col style="width:200px;" class="right_border" />
 							                        <col style="width:100px;" class="right_border" />
-							                        <col style="width:100px; "class="right_border" />
-							                        <col style="width:110px;" class="right_border" />
+							                        <col style="width:50px;" class="right_border" />
+							                        <col style="width:50px;" class="right_border" />
+							                        <col style="width:50px;" class="right_border" />
 							                    </colgroup>
 												<c:forEach var="TMList" items="${ defaultTMList }">
 													<tr>
@@ -279,11 +504,11 @@
 														<td>${ TMList.email }</td>
 														<td>${ TMList.birthday }</td>
 														<c:choose>
-															<c:when test="${ TMList.registerday eq null || TMList.registerday eq ''}">
+															<c:when test="${ TMList.join_date eq null || TMList.join_date eq ''}">
 																<td></td>
 															</c:when>
 															<c:otherwise>
-																<td>${ TMList.registerday }</td>
+																<td>${ TMList.join_date }</td>
 															</c:otherwise>
 														</c:choose>
 														<td>${ TMList.note }</td>
@@ -292,21 +517,21 @@
 											</table>
 										</div>
 									</div>
-									<div id="tab2" class="tab_content">
-							        	<div id="divHeadScroll">
+									<div id="tab2" class="tab_content" style="overflow:scroll; width: 590px; height: 260px;">
+							        	<div id="divHeadScroll" style="width: 740px;">
 								            <table id="tblHead" border="0" style="text-align: center;">
 												<colgroup>
-													<col style="width:55px;"/>
+													<col style="width:60px;"/>
 													<col style="width:30px;"/>
-													<col style="width:100px;"/>
+													<col style="width:90px;"/>
 													<col style="width:30px;"/>
-													<col style="width:100px;"/>
+													<col style="width:50px;"/>
 													<col style="width:30px;"/>
-													<col style="width:300px;"/>
-													<col style="width:140px;"/>
+													<col style="width:200px;"/>
 													<col style="width:100px;"/>
-													<col style="width:100px;"/>
-													<col style="width:110px;"/>
+													<col style="width:50px;"/>
+													<col style="width:50px;"/>
+													<col style="width:50px;"/>
 												</colgroup>
 												<tr>
 													<td>이름</td>
@@ -323,30 +548,30 @@
 												</tr>
 											</table>
 										</div>
-										<div id="divBodyScroll">
+										<div id="divBodyScroll" style="width: 740px;">
 											<table id="tblBody" border="1" style="text-align: center;">
 												<colgroup>
-							                        <col style="width:55px;" class="right_border" />
+							                        <col style="width:60px;" class="right_border" />
 							                        <col style="width:30px;" class="right_border" />
-							                        <col style="width:100px;" class="right_border" />
+							                        <col style="width:90px;" class="right_border" />
 							                        <col style="width:30px;" class="right_border" />
-							                        <col style="width:100px;" class="right_border" />
+							                        <col style="width:50px;" class="right_border" />
 							                        <col style="width:30px;" class="right_border" />
-							                        <col style="width:300px;" class="right_border" />
-							                        <col style="width:140px;" class="right_border" />
+							                        <col style="width:200px;" class="right_border" />
 							                        <col style="width:100px;" class="right_border" />
-							                        <col style="width:100px; "class="right_border" />
-							                        <col style="width:110px;" class="right_border" />
+							                        <col style="width:50px;" class="right_border" />
+							                        <col style="width:50px; "class="right_border" />
+							                        <col style="width:50px;" class="right_border" />
 							                    </colgroup>
 												<c:forEach var="MMList" items="${ defaultMMList }">
 													<tr>
-														<td>${ MMList.name }</td>
+														<td>${ MMList.name }<input type="hidden" value="${ MMList.member_code }"></td>
 														<c:choose>
 															<c:when test="${ MMList.sex eq 0}">
-																<td>남</td>
+																<td>남<input type="hidden" value="${MMList.sex }"></td>
 															</c:when>
 															<c:otherwise>
-																<td>여</td>
+																<td>여<input type="hidden" value="${MMList.sex }"></td>
 															</c:otherwise>
 														</c:choose>
 														<td>${ MMList.tel }</td>
@@ -360,16 +585,16 @@
 														</c:choose>
 														<c:choose>
 															<c:when test="${ MMList.style eq 0}">
-																<td></td>
+																<td><input type="hidden" value="${MMList.style }"></td>
 															</c:when>
 															<c:when test="${ MMList.style eq 1}">
-																<td>펜홀더</td>
+																<td>펜홀더<input type="hidden" value="${MMList.style }"></td>
 															</c:when>
 															<c:when test="${ MMList.style eq 2}">
-																<td>쉐이크핸드</td>
+																<td>쉐이크핸드<input type="hidden" value="${MMList.style }"></td>
 															</c:when>
 															<c:otherwise>
-																<td>중국식 펜홀더</td>
+																<td>중국식 펜홀더<input type="hidden" value="${MMList.style }"></td>
 															</c:otherwise>
 														</c:choose>
 														<td>${ MMList.grade }</td>
@@ -383,8 +608,8 @@
 											</table>
 										</div>
 									</div>
-									<div id="tab3" class="tab_content">
-										<%-- <div id="divHeadScroll">
+									<%-- <div id="tab3" class="tab_content">
+										<div id="divHeadScroll">
 								            <table id="tblHead" border="0" style="text-align: center;">
 												<colgroup>
 													<col style="width:55px;"/>
@@ -466,21 +691,21 @@
 													</tr>
 												</c:forEach>
 											</table>
-										</div> --%>
-									</div>
-									<div id="tab4" class="tab_content">
-										<div id="divHeadScroll">
+										</div>
+									</div>--%>
+									<div id="tab4" class="tab_content" style="overflow:scroll; width: 590px; height: 260px;">
+										<div id="divHeadScroll" style="width: 660px;">
 								            <table id="tblHead" border="0" style="text-align: center;">
 												<colgroup>
-													<col style="width:55px;"/>
+													<col style="width:60px;"/>
+													<col style="width:30px;"/>
+													<col style="width:90px;"/>
+													<col style="width:120px;"/>
+													<col style="width:30px;"/>
+													<col style="width:50px;"/>
 													<col style="width:30px;"/>
 													<col style="width:100px;"/>
-													<col style="width:55px;"/>
-													<col style="width:30px;"/>
-													<col style="width:100px;"/>
-													<col style="width:30px;"/>
-													<col style="width:100px;"/>
-													<col style="width:110px;"/>
+													<col style="width:150px;"/>
 												</colgroup>
 												<tr>
 													<td>이름</td>
@@ -495,18 +720,18 @@
 												</tr>
 											</table>
 										</div>
-										<div id="divBodyScroll">
+										<div id="divBodyScroll" style="width: 660px;">
 											<table id="tblBody" border="1" style="text-align: center;">
 												<colgroup>
-							                        <col style="width:55px;" class="right_border" />
+							                        <col style="width:60px;" class="right_border" />
+							                        <col style="width:30px;" class="right_border" />
+							                        <col style="width:90px;" class="right_border" />
+							                        <col style="width:120px;" class="right_border" />
+							                        <col style="width:30px;" class="right_border" />
+							                        <col style="width:50px;" class="right_border" />
 							                        <col style="width:30px;" class="right_border" />
 							                        <col style="width:100px;" class="right_border" />
-							                        <col style="width:55px;" class="right_border" />
-							                        <col style="width:30px;" class="right_border" />
-							                        <col style="width:100px;" class="right_border" />
-							                        <col style="width:30px;" class="right_border" />
-							                        <col style="width:100px;" class="right_border" />
-							                        <col style="width:110px;" class="right_border" />
+							                        <col style="width:150px;" class="right_border" />
 							                    </colgroup>
 												<c:forEach var="CoachList" items="${ defaultCoachList }">
 													<tr>
@@ -557,13 +782,14 @@
 							</div>
 						</td>
 					</tr>
-					<tr class="situationSheet">
+					<!-- <tr class="situationSheet">
 						<td colspan="5">
 							<input type="text" style="width: 575px; background-color: #606060;" readonly="readonly">
 						</td>
-					</tr>
+					</tr> -->
 					<tr>
 						<td colspan="5">
+							<!-- 테이블 선택값 전송용 -->
 							<input type="hidden" id="memberId" name="memberId" value="">
 							<input type="hidden" id="memberName" name="memberName" value="">
 							<input type="hidden" id="memberSex" name="memberSex" value="">
@@ -576,6 +802,14 @@
 							<input type="hidden" id="memberGrade" name="memberGrade" value="">
 							<input type="hidden" id="memberRegDay" name="memberRegDay" value="">
 							<input type="hidden" id="memberNote" name="memberNote" value="">
+							
+							<!-- 검색 조건 전송용 -->
+							<input type="hidden" id="searchingName" name="searchingName" value="">
+							<input type="hidden" id="searchingSex" name="searchingSex" value="">
+							<input type="hidden" id="searchingStyle" name="searchingStyle" value="">
+							<input type="hidden" id="searchingGrade" name="searchingGrade" value="">
+							<input type="hidden" id="searchingStart" name="searchingStart" value="">
+							<input type="hidden" id="searchingEnd" name="searchingEnd" value="">							
 							
 							<input type="button" id="memberEditBtn" value="회원정보 수정">
 							<input type="button" value="회원정보 삭제">

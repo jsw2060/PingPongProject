@@ -12,7 +12,6 @@ import java.security.KeyPairGenerator;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.spec.RSAPublicKeySpec;
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,6 +39,7 @@ import com.company.pingPong.dto.CoachDto;
 import com.company.pingPong.dto.FeeDto;
 import com.company.pingPong.dto.LockerDto;
 import com.company.pingPong.dto.MemberDto;
+import com.company.pingPong.dto.MonthMemberDto;
 
 @Controller
 public class PingPongController {
@@ -551,6 +551,10 @@ public class PingPongController {
 	public String mainFeeManagerFrame(Locale locale, HttpServletRequest req) {
 		logger.info("PingPong MainFeeManagerFrame.jsp", locale);
 		
+		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
+		ArrayList<FeeDto> feeList = dao.FeeListDao();
+		
+		req.setAttribute("feeList", feeList);
 		req.setAttribute("view", "MainFeeManagerFrame");
 		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
 		req.setAttribute("mainHomeTitle", "요금정보 관리");
@@ -692,13 +696,13 @@ public class PingPongController {
 		String tempRegDate = "";
 		for(int i=0; i<defaultTMList.size(); i++){
 			
-			if(defaultTMList.get(i).getRegisterday() != null) {
-				tempRegDate = defaultTMList.get(i).getRegisterday().substring(0, 11);
+			if(defaultTMList.get(i).getJoin_date() != null) {
+				tempRegDate = defaultTMList.get(i).getJoin_date().substring(0, 11);
 			} else {
 				tempRegDate = "";
 			}
 			
-			defaultTMList.get(i).setRegisterday(tempRegDate);
+			defaultTMList.get(i).setJoin_date(tempRegDate);
 		}
 		
 		String tempBdayDate = "";
@@ -868,24 +872,72 @@ public class PingPongController {
 		String sendedId = req.getParameter("memberId");
 		String sendedName = req.getParameter("memberName");
 		String sendedSex = req.getParameter("memberSex");
-		String sendedTel = req.getParameter("memberTel");
-		String sendedAge = req.getParameter("memberAge");
-		String sendedBday = req.getParameter("memberBday");
-		String sendedAddr = req.getParameter("memberAddr");
-		String sendedEmail = req.getParameter("memberEmail");
-		String sendedStyle = req.getParameter("memberStyle");
-		String sendedGrade = req.getParameter("memberGrade");
 		String sendedRegDay = req.getParameter("memberRegDay");
-		String sendedNote = req.getParameter("memberNote");
-		
-		sendedBday = sendedBday.trim();
 		sendedRegDay = sendedRegDay.trim();
 		
+		// 결제 정보 가져오기
+		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
+		ArrayList<FeeDto> feeList = dao.monthMemberFeeDataDao(sendedId);
+		
+		for(int i=0; i<feeList.size(); i++) {
+			System.out.println("코드 " + feeList.get(i).getFee_code());
+			System.out.println("타입 " + feeList.get(i).getFee_type());
+			System.out.println("금액 " + feeList.get(i).getFee_amount());
+			System.out.println("결제일 " + feeList.get(i).getFee_date());
+			System.out.println("비고 " + feeList.get(i).getNote());
+		}
+		
+		req.setAttribute("feeList", feeList);
+		req.setAttribute("memberId", sendedId);
+		req.setAttribute("memberName", sendedName);
+		req.setAttribute("memberSex", sendedSex);
 		req.setAttribute("memberRegDay", sendedRegDay);
 		req.setAttribute("view", "MonthMemberEditDialog");
 		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
 		req.setAttribute("mainHomeTitle", "월 회원 수정");
 		return "MainHomeFrame";
+	}
+	
+	/*
+	 * RequestMapping : MonthMemberUpdate.do
+	 * MethodName : monthMemberUpdate
+	 * Parameter : Locale, HttpServletRequest
+	 * Return : String
+	 */
+	@RequestMapping(value = "MonthMemberUpdate.do", method = RequestMethod.GET)
+	public String monthMemberUpdate(Locale locale, HttpServletRequest req) {
+		logger.info("PingPong MonthMemberUpdate.do", locale);
+		
+		// 값의 변화가 있을 시
+		String updateMemberCode = req.getParameter("selectedMember");
+		String updateFeeAmount = req.getParameter("selectedFeeAmount");
+		String updateFeeDate = req.getParameter("selectedFeeDate");
+		String updateFeeNote = req.getParameter("selectedFeeNote");
+		
+		// 값의 변화가 없을 시
+		if(updateFeeAmount == "" || updateFeeAmount.equals(null) || updateFeeAmount.equals("null")) {
+			updateFeeAmount = req.getParameter("monthFeeAmount");
+		}
+		if(updateFeeDate == "" || updateFeeDate.equals(null) || updateFeeDate.equals("null")) {
+			updateFeeDate = req.getParameter("monthFeeDate");
+		}
+		if(updateFeeNote == "" || updateFeeNote.equals(null) || updateFeeNote.equals("null")) {
+			updateFeeNote = req.getParameter("monthFeeNote");
+		}
+		
+		// map에 모아서 전송 준비
+		Map<String, String> map = new HashMap<String, String>();
+		
+		map.put("updateMemberCode", updateMemberCode);
+		map.put("updateFeeAmount", updateFeeAmount);
+		map.put("updateFeeDate", updateFeeDate);
+		map.put("updateFeeNote", updateFeeNote);
+		
+		// 월회원 결제 수정
+		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
+		dao.monthMemberFeeUpdateDao(map);
+		
+		return "redirect:/MainMemberManagerFrame.do";
 	}
 	
 	/*
@@ -1106,6 +1158,94 @@ public class PingPongController {
 	public String lessonEditDialog(Locale locale, Model model) {
 		logger.info("PingPong LessonEditDialog.jsp", locale);
 		return "LessonEditDialog";
+	}
+	
+	/*
+	 * RequestMapping : SingleMemberSearch.do
+	 * MethodName : singleMemberSearch
+	 * Parameter : Locale, HttpServletRequest
+	 * Return : String
+	 */
+	@RequestMapping(value = "singleMemberSearch.do", method = RequestMethod.GET)
+	public String singleMemberSearch(Locale locale, HttpServletRequest req) {
+		logger.info("PingPong SingleMemberSearch.do", locale);
+		
+		// 값의 변화가 있을 시
+		String searchName = req.getParameter("searchingName");
+		String searchSex = req.getParameter("searchingSex");
+		String searchStyle = req.getParameter("searchingStyle");
+		String searchGrade = req.getParameter("searchingGrade");
+		String searchStartDt = req.getParameter("searchingStart");
+		String searchEndDt = req.getParameter("searchingEnd");
+		
+		System.out.println("search Name  " + searchName);
+		System.out.println("search Sex  " + searchSex);
+		System.out.println("search Style  " + searchStyle);
+		System.out.println("search Grade  " + searchGrade);
+		System.out.println("search StartDt  " + searchStartDt);
+		System.out.println("search EndDt  " + searchEndDt);
+		
+		// map에 모아서 전송 준비
+		Map<String, String> map = new HashMap<String, String>();
+		
+		map.put("searchName", searchName);
+		map.put("searchSex", searchSex);
+		map.put("searchStyle", searchStyle);
+		map.put("searchGrade", searchGrade);
+		map.put("searchStartDt", searchStartDt);
+		map.put("searchEndDt", searchEndDt);
+		
+		// 검색
+		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
+		
+		ArrayList<MemberDto> defaultMMList = dao.singleSearchMonthMemberDao(map);
+		
+		String tempMMDate = "";
+		String tempMMBirth = "";
+		for(int i=0; i<defaultMMList.size(); i++) {
+			tempMMDate = defaultMMList.get(i).getMonth_registerdate().substring(0, 11);
+			tempMMBirth = defaultMMList.get(i).getBirthday().substring(0, 11);
+			defaultMMList.get(i).setMonth_registerdate(tempMMDate);
+			defaultMMList.get(i).setBirthday(tempMMBirth);
+		}
+		ArrayList<MemberDto> defaultTMList = dao.singleSearchTotalMemberDao(map);
+		
+		String tempTMDate = "";
+		String tempTMBirth = "";
+		for(int i=0; i<defaultTMList.size(); i++) {
+			tempTMDate = defaultTMList.get(i).getJoin_date().substring(0, 11);
+			tempTMBirth = defaultTMList.get(i).getBirthday().substring(0, 11);
+			defaultTMList.get(i).setJoin_date(tempTMDate);			
+			defaultTMList.get(i).setBirthday(tempTMBirth);
+		}
+		ArrayList<CoachDto> defaultCoachList = dao.singleSearchCoachMemberDao(map);
+		
+		String tempCHDate = "";
+		for(int i=0; i<defaultCoachList.size(); i++) {
+			tempCHDate = defaultCoachList.get(i).getCoach_registerdate().substring(0, 11);
+			defaultCoachList.get(i).setCoach_registerdate(tempCHDate);			
+		}
+		
+		req.setAttribute("defaultMMList", defaultMMList);
+		req.setAttribute("defaultTMList", defaultTMList);
+		req.setAttribute("defaultCoachList", defaultCoachList);
+		req.setAttribute("view", "MainMemberManagerFrame");
+		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
+		req.setAttribute("mainHomeTitle", "회원정보 관리");
+		return "MainHomeFrame";
+	}
+	
+	/*
+	 * RequestMapping : TotalMemberSearch.do
+	 * MethodName : totalMemberSearch
+	 * Parameter : Locale, HttpServletRequest
+	 * Return : String
+	 */
+	@RequestMapping(value = "totalMemberSearch.do", method = RequestMethod.GET)
+	public String totalMemberSearch(Locale locale, HttpServletRequest req) {
+		logger.info("PingPong TotalMemberSearch.do", locale);
+		
+		return "redirect:/MainMemberManagerFrame.do";
 	}
 	
 	/*

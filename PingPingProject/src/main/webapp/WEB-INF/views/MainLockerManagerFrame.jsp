@@ -50,7 +50,7 @@
 <body>
 	<div class="defaultPage" align="center">
 		<form id="lockerEditDialogForm" action="LockerEditDialog.do">
-		<table border="1" class="outLineTable">	
+		<table class="outLineTable">	
 			<tr>
 				<td style="vertical-align: top;">
 					<div class="tab-wrap">

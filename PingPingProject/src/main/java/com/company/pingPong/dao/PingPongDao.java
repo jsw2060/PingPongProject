@@ -10,6 +10,7 @@ import com.company.pingPong.dto.CoachDto;
 import com.company.pingPong.dto.FeeDto;
 import com.company.pingPong.dto.LockerDto;
 import com.company.pingPong.dto.MemberDto;
+import com.company.pingPong.dto.MonthMemberDto;
 
 
 public interface PingPongDao {
@@ -95,6 +96,24 @@ public interface PingPongDao {
 	
 	// edit Coach
 	public void editCoachDao(Map<String, String> map);
+	
+	// getting monthMemberFeeData
+	public ArrayList<FeeDto> monthMemberFeeDataDao(String sendedId);
+	
+	// update edited monthFee
+	public void monthMemberFeeUpdateDao(Map<String, String> map);
+	
+	// search monthMember with some conditions
+	public ArrayList<MemberDto> singleSearchMonthMemberDao(Map<String, String> map);
+	
+	// search member with some conditions
+	public ArrayList<MemberDto> singleSearchTotalMemberDao(Map<String, String> map);
+	
+	// search coach with some conditions
+	public ArrayList<CoachDto> singleSearchCoachMemberDao(Map<String, String> map);
+	
+	// getting fee list
+	public ArrayList<FeeDto> FeeListDao();
 	
 	public ArrayList<FeeDto> getDateFeeList(String searchFeeDate);
 	public ArrayList<FeeDto> getFeeList();

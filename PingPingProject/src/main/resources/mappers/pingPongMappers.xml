@@ -5,125 +5,196 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.company.pingPong.dao.PingPongDao">
 	<select id="loginIdDao" parameterType="String" resultType="int">
-		SELECT COUNT(id) FROM member WHERE id = #{id}
+		SELECT COUNT(id) 
+		FROM member 
+		WHERE id = #{id}
 	</select>
 	
 	<select id="loginDao" parameterType="java.util.Map" resultType="com.company.pingPong.dto.MemberDto">
-		SELECT * FROM member WHERE id = #{id} AND password = #{pwd}
+		SELECT * 
+		FROM member 
+		WHERE id = #{id} AND password = #{pwd}
 	</select>
 	
 	<select id="loginPwdDao" parameterType="String" resultType="int">
-		SELECT COUNT(password) FROM member WHERE password = #{pwd}
+		SELECT COUNT(password) 
+		FROM member 
+		WHERE password = #{pwd}
 	</select>
 	
 	<select id="loginNameDao" parameterType="java.util.Map" resultType="String">
-		SELECT name FROM member WHERE id = #{id} AND password = #{pwd}
+		SELECT name 
+		FROM member 
+		WHERE id = #{id} AND password = #{pwd}
 	</select>
 	
 	<insert id="joinApplyAccountDao" parameterType="com.company.pingPong.dto.MemberDto">
-		INSERT INTO member(member_code, id, password, manager_status, coach_status, name, age, sex, tel, email, addr, birthday, style, grade, note, approval_status, join_status, join_date) VALUES((SELECT NVL(MAX(member_code)+1,1)FROM member), #{id}, #{password}, #{manager_status}, #{coach_status}, #{name}, #{age}, #{sex}, #{tel}, #{email}, #{addr}, #{birthday}, #{style}, #{grade}, #{note}, 0, 0, sysdate)
+		INSERT INTO member(member_code, id, password, manager_status, coach_status, name, age, sex, tel, email, addr, birthday, style, grade, note, approval_status, join_status, join_date)
+		VALUES(
+		(SELECT NVL(MAX(member_code)+1,1) FROM member), 
+		#{id}, #{password}, #{manager_status}, #{coach_status}, #{name}, #{age}, #{sex}, #{tel}, #{email}, #{addr}, #{birthday}, #{style}, #{grade}, #{note}, 0, 0, sysdate)
 	</insert>
 	
 	<select id="findMonthAndMemberDao" parameterType="String" resultType="com.company.pingPong.dto.MemberDto">
-		SELECT m.member_code, m.name, m.sex, mt.fee_status FROM member m LEFT OUTER JOIN monthmember mt ON m.member_code = mt.member_code WHERE m.name = #{memberName} AND m.approval_status = 1
+		SELECT m.member_code, m.name, m.sex, mt.fee_status
+		FROM member m LEFT OUTER JOIN monthmember mt
+		ON m.member_code = mt.member_code
+		WHERE m.name = #{memberName} AND m.approval_status = 1
 	</select>
 	
 	<select id="findLessonAndMemberDao" parameterType="String" resultType="com.company.pingPong.dto.MemberDto">
-		SELECT m.member_code, m.name, m.sex FROM member m LEFT OUTER JOIN lesson l ON m.member_code = l.member_code WHERE m.name = #{memberName} AND m.approval_status = 1
+		SELECT m.member_code, m.name, m.sex
+		FROM member m LEFT OUTER JOIN lesson l
+		ON m.member_code = l.member_code
+		WHERE m.name = #{memberName} AND m.approval_status = 1
 	</select>
 	
 	<select id="getAccountListDao" resultType="com.company.pingPong.dto.MemberDto">
-		SELECT m.member_code, m.id, m.manager_status, m.coach_status, m.name, m.sex, m.tel, m.join_date FROM member m WHERE m.manager_status != 2 AND m.coach_status != 2 AND m.approval_status = 1
+		SELECT m.member_code, m.id, m.manager_status, m.coach_status, m.name, m.sex, m.tel, m.join_date
+		FROM member m
+		WHERE m.manager_status != 2 AND m.coach_status != 2 AND m.approval_status = 1
 	</select>
 	
 	<select id="searchAccountListDao" parameterType="String" resultType="com.company.pingPong.dto.MemberDto">
-		SELECT m.member_code, m.id, m.password, m.manager_status, m.coach_status, m.name, m.sex, m.tel, m.join_date FROM member m WHERE m.member_code = #{selectedId}
+		SELECT m.member_code, m.id, m.password, m.manager_status, m.coach_status, m.name, m.sex, m.tel, m.join_date
+		FROM member m
+		WHERE m.member_code = #{selectedId}
 	</select>
 	
 	<select id="searchAccountListByNameForBootrackDao" parameterType="String" resultType="java.util.HashMap">
-		SELECT DISTINCT m.member_code, m.name, m.sex, b.bootrack_status, b.bootrack_code FROM member m LEFT OUTER JOIN bootrack b ON m.member_code = b.member_code WHERE m.manager_status != 2 AND m.coach_status != 2 AND m.approval_status = 1 AND m.name = #{memberName}
+		SELECT DISTINCT m.member_code, m.name, m.sex, b.bootrack_status, b.bootrack_code
+		FROM member m LEFT OUTER JOIN bootrack b
+		ON m.member_code = b.member_code
+		WHERE m.manager_status != 2 AND m.coach_status != 2 AND m.approval_status = 1 AND m.name = #{memberName}
 	</select>
 	
 	<select id="searchAccountListByNameForLockerDao" parameterType="String" resultType="java.util.HashMap">
-		SELECT DISTINCT m.member_code, m.name, m.sex, l.locker_purpose, l.locker_code FROM member m LEFT OUTER JOIN locker l ON m.member_code = l.member_code WHERE m.manager_status != 2 AND m.coach_status != 2 AND m.approval_status = 1 AND m.name = #{memberName}
+		SELECT DISTINCT m.member_code, m.name, m.sex, l.locker_purpose, l.locker_code
+		FROM member m LEFT OUTER JOIN locker l
+		ON m.member_code = l.member_code
+		WHERE m.manager_status != 2 AND m.coach_status != 2 AND m.approval_status = 1 AND m.name = #{memberName}
 	</select>
 	
 	<select id="searchAccountListByNameForCoachDao" parameterType="String" resultType="java.util.HashMap">
-		SELECT DISTINCT m.member_code, m.name, m.sex, m.coach_status FROM member m WHERE m.approval_status = 1 AND m.name = #{memberName}
+		SELECT DISTINCT m.member_code, m.name, m.sex, m.coach_status
+		FROM member m
+		WHERE m.approval_status = 1 AND m.name = #{memberName}
 	</select>
 	
 	<select id="getConfirmListDao" resultType="com.company.pingPong.dto.MemberDto">
-		SELECT member_code, id, manager_status, coach_status, join_date FROM member WHERE manager_status = 2 OR coach_status = 2 OR approval_status = 0
+		SELECT member_code, id, manager_status, coach_status, join_date
+		FROM member
+		WHERE manager_status = 2 OR coach_status = 2 OR approval_status = 0
 	</select>
 	
 	<select id="getBootrackList" resultType="com.company.pingPong.dto.BootrackDto">
-		SELECT b.bootrack_code, m.name, b.bootrack_status FROM bootrack b LEFT OUTER JOIN member m ON b.member_code = m.member_code
+		SELECT b.bootrack_code, m.name, b.bootrack_status
+		FROM bootrack b LEFT OUTER JOIN member m
+		ON b.member_code = m.member_code
 	</select>
 	
 	<select id="getLockerList" resultType="com.company.pingPong.dto.LockerDto">
-		SELECT l.locker_code, m.name, l.locker_purpose, l.locker_article, l.member_code FROM locker l LEFT OUTER JOIN member m ON l.member_code = m.member_code
+		SELECT l.locker_code, m.name, l.locker_purpose, l.locker_article, l.member_code
+		FROM locker l LEFT OUTER JOIN member m
+		ON l.member_code = m.member_code
 	</select>
 	
 	<update id="managerConfirmDao" parameterType="java.util.Map">
-		UPDATE member SET manager_status = ${managerStatus}, approval_status = 1 WHERE member_code = ${memberCode}
+		UPDATE member
+		SET manager_status = ${managerStatus}, approval_status = 1
+		WHERE member_code = ${memberCode}
 	</update>
 	
 	<update id="coachConfirmDao" parameterType="java.util.Map">
-		UPDATE member SET coach_status = ${coachStatus}, approval_status = 1 WHERE member_code = ${memberCode}
+		UPDATE member
+		SET coach_status = ${coachStatus}, approval_status = 1
+		WHERE member_code = ${memberCode}
 	</update>
 	
 	<update id="memberConfirmDao" parameterType="String">
-		UPDATE member SET approval_status = 1 WHERE member_code = #{memberCode}
+		UPDATE member
+		SET approval_status = 1
+		WHERE member_code = #{memberCode}
 	</update>
 	
 	<update id="accountUpdateDao" parameterType="java.util.Map">
-		UPDATE member SET id = #{id}, password = #{pwd}, manager_status = #{mng_status}, coach_status = #{coach_status} WHERE member_code = #{code}
+		UPDATE member
+		SET id = #{id}, password = #{pwd}, manager_status = #{mng_status}, coach_status = #{coach_status}
+		WHERE member_code = #{code}
 	</update>
 	
 	<update id="bootrackUpdateDao" parameterType="java.util.Map">
-		UPDATE bootrack SET bootrack_code = #{selectedBootrack}, member_code = #{selMemb}, bootrack_status = #{selSt} WHERE bootrack_code = #{selectedBootrack}
+		UPDATE bootrack
+		SET bootrack_code = #{selectedBootrack}, member_code = #{selMemb}, bootrack_status = #{selSt}
+		WHERE bootrack_code = #{selectedBootrack}
 	</update>
 	
 	<update id="memberUpdateDao" parameterType="java.util.Map">
-		UPDATE member SET name = #{name}, age = #{age}, sex = #{sex}, tel = #{tel}, email = #{email}, addr = #{addr}, birthday = #{bDay}, style = #{style}, grade = #{grade}, registerday = #{regDay}, note = #{note} WHERE member_code = #{code}
+		UPDATE member
+		SET name = #{name}, age = #{age}, sex = #{sex}, tel = #{tel}, email = #{email}, addr = #{addr}, birthday = #{bDay}, style = #{style}, grade = #{grade}, join_date = #{regDay}, note = #{note}
+		WHERE member_code = #{code}
 	</update>
 	
 	<update id="lockerUpdateForMemberDao" parameterType="java.util.Map">
-		UPDATE locker SET locker_code = #{selectedLocker}, member_code = #{selectedMemb}, locker_purpose = #{selectedPurpose}, locker_article = #{selectedArticle} WHERE locker_code = #{selectedLocker}
+		UPDATE locker
+		SET locker_code = #{selectedLocker}, member_code = #{selectedMemb}, locker_purpose = #{selectedPurpose}, locker_article = #{selectedArticle}
+		WHERE locker_code = #{selectedLocker}
 	</update>
 	
 	<select id="getFeeList" resultType="com.company.pingPong.dto.FeeDto">
-		SELECT fee.*, member.member_code, member.name FROM fee LEFT OUTER JOIN (
-		(SELECT lesson.fee_code, member.member_code, member.name FROM lesson LEFT OUTER JOIN member ON lesson.member_code = member.member_code) UNION ALL
-		(SELECT monthmember.fee_code, member.member_code, member.name FROM monthmember LEFT OUTER JOIN member ON monthmember.member_code = member.member_code) )member
+		SELECT fee.*, member.member_code, member.name
+		FROM fee LEFT OUTER JOIN (
+			(SELECT lesson.fee_code, member.member_code, member.name
+			FROM lesson LEFT OUTER JOIN member
+			ON lesson.member_code = member.member_code) UNION ALL
+			(SELECT monthmember.fee_code, member.member_code, member.name
+			FROM monthmember LEFT OUTER JOIN member
+			ON monthmember.member_code = member.member_code) 
+		)member
 		ON fee.fee_code = member.fee_code ORDER BY fee_date DESC
 	</select>
 	
 	<select id="getDateFeeList" parameterType="String" resultType="com.company.pingPong.dto.FeeDto">
-		SELECT fee.*, member.member_code, member.name FROM fee LEFT OUTER JOIN (
-		(SELECT lesson.fee_code, member.member_code, member.name FROM lesson LEFT OUTER JOIN member ON lesson.member_code = member.member_code) UNION ALL
-		(SELECT monthmember.fee_code, member.member_code, member.name FROM monthmember LEFT OUTER JOIN member ON monthmember.member_code = member.member_code) )member
-		ON fee.fee_code = member.fee_code WHERE to_date(fee_date) = #{searchFeeDate} ORDER BY fee_date DESC
+		SELECT fee.*, member.member_code, member.name
+		FROM fee LEFT OUTER JOIN (
+			(SELECT lesson.fee_code, member.member_code, member.name
+			FROM lesson LEFT OUTER JOIN member
+			ON lesson.member_code = member.member_code) UNION ALL
+			(SELECT monthmember.fee_code, member.member_code, member.name
+			FROM monthmember LEFT OUTER JOIN member
+			ON monthmember.member_code = member.member_code)
+		)member
+		ON fee.fee_code = member.fee_code
+		WHERE to_date(fee_date) = #{searchFeeDate} ORDER BY fee_date DESC
 	</select>
 	
 	<insert id="insertGeneralFeeDao" parameterType="java.util.Map">
-		INSERT INTO fee(fee_code, fee_type, fee_amount, note) VALUES((SELECT NVL(MAX(fee_code)+1,1)FROM fee), #{feeType}, #{feeAmount}, #{feeNote})
+		INSERT INTO fee(fee_code, fee_type, fee_amount, note)
+		VALUES((SELECT NVL(MAX(fee_code)+1,1)FROM fee), #{feeType}, #{feeAmount}, #{feeNote})
 	</insert>
 	
 	<insert id="insertOneDayFeeDao" parameterType="java.util.Map">
-		INSERT INTO fee(fee_code, fee_type, fee_amount, note) VALUES((SELECT NVL(MAX(fee_code)+1,1)FROM fee), #{feeType}, #{feeAmount}, #{feeNote})
+		INSERT INTO fee(fee_code, fee_type, fee_amount, note)
+		VALUES((SELECT NVL(MAX(fee_code)+1,1)FROM fee), #{feeType}, #{feeAmount}, #{feeNote})
 	</insert>
 	
 	<insert id="insertMonthFeeDao" parameterType="java.util.Map">
-		INSERT INTO fee(fee_code, fee_type, fee_amount, note) VALUES((SELECT NVL(MAX(fee_code)+1,1)FROM fee), #{feeType}, #{feeAmount}, #{feeNote})
+		INSERT INTO fee(fee_code, fee_type, fee_amount, note)
+		VALUES((SELECT NVL(MAX(fee_code)+1,1)FROM fee), #{feeType}, #{feeAmount}, #{feeNote})
 	</insert>
 	
 	<insert id="insertCoachDao" parameterType="java.util.Map">
-		INSERT INTO coach(coach_code, member_code, coach_registerdate, work_weekday, note) VALUES((SELECT NVL(MAX(coach_code)+1,1)FROM coach), #{coachName}, #{coachRegDay}, #{coachDay}, #{coachNote} )
+		INSERT INTO coach(coach_code, member_code, coach_registerdate, work_weekday, note)
+		VALUES((SELECT NVL(MAX(coach_code)+1,1)FROM coach), #{coachName}, #{coachRegDay}, #{coachDay}, #{coachNote} )
 	</insert>
 	
 	<update id="checkCoachStatusDao">
-		UPDATE /*+BYPASS_UJVC*/ member m SET m.coach_status = 1 WHERE EXISTS (SELECT DISTINCT c.member_code FROM member m, coach c WHERE m.member_code = c.member_code)
+		UPDATE /*+BYPASS_UJVC*/ member m
+		SET m.coach_status = 1
+		WHERE EXISTS (
+			SELECT DISTINCT c.member_code
+			FROM member m, coach c
+			WHERE m.member_code = c.member_code)
 	</update>
 	
 	<select id="getPrevFeeCode" resultType="String">
@@ -131,23 +202,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="checkMonthMemberDao" parameterType="String" resultType="INTEGER">
-		SELECT COUNT(month_code) FROM monthmember WHERE member_code = #{memberCode}
+		SELECT COUNT(month_code)
+		FROM monthmember
+		WHERE member_code = #{memberCode}
 	</select>
 	
 	<update id="insertMonthMemberDao" parameterType="java.util.Map">
-		UPDATE monthmember SET fee_code = #{feeCode} WHERE member_code = #{memberCode}
+		UPDATE monthmember
+		SET fee_code = #{feeCode}
+		WHERE member_code = #{memberCode}
 	</update>
 	
 	<insert id="insertNewMonthMemberDao" parameterType="java.util.Map">
-		INSERT INTO monthmember(month_code, fee_code, member_code, Fee_status) VALUES((SELECT NVL(MAX(month_code)+1,1)FROM monthmember), #{feeCode}, #{memberCode}, 1)
+		INSERT INTO monthmember(month_code, fee_code, member_code, Fee_status)
+		VALUES((SELECT NVL(MAX(month_code)+1,1)FROM monthmember), #{feeCode}, #{memberCode}, 1)
 	</insert>
 	
 	<select id="findLessonAndCoachDao" parameterType="String" resultType="com.company.pingPong.dto.CoachDto">
-		SELECT m.member_code, m.name, m.sex, c.coach_code FROM member m LEFT OUTER JOIN coach c ON m.member_code = c.member_code WHERE m.coach_status = 1 AND m.name = #{coachName}
+		SELECT m.member_code, m.name, m.sex, c.coach_code
+		FROM member m LEFT OUTER JOIN coach c
+		ON m.member_code = c.member_code
+		WHERE m.coach_status = 1 AND m.name = #{coachName}
 	</select>
 	
 	<select id="defaultTotalMember" resultType="com.company.pingPong.dto.MemberDto">
-		SELECT member_code, name, sex, tel, age, addr, email, birthday, style, grade, registerday, note FROM member
+		SELECT member_code, name, sex, tel, age, addr, email, birthday, style, grade, join_date, note FROM member
 	</select>
 	
 	<select id="defaultMonthMember" resultType="com.company.pingPong.dto.MemberDto">
@@ -156,7 +235,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="defaultTotalCoach" resultType="com.company.pingPong.dto.CoachDto">
-		SELECT m.member_code, m.name, m.sex, m.tel, c.work_weekday, m.age, m.style, m.grade, c.coach_registerdate, c.note FROM member m INNER JOIN coach c ON m.member_code = c.member_code 
+		SELECT m.member_code, m.name, m.sex, m.tel, c.work_weekday, m.age, m.style, m.grade, c.coach_registerdate, c.note
+		FROM member m INNER JOIN coach c
+		ON m.member_code = c.member_code 
 	</select>
 	
 	<delete id="deleteAccount" parameterType="String">
@@ -164,12 +245,122 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</delete>
 	
 	<select id="searchCoachByMemberIdDao" parameterType="String" resultType="com.company.pingPong.dto.CoachDto">
-		SELECT DISTINCT m.member_code, m.name, m.sex, m.coach_status, c.work_weekday, c.coach_registerdate, c.note FROM member m, coach c WHERE m.approval_status = 1 AND m.member_code = c.member_code AND m.member_code = #{memberCode}
+		SELECT DISTINCT m.member_code, m.name, m.sex, m.coach_status, c.work_weekday, c.coach_registerdate, c.note
+		FROM member m, coach c
+		WHERE m.approval_status = 1 AND m.member_code = c.member_code AND m.member_code = #{memberCode}
 	</select>
 	
 	<update id="editCoachDao" parameterType="java.util.Map">
-		UPDATE coach SET coach_registerdate = #{coachRegDay}, work_weekday = #{coachWorkWeekday}, note = #{coachNote} WHERE member_code = #{memberCode}
+		UPDATE coach
+		SET coach_registerdate = #{coachRegDay}, work_weekday = #{coachWorkWeekday}, note = #{coachNote}
+		WHERE member_code = #{memberCode}
 	</update>
+	
+	<select id="monthMemberFeeDataDao" parameterType="String" resultType="com.company.pingPong.dto.FeeDto">
+		SELECT f.fee_amount, f.fee_date, f.note
+		FROM FEE f
+		WHERE f.fee_code = (
+			SELECT mo.fee_code
+			FROM MONTHMEMBER mo
+			WHERE mo.member_code = #{seletedId})
+	</select>
+	
+	<update id="monthMemberFeeUpdateDao" parameterType="java.util.Map">
+		UPDATE fee f
+		SET f.fee_amount = #{updateFeeAmount}, f.fee_date = #{updateFeeDate}, f.note = #{updateFeeNote}
+		WHERE f.fee_code = (
+			SELECT fee_code
+			FROM monthmember
+			WHERE member_code = #{updateMemberCode})
+	</update>
+	
+	<select id="singleSearchMonthMemberDao" parameterType="java.util.Map" resultType="com.company.pingPong.dto.MemberDto">
+		SELECT mm.member_code, name, sex, tel, age, addr, email, birthday, style, grade, mm.month_registerdate, mm.note 
+		FROM member m INNER JOIN monthmember mm
+		ON m.member_code = mm.member_code
+		WHERE 1=1
+		
+		<if test = "searchName != null and searchName != ''.toString()">
+			AND name = #{searchName}
+		</if>
+		<if test = "searchSex != null and searchSex != ''.toString()">
+			AND sex = #{searchSex}
+		</if>
+		<if test = "searchStyle != null and searchStyle != ''.toString()">
+			AND style = #{searchStyle}
+		</if>
+		<if test = "searchGrade != null and searchGrade != ''.toString()">
+			AND grade = #{searchGrade}
+		</if>
+		<if test = "searchStartDt != null and searchStartDt != ''.toString() and searchEndDt != null and searchEndDt != ''.toString()">
+			AND TO_CHAR(mm.month_registerdate, 'YYYY-MM-DD') >= #{searchStartDt} AND #{searchEndDt} >= TO_CHAR(mm.month_registerdate, 'YYYY-MM-DD')
+		</if>
+		
+	</select>
+	
+	<select id="singleSearchTotalMemberDao" parameterType="java.util.Map" resultType="com.company.pingPong.dto.MemberDto">
+		SELECT member_code, name, sex, tel, age, addr, email, birthday, style, grade, join_date, note
+		FROM member
+		WHERE 1=1 
+		
+		<if test = "searchName != null and searchName !=''.toString()">
+			AND name = #{searchName}
+		</if>
+		<if test = "searchSex != null and searchSex != ''.toString()">
+			AND sex = #{searchSex}
+		</if>
+		<if test = "searchStyle != null and searchStyle != ''.toString()">
+			AND style = #{searchStyle}
+		</if>
+		<if test = "searchGrade != null and searchGrade != ''.toString()">
+			AND grade = #{searchGrade}
+		</if>
+		<if test = "searchStartDt != null and searchStartDt != ''.toString() and searchEndDt != null and searchEndDt != ''.toString()">
+			AND TO_CHAR(join_date, 'YYYY-MM-DD') >= #{searchStartDt} AND #{searchEndDt} >= TO_CHAR(join_date, 'YYYY-MM-DD')
+		</if>
+		
+	</select>
+	
+	<select id="singleSearchCoachMemberDao" parameterType="java.util.Map" resultType="com.company.pingPong.dto.CoachDto">
+		SELECT m.member_code, m.name, m.sex, m.tel, c.work_weekday, m.age, m.style, m.grade, c.coach_registerdate, c.note
+		FROM member m INNER JOIN coach c 
+		ON m.member_code = c.member_code 
+		WHERE 1=1
+		
+		<if test = "searchName != null and searchName != ''.toString()">
+			AND m.name = #{searchName}
+		</if>
+		<if test = "searchSex != null and searchSex != ''.toString()">
+			AND m.sex = #{searchSex}
+		</if>
+		<if test = "searchStyle != null and searchStyle != ''.toString()">
+			AND m.style = #{searchStyle}
+		</if>
+		<if test = "searchGrade != null and searchGrade != ''.toString()">
+			AND m.grade = #{searchGrade}
+		</if>
+		<if test = "searchStartDt != null and searchStartDt != ''.toString() and searchEndDt != null and searchEndDt != ''.toString()">
+			AND TO_CHAR(coach_registerdate, 'YYYY-MM-DD') >= #{searchStartDt} AND #{searchEndDt} >= TO_CHAR(coach_registerdate, 'YYYY-MM-DD')
+		</if>
+		
+	</select>
+	
+	<select id="FeeListDao" resultType="com.company.pingPong.dto.FeeDto">
+		SELECT fee_code, fee_type, fee_amount, fee_date, note
+		FROM fee f LEFT OUTER JOIN monthmember mo
+		ON m.member_code = member_code
+		<!-- <choose>
+		<when test="mo.fee_code != null">
+			(SELECT mon.member_code, m.name
+			 FROM monthmember mon INNER JOIN member m
+			 ON mon.member_code = m.member_code
+			)
+		</when>
+		<otherwise>
+		WHERE 1=1
+		</otherwise>
+		</choose> -->
+	</select>
 	
 	<!-- <select id="defaultLessonMember" resultType="com.company.pingPong.dto.MemberDto">
 		SELECT mm.member_code, name, sex, tel, age, coach, style, grade, registerdate, note 

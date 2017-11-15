@@ -16,7 +16,6 @@ public class MemberDto {
 	private String birthday;
 	private String style;
 	private String grade;
-	private String registerday;
 	private String join_status;
 	private String join_date;
 	private String note;
@@ -121,12 +120,6 @@ public class MemberDto {
 	}
 	public void setGrade(String grade) {
 		this.grade = grade;
-	}
-	public String getRegisterday() {
-		return registerday;
-	}
-	public void setRegisterday(String registerday) {
-		this.registerday = registerday;
 	}
 	public String getNote() {
 		return note;

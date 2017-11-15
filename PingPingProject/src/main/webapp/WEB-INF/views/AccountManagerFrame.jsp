@@ -81,7 +81,7 @@
 <body>
 	<div class="defaultPage">
 		<form id="AccountForm" action="AccountEditDialog.do">
-		<table class="outLineTable" border="1px;" align="center">
+		<table class="outLineTable" align="center">
 			<tr>
 				<td colspan="4" height="460" style="vertical-align: top;">
 					<ul style="margin-top: 0px; padding-left: 0px; border: 1px solid gray; background-color: #E1E1E1;">
@@ -184,11 +184,11 @@
 				</td>
 			</tr>
 			<tr>
-				<td><input type="text"><input type="hidden" id="selectedId" name="selectedId" value=""></td>
 				<td><input type="button" id="accountUpdateBtn" value="계정 수정"></td>
 				<td><input type="button" id="accountDeleteBtn" value="계정 삭제"></td>
 			</tr>
 		</table>
+			<input type="hidden" id="selectedId" name="selectedId" value="">
 		</form>
 	</div>
 </body>

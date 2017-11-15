@@ -96,7 +96,7 @@ $(document).ready(function(){
 			$("#shakehand").removeAttr('selected');
 			$("#chinese").attr('selected', true);
 			
-			document.getElementById("updateStyle").value = '2';
+			document.getElementById("updateStyle").value = '3';
 			break;
 		default: 
 			alert("check logic!!");

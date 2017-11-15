@@ -41,7 +41,7 @@
 		
 		$("#fee-launcher").click(function () {
 			var selectedPage = $('#selectFeeInputPage option:selected').val();
-			alert(selectedPage);
+
 			if(selectedPage == "0"){ alert("요금 종류를 선택해주세요."); }
 			if(selectedPage == "1"){
 				$("#FindFeeForm").attr("action", "GeneralFeeInput.do");
@@ -84,13 +84,13 @@
 	<div class="defaultPage" align="center">
 		<div>
 			<form id="FindFeeForm" action="FindFeeList.do">
-			<table border="1" class="outLineTable">
+			<table class="outLineTable">
 				<tr>
 					<td>
 						<label style="font-size: 20px;">요금 입력 내역</label>
 						<input type="date" id="feeDate" name="feeDate">
 					</td>
-					<td class="container">
+					<td class="container" style="width:300px;">
 						<ul id="numbers">
 							<li id="Date"></li>
 							<li id="hours"></li>
@@ -104,7 +104,7 @@
 				<tr height="250">
 					<td colspan="2">
 						<table class="dataSheet" border="1" width="100%" height="245" style="overflow: auto; table-layout: fixed;">
-							<tr class="theadTr">
+							<tr class="theadTr" height="25px">
 								<td>요금 종류</td>
 								<td>금액</td>
 								<td>이름</td>
@@ -112,7 +112,12 @@
 								<td>비고</td>
 							</tr>
 								<c:choose>
-									<c:when test="${ dateFeeList ne null}">
+									<c:when test="${ dateFeeList eq null or dateFeeList eq 'null' or dateFeeList eq ''}">
+										<tr>
+											<td colspan="5">검색된 데이터가 없습니다.</td>
+										</tr>
+									</c:when>
+									<c:otherwise>
 										<c:forEach var="feeItems" items="${ dateFeeList }">
 											<tr>
 												<td>${ feeItems.fee_type }</td>
@@ -122,11 +127,6 @@
 												<td>${ feeItems.note }</td>
 											</tr>
 										</c:forEach>
-									</c:when>
-									<c:otherwise>
-										<tr>
-											<td colspan="5">검색된 데이터가 없습니다.</td>
-										</tr>
 									</c:otherwise>
 								</c:choose>
 						</table>
@@ -171,11 +171,11 @@
 									<textarea name="noteInput" style="width: 575px;"></textarea>	
 								</td>
 							</tr>
-							<tr>
+							<!-- <tr>
 								<td colspan="4">
 									<input type="text" style="width: 575px; background-color: #606060;" readonly="readonly">
 								</td>
-							</tr>
+							</tr> -->
 							<tr>
 								<td colspan="4">
 									<input type="button" id="enterBtn" value="입력">
@@ -186,11 +186,11 @@
 					</td>
 				</tr>
 			</table>
-			<input type="text" name="specifyMemberCode" value="${ specifyInput.memberCode }">
-			<input type="text" id="specifyFeeInputPage" name="specifyFeeInputPage" value="${ specifyInput.feeInputPage }">
-			<input type="text" name="specifyPlayTime" value="${ specifyInput.playTime }">
-			<input type="text" name="specifyTableNum" value="${ specifyInput.tableNum }">
-			<input type="text" name="specifyStatus" value="${ specifyInput.status }">
+			<input type="hidden" name="specifyMemberCode" value="${ specifyInput.memberCode }">
+			<input type="hidden" id="specifyFeeInputPage" name="specifyFeeInputPage" value="${ specifyInput.feeInputPage }">
+			<input type="hidden" name="specifyPlayTime" value="${ specifyInput.playTime }">
+			<input type="hidden" name="specifyTableNum" value="${ specifyInput.tableNum }">
+			<input type="hidden" name="specifyStatus" value="${ specifyInput.status }">
 			</form>
 		</div>
 	</div>

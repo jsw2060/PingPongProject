@@ -33,7 +33,7 @@ ul.tabs li.active {
     border-top: none;
     clear: both;
     float: left;
-    width: 590px;
+    /* width: 590px; */
     /* background: #FFFFFF; */
 }
 .tab_content {
