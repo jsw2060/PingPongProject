@@ -498,17 +498,17 @@ $(document).ready(function(){
 				</tr>
 				<tr>
 					<td colspan="5" align="center">
-						<input type="text" id="updateName" name="updateName" value="">
-						<input type="text" id="updateSex" name="updateSex" value="">
-						<input type="text" id="updateTel" name="updateTel" value="">
-						<input type="text" id="updateAge" name="updateAge" value="">
-						<input type="text" id="updateBday" name="updateBday" value="">
-						<input type="text" id="updateAddr" name="updateAddr" value="">
-						<input type="text" id="updateEmail" name="updateEmail" value="">
-						<input type="text" id="updateStyle" name="updateStyle" value="">
-						<input type="text" id="updateGrade" name="updateGrade" value="">
-						<input type="text" id="updateRegDay" name="updateRegDay" value="">
-						<input type="text" id="updateNote" name="updateNote" value="">
+						<input type="hidden" id="updateName" name="updateName" value="">
+						<input type="hidden" id="updateSex" name="updateSex" value="">
+						<input type="hidden" id="updateTel" name="updateTel" value="">
+						<input type="hidden" id="updateAge" name="updateAge" value="">
+						<input type="hidden" id="updateBday" name="updateBday" value="">
+						<input type="hidden" id="updateAddr" name="updateAddr" value="">
+						<input type="hidden" id="updateEmail" name="updateEmail" value="">
+						<input type="hidden" id="updateStyle" name="updateStyle" value="">
+						<input type="hidden" id="updateGrade" name="updateGrade" value="">
+						<input type="hidden" id="updateRegDay" name="updateRegDay" value="">
+						<input type="hidden" id="updateNote" name="updateNote" value="">
 					
 						<input type="button" class="dialogBtn" id="enterBtn" value="등록">
 						<input type="button" class="dialogBtn" onclick="javascript:history.back()" value="취소">
