@@ -9,7 +9,7 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
 <script type="text/javascript">
 	$(function () {
-		// sex selection
+		// memberType selection
 		$("#searchMember").on("change", function() {
 			
 			var that = $(this);
@@ -30,7 +30,7 @@
 				$("#dayMember").removeAttr('selected');
 				$("#normal").attr('selected', true);
 				
-				document.getElementById("searchingMember").value = '0';
+				document.getElementById("searchingMember").value = "일반";
 				break;
 			case '2':
 				$("#notUse").removeAttr('selected');
@@ -38,7 +38,7 @@
 				$("#monthMember").removeAttr('selected');
 				$("#dayMember").attr('selected', true);
 				
-				document.getElementById("searchingMember").value = '1';
+				document.getElementById("searchingMember").value = "일회원";
 				break;
 			case '3':
 				$("#notUse").removeAttr('selected');
@@ -46,7 +46,7 @@
 				$("#dayMember").removeAttr('selected');
 				$("#monthMember").attr('selected', true);
 				
-				document.getElementById("searchingMember").value = '2';
+				document.getElementById("searchingMember").value = "월회원";
 				break;
 			default: 
 				alert("check logic!!");
@@ -65,7 +65,51 @@
 		$("#searchBtn").on("click", function() {
 			$("#FeeSearchForm").submit();	
 		});
+		
+		// table selection
+		$("#tblBody tr").click(function () {
+			alert("클릭 ");
+			var tdArr = new Array();
+			
+			// get each td from seleted row
+			var selectedTr = $(this);
+			var selectedTd = selectedTr.children();
+
+			console.log("??  ", selectedTd);
+			
+			selectedTd.each(function(i) {
+				tdArr.push(selectedTd.eq(i).text());
+			});
+			console.log("배열에 담긴 값 : "+tdArr);
+			
+			// store temporary info in each hidden input
+			var feeMembType = selectedTd.eq(0).text();
+			var feeAmount = selectedTd.eq(1).text();
+			var feeDate = selectedTd.eq(2).text();
+			var feeName = selectedTd.eq(3).text();
+			var feeCode = selectedTd.eq(3).children().eq(0).val();
+			var feeNote = selectedTd.eq(4).text();
+			
+			console.log("feeMembType ", feeMembType);
+			console.log("feeAmount ", feeAmount);
+			console.log("feeDate ", feeDate);
+			console.log("feeName ", feeName);
+			console.log("feeFeeCode ", feeCode);
+			console.log("feeNote ", feeNote);
+			
+			document.getElementById("selectMembType").value = feeMembType;
+			document.getElementById("selectAmount").value = feeAmount;
+			document.getElementById("selectDate").value = feeDate;
+			document.getElementById("selectName").value = feeName;
+			document.getElementById("selectFeeCode").value = feeCode;
+			document.getElementById("selectNote").value = feeNote;
+		});
+		
+		$("#feeUpdateBtn").on("click", function() {
+			$("#FeeSearchForm").attr("action", "FeeEditDialog.do").submit();
+		});
 	});
+	
 </script>
 </head>
 <body>
@@ -95,7 +139,7 @@
 					</tr>
 					<tr height="365">
 						<td colspan="4">
-							<table class="dataSheet" width="100%" height="360" border="1" style="overflow: auto;">
+							<table class="dataSheet" id="tblBody" width="100%" height="360" border="1" style="overflow: auto;">
 								<tr height="25px">
 									<td>유형</td>
 									<td>금액</td>
@@ -104,11 +148,11 @@
 									<td>비고</td>
 								</tr>
 								<c:forEach var="fees" items="${feeList }">
-									<tr>
+									<tr height="25px">
 										<td>${fees.fee_type }</td>
 										<td>${fees.fee_amount }</td>
 										<td>${fees.fee_date }</td>
-										<td>${fees.name }<input type="hidden" value="${fees.member_code }"></td>
+										<td>${fees.name }<input type="hidden" value="${fees.fee_code }"></td>
 										<td>${fees.note }</td>
 									</tr>
 								</c:forEach>
@@ -147,8 +191,8 @@
 								</tr>
 								<tr>
 									<td colspan="4">
-										<input type="button" value="요금정보 수정">
-										<input type="button" value="요금정보 삭제">
+										<input type="button" id="feeUpdateBtn" value="요금정보 수정">
+										<input type="button" id="feeDeleteBtn" value="요금정보 삭제">
 									</td>
 								</tr>
 							</table>
@@ -157,9 +201,18 @@
 				</table>
 			</div>
 		</div>
+		<!-- 검색 데이터 -->
 		<input type="hidden" id="searchingMember" name="searchingMember" value="">
 		<input type="hidden" id="searchingStart" name="searchingStart" value="">
 		<input type="hidden" id="searchingEnd" name="searchingEnd" value="">
+		
+		<!-- 수정 데이터 -->
+		<input type="hidden" id="selectMembType" name="selectMembType" value="">
+		<input type="hidden" id="selectAmount" name="selectAmount" value="">
+		<input type="hidden" id="selectDate" name="selectDate" value="">
+		<input type="hidden" id="selectName" name="selectName" value="">
+		<input type="hidden" id="selectFeeCode" name="selectFeeCode" value="">
+		<input type="hidden" id="selectNote" name="selectNote" value="">
 	</form>
 </body>
 </html>

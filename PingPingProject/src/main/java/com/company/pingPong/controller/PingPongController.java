@@ -575,6 +575,118 @@ public class PingPongController {
 	}
 	
 	/*
+	 * RequestMapping : SingleFeeSearch.do
+	 * MethodName : singleFeeSearch.do
+	 * Parameter : Locale, HttpServletRequest
+	 * Return : String
+	 */
+	@RequestMapping(value = "singleFeeSearch.do", method = RequestMethod.GET)
+	public String singleFeeSearch(Locale locale, HttpServletRequest req) {
+		logger.info("PingPong SingleFeeSearch.do", locale);
+		
+		// 값의 변화가 있을 시
+		String searchMembType = req.getParameter("searchingMember");
+		String searchStartDt = req.getParameter("searchingStart");
+		String searchEndDt = req.getParameter("searchingEnd");
+		
+		System.out.println("search MembType  " + searchMembType);
+		System.out.println("search StartDt  " + searchStartDt);
+		System.out.println("search EndDt  " + searchEndDt);
+		
+		// map에 모아서 전송 준비
+		Map<String, String> map = new HashMap<String, String>();
+		
+		map.put("searchMembType", searchMembType);
+		map.put("searchStartDt", searchStartDt);
+		map.put("searchEndDt", searchEndDt);
+		
+		// 검색
+		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
+		
+		ArrayList<FeeDto> feeList = dao.singleSearchFeeListDao(map);
+		String tempName="";
+		String tempStore="";
+		String tempDate="";
+		for(int i=0; i<feeList.size(); i++) {
+			tempDate = feeList.get(i).getFee_date().substring(0, 11);
+			feeList.get(i).setFee_date(tempDate);
+			
+			if(feeList.get(i).getMember_code() != null && feeList.get(i).getMember_code() != "") {
+				tempStore = feeList.get(i).getMember_code();
+				tempName = dao.getMonthMemberNameDao(tempStore);
+				feeList.get(i).setName(tempName);
+			}
+		}
+		
+		req.setAttribute("feeList", feeList);
+		req.setAttribute("view", "MainFeeManagerFrame");
+		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
+		req.setAttribute("mainHomeTitle", "요금정보 관리");
+		return "MainHomeFrame";
+	}
+	
+	/*
+	 * RequestMapping : MemberUpdate.do
+	 * MethodName : memberUpdate
+	 * Parameter : Locale
+	 * Return : String
+	 */
+	@RequestMapping(value = "MemberUpdate.do", method = RequestMethod.GET)
+	public String memberUpdate(Locale locale, HttpServletRequest req) {
+		logger.info("PingPong MemberUpdate.do", locale);
+		
+		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
+		
+		// 수정 정보 값을 req로 긁어옴
+		String code = req.getParameter("userCode");
+		String name = req.getParameter("updateName");
+		String sex = req.getParameter("updateSex");
+		String tel = req.getParameter("updateTel");
+		String age = req.getParameter("updateAge");
+		String bDay = req.getParameter("updateBday");
+		String addr = req.getParameter("updateAddr");
+		String email = req.getParameter("updateEmail");
+		String style = req.getParameter("updateStyle");
+		String grade = req.getParameter("updateGrade");
+		String regDay = req.getParameter("updateRegDay");
+		String note = req.getParameter("updateNote");
+		
+		logger.warn("code " + code);
+		logger.warn("name " + name);
+		logger.warn("sex " + sex);
+		logger.warn("tel " + tel);
+		logger.warn("age " + age);
+		logger.warn("bDay " + bDay);
+		logger.warn("addr " + addr);
+		logger.warn("email " + email);
+		logger.warn("style " + style);
+		logger.warn("grade " + grade);
+		logger.warn("regDay " + regDay);
+		logger.warn("note " + note);
+		
+		// map에 모아서 전송 준비
+		Map<String, String> map = new HashMap<String, String>();
+		
+		map.put("code", code);
+		map.put("name", name);
+		map.put("sex", sex);
+		map.put("tel", tel);
+		map.put("age", age);
+		map.put("bDay", bDay);
+		map.put("addr", addr);
+		map.put("email", email);
+		map.put("style", style);
+		map.put("grade", grade);
+		map.put("regDay", regDay);
+		map.put("note", note);
+		
+		// 수정 DAO
+		dao.memberUpdateDao(map);
+		
+		return "redirect:/MainMemberManagerFrame.do";
+	}
+	
+	/*
 	 * RequestMapping : InsertGeneralFeeToDB.do
 	 * MethodName : insertGeneralFeeToDB
 	 * Parameter : Locale, HttpServletRequest
@@ -812,66 +924,80 @@ public class PingPongController {
 	}
 	
 	/*
-	 * RequestMapping : MemberUpdate.do
-	 * MethodName : memberUpdate
+	 * RequestMapping : FeeInfoUpdate.do
+	 * MethodName : feeInfoUpdate
 	 * Parameter : Locale
 	 * Return : String
 	 */
-	@RequestMapping(value = "MemberUpdate.do", method = RequestMethod.GET)
-	public String memberUpdate(Locale locale, HttpServletRequest req) {
-		logger.info("PingPong MemberUpdate.do", locale);
+	 
+	@RequestMapping(value = "FeeInfoUpdate.do", method = RequestMethod.GET)
+	public String feeInfoUpdate(Locale locale, HttpServletRequest req) {
+		logger.info("PingPong FeeInfoUpdate.do", locale);
 		
 		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
 		
 		// 수정 정보 값을 req로 긁어옴
-		String code = req.getParameter("userCode");
-		String name = req.getParameter("updateName");
-		String sex = req.getParameter("updateSex");
-		String tel = req.getParameter("updateTel");
-		String age = req.getParameter("updateAge");
-		String bDay = req.getParameter("updateBday");
-		String addr = req.getParameter("updateAddr");
-		String email = req.getParameter("updateEmail");
-		String style = req.getParameter("updateStyle");
-		String grade = req.getParameter("updateGrade");
-		String regDay = req.getParameter("updateRegDay");
-		String note = req.getParameter("updateNote");
+		String feeInfoFeeCode = req.getParameter("updateFeeCode");
+		String feeInfoAmount = req.getParameter("updateAmount");
+		String feeInfoDate = req.getParameter("updateDate");
+		String feeInfoNote = req.getParameter("updateNote");
 		
-		logger.warn("code " + code);
-		logger.warn("name " + name);
-		logger.warn("sex " + sex);
-		logger.warn("tel " + tel);
-		logger.warn("age " + age);
-		logger.warn("bDay " + bDay);
-		logger.warn("addr " + addr);
-		logger.warn("email " + email);
-		logger.warn("style " + style);
-		logger.warn("grade " + grade);
-		logger.warn("regDay " + regDay);
-		logger.warn("note " + note);
+		// 수정하지 않은 경우
+		if(feeInfoAmount == "" || feeInfoAmount.equals(null) || feeInfoAmount.equals("null")) {
+			feeInfoAmount = req.getParameter("selectedAmount");
+		}
+		if(feeInfoDate == "" || feeInfoDate.equals(null) || feeInfoDate.equals("null")) {
+			feeInfoDate = req.getParameter("selectedDate");
+		}
+		if(feeInfoNote == "" || feeInfoNote.equals(null) || feeInfoNote.equals("null")) {
+			feeInfoNote = req.getParameter("selectedNote");
+		}
 		
 		// map에 모아서 전송 준비
 		Map<String, String> map = new HashMap<String, String>();
 		
-		map.put("code", code);
-		map.put("name", name);
-		map.put("sex", sex);
-		map.put("tel", tel);
-		map.put("age", age);
-		map.put("bDay", bDay);
-		map.put("addr", addr);
-		map.put("email", email);
-		map.put("style", style);
-		map.put("grade", grade);
-		map.put("regDay", regDay);
-		map.put("note", note);
-		
+		map.put("feeInfoFeeCode", feeInfoFeeCode);
+		map.put("feeInfoAmount", feeInfoAmount);
+		map.put("feeInfoDate", feeInfoDate);
+		map.put("feeInfoNote", feeInfoNote);
+
 		// 수정 DAO
-		dao.memberUpdateDao(map);
+		dao.feeUpdateDao(map);
 		
-		return "redirect:/MainMemberManagerFrame.do";
+		return "redirect:/MainFeeManagerFrame.do";
 	}
 	
+	/*
+	 * RequestMapping : FeeEditDialog.do
+	 * MethodName : feeEditDialogialog
+	 * Parameter : Locale, HttpServletRequest
+	 * Return : String
+	 */
+	@RequestMapping(value = "FeeEditDialog.do", method = RequestMethod.GET)
+	public String feeEditDialog(Locale locale, HttpServletRequest req) {
+		logger.info("PingPong FeeEditDialog.jsp", locale);
+		
+		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
+		
+		// 수정 정보 값을 req로 긁어옴
+		String feeInfoMembType = req.getParameter("selectMembType");
+		String feeInfoAmount = req.getParameter("selectAmount");
+		String feeInfoDate = req.getParameter("selectDate");
+		String feeInfoFeeCode = req.getParameter("selectFeeCode");
+		String feeInfoNote = req.getParameter("selectNote");
+		
+		req.setAttribute("feeInfoMembType", feeInfoMembType);
+		req.setAttribute("feeInfoAmount", feeInfoAmount);
+		req.setAttribute("feeInfoDate", feeInfoDate);
+		req.setAttribute("feeInfoFeeCode", feeInfoFeeCode);
+		req.setAttribute("feeInfoNote", feeInfoNote);
+		
+		req.setAttribute("view", "FeeEditDialog");
+		req.setAttribute("MainHomeButtonsPane", "MainHomeButtonsPane");
+		req.setAttribute("mainHomeTitle", "요금정보 수정");
+		return "MainHomeFrame";
+	}
+
 	/*
 	 * RequestMapping : MonthMemberEditDialog.do
 	 * MethodName : monthMemberEditDialog
@@ -1490,7 +1616,6 @@ public class PingPongController {
 		String age = req.getParameter("userAge");
 		String sex = req.getParameter("userSex");
 		String tel = req.getParameter("userTel");
-		/*String email = req.getParameter("userEmail1") + req.getParameter("userEmail2");*/
 		String email = req.getParameter("userEmail");
 		String addr = req.getParameter("userAddr");
 		String birthday = req.getParameter("userBday");

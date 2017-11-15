@@ -118,6 +118,12 @@ public interface PingPongDao {
 	// getting monthmemberName
 	public String getMonthMemberNameDao(String memberCode);
 	
+	// search fee with some conditions
+	public ArrayList<FeeDto> singleSearchFeeListDao(Map<String, String> map);
+	
+	// update edited feeInfo
+	public void feeUpdateDao(Map<String, String> map);
+	
 	public ArrayList<FeeDto> getDateFeeList(String searchFeeDate);
 	public ArrayList<FeeDto> getFeeList();
 	public void insertGeneralFeeDao(Map<String, String> data);

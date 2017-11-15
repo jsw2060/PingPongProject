@@ -357,6 +357,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE member_code = #{memberCode}
 	</select>
 	
+	<select id="singleSearchFeeListDao" parameterType="java.util.Map" resultType="com.company.pingPong.dto.FeeDto">
+		SELECT f.fee_code, f.fee_type, f.fee_amount, f.fee_date, f.note, mo.member_code
+		FROM fee f LEFT OUTER JOIN monthmember mo
+		ON f.fee_code = mo.fee_code 
+		WHERE 1=1
+		
+		<if test = "searchMembType != null and searchMembType != ''.toString()">
+			AND f.fee_type = #{searchMembType}
+		</if>
+		<if test = "searchStartDt != null and searchStartDt != ''.toString() and searchEndDt != null and searchEndDt != ''.toString()">
+			AND TO_CHAR(f.fee_date, 'YYYY-MM-DD') >= #{searchStartDt} AND #{searchEndDt} >= TO_CHAR(f.fee_date, 'YYYY-MM-DD')
+		</if>
+	</select>
+	
+	<update id="feeUpdateDao" parameterType="java.util.Map">
+		UPDATE fee f
+		SET f.fee_amount = #{feeInfoAmount}, f.fee_date = #{feeInfoDate}, f.note = #{feeInfoNote}
+		WHERE f.fee_code = #{feeInfoFeeCode}
+	</update>
+	
 	<!-- <select id="defaultLessonMember" resultType="com.company.pingPong.dto.MemberDto">
 		SELECT mm.member_code, name, sex, tel, age, coach, style, grade, registerdate, note 
 		FROM member m INNER JOIN monthmember mm ON m.member_code = mm.member_code
