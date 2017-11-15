@@ -105,11 +105,11 @@
 								</tr>
 								<c:forEach var="fees" items="${feeList }">
 									<tr>
-										<td>일 회원</td>
-										<td>7000</td>
-										<td>2017-02-18</td>
-										<td>회원</td>
-										<td>김영기 회원님</td>
+										<td>${fees.fee_type }</td>
+										<td>${fees.fee_amount }</td>
+										<td>${fees.fee_date }</td>
+										<td>${fees.name }<input type="hidden" value="${fees.member_code }"></td>
+										<td>${fees.note }</td>
 									</tr>
 								</c:forEach>
 							</table>

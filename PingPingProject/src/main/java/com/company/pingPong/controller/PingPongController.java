@@ -553,6 +553,19 @@ public class PingPongController {
 		
 		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
 		ArrayList<FeeDto> feeList = dao.FeeListDao();
+		String tempName="";
+		String tempStore="";
+		String tempDate="";
+		for(int i=0; i<feeList.size(); i++) {
+			tempDate = feeList.get(i).getFee_date().substring(0, 11);
+			feeList.get(i).setFee_date(tempDate);
+			
+			if(feeList.get(i).getMember_code() != null && feeList.get(i).getMember_code() != "") {
+				tempStore = feeList.get(i).getMember_code();
+				tempName = dao.getMonthMemberNameDao(tempStore);
+				feeList.get(i).setName(tempName);
+			} 
+		}
 		
 		req.setAttribute("feeList", feeList);
 		req.setAttribute("view", "MainFeeManagerFrame");

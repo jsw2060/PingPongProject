@@ -346,20 +346,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="FeeListDao" resultType="com.company.pingPong.dto.FeeDto">
-		SELECT fee_code, fee_type, fee_amount, fee_date, note
+		SELECT f.fee_code, f.fee_type, f.fee_amount, f.fee_date, f.note, mo.member_code
 		FROM fee f LEFT OUTER JOIN monthmember mo
-		ON m.member_code = member_code
-		<!-- <choose>
-		<when test="mo.fee_code != null">
-			(SELECT mon.member_code, m.name
-			 FROM monthmember mon INNER JOIN member m
-			 ON mon.member_code = m.member_code
-			)
-		</when>
-		<otherwise>
-		WHERE 1=1
-		</otherwise>
-		</choose> -->
+		ON f.fee_code = mo.fee_code
+	</select>
+	
+	<select id="getMonthMemberNameDao" parameterType="String" resultType="String">
+		SELECT m.name
+		FROM member m
+		WHERE member_code = #{memberCode}
 	</select>
 	
 	<!-- <select id="defaultLessonMember" resultType="com.company.pingPong.dto.MemberDto">
