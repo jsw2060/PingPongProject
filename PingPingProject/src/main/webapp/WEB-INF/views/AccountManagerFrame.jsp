@@ -50,13 +50,15 @@
 			}
 		});
 		$(".selectedData").click(function(){
-			alert("클릭");
+			
 			var selectedTr = $(this);
 			var selectedTd = selectedTr.children();
 			var indexNum = selectedTd.children();
 			console.log(selectedTr.text());
 			console.log("여기부터 val값");
 			console.log(indexNum.eq(0).val());
+			var name = selectedTd.eq(3).text();
+			alert(name + " 님을 선택하셨습니다.");
 			
 			// 계정수정 버튼 선택시
 			$("#accountUpdateBtn").click(function(){
