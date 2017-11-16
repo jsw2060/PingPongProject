@@ -191,7 +191,7 @@ public class PingPongController {
 				session.setAttribute("loginApproval", dto.getApproval_status());
 	
 				// Checking authorization of manager or coach
-				if(Integer.parseInt(dto.getManager_status()) == 1) {
+				if(Integer.parseInt(dto.getApproval_status()) == 1 && Integer.parseInt(dto.getManager_status()) == 1) {
 					session.setAttribute("loginAuthor", "admin");
 					session.setAttribute("accountMsg", "관리자계정");
 					if(Integer.parseInt(dto.getCoach_status()) == 1) {
@@ -200,7 +200,7 @@ public class PingPongController {
 					}
 				}
 				else {
-					if(Integer.parseInt(dto.getCoach_status()) == 1) {
+					if(Integer.parseInt(dto.getApproval_status()) == 1 && Integer.parseInt(dto.getCoach_status()) == 1) {
 						session.setAttribute("loginAuthor", "coach");
 						session.setAttribute("accountMsg", "코치 계정");
 					} else {

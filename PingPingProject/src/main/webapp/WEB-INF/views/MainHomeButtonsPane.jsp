@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	request.setCharacterEncoding("UTF-8");
 %>
@@ -58,14 +59,29 @@
 	</div>
 	<div class="sidebarmenu" style="width: 160px; float: left;">
 		<ul id="mainHomeMenu">
-			<li><a href="MainFeeInputFrame.do">요금 입력</a></li>
-			<li><a href="MainFeeManagerFrame.do">요금정보 관리</a></li>
-			<li><a href="MainMemberManagerFrame.do">회원정보 관리</a></li>
-			<li><a href="MainLockerManagerFrame.do">사물함 관리</a></li>
-			<li><a href="MainBootrackManagerFrame.do">신발장 관리</a></li>
-			<!-- <li><a href="MainLessonManagerFrame.do">레슨정보 관리</a></li> -->
-			<li><a href="AccountManagerFrame.do">계정 관리</a></li>
-			<li><a href="http://cafe.daum.net/hnspp">홈페이지</a></li>
+			<c:choose>
+				<c:when test="${ loginName eq '가입자'}">
+					<li><a href="MainLockerManagerFrame.do">사물함 관리</a></li>
+					<li><a href="MainBootrackManagerFrame.do">신발장 관리</a></li>
+					<li><a href="http://cafe.daum.net/hnspp">홈페이지</a></li>
+				</c:when>
+				<c:when test="${ accountMsg eq '관리자계정' || accountMsg eq '마스터계정' }">
+					<li><a href="MainFeeInputFrame.do">요금 입력</a></li>
+					<li><a href="MainFeeManagerFrame.do">요금정보 관리</a></li>
+					<li><a href="MainMemberManagerFrame.do">회원정보 관리</a></li>
+					<li><a href="MainLockerManagerFrame.do">사물함 관리</a></li>
+					<li><a href="MainBootrackManagerFrame.do">신발장 관리</a></li>
+					<!-- <li><a href="MainLessonManagerFrame.do">레슨정보 관리</a></li> -->
+					<li><a href="AccountManagerFrame.do">계정 관리</a></li>
+					<li><a href="http://cafe.daum.net/hnspp">홈페이지</a></li>
+				</c:when>
+				<c:otherwise>
+					<li><a href="MainFeeInputFrame.do">요금 입력</a></li>
+					<li><a href="MainLockerManagerFrame.do">사물함 관리</a></li>
+					<li><a href="MainBootrackManagerFrame.do">신발장 관리</a></li>
+					<li><a href="http://cafe.daum.net/hnspp">홈페이지</a></li>
+				</c:otherwise>
+			</c:choose>
 		</ul>
 	</div>
 	<div class="mainHomeView" style="width: 608px; float: left;">
