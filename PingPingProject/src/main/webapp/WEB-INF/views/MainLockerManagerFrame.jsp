@@ -31,11 +31,12 @@
 	}
 </style>
 <script type="text/javascript">
-	var $menuEle = $('dt'); // 탭메뉴를 변수에 지정
+	/* var $menuEle = $('dt'); // 탭메뉴를 변수에 지정
+	
 	$menuEle.click(function() { // 탭메뉴 클릭 이벤트
 	   $('dd').addClass('hidden');
 	   $(this).next().removeClass('hidden');
-	})
+	}) */
 	
 	// certificate selected button
 	$(function () {

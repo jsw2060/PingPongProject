@@ -127,14 +127,30 @@ public interface PingPongDao {
 	// delete coach
 	public void deleteCoach(String memberCode);
 	
+	// change coachStat
+	public void changeCoachStat(String memberCode);
+	
 	// delete monthMember
 	public void deleteMonthMember(String memberCode);
 	
+	// delete member
+	public void deleteAccount(String memberCode);
+	
+	// get FeeList at a certain day 
 	public ArrayList<FeeDto> getDateFeeList(String searchFeeDate);
+	
+	// getting FeeList
 	public ArrayList<FeeDto> getFeeList();
+	
+	// inserting FeeInfo for general customer
 	public void insertGeneralFeeDao(Map<String, String> data);
+	
+	// inserting FeeInfo for oneDay
 	public void insertOneDayFeeDao(Map<String, String> data);
+	
+	// inserting FeeInfo for monthly member
 	public void insertMonthFeeDao(Map<String, String> data);
+	
 	public String getPrevFeeCode();
 	public int checkMonthMemberDao(String memberCode);
 	public void updateMonthMemberDao(Map<String, String> monthInfo);
@@ -142,7 +158,6 @@ public interface PingPongDao {
 	public ArrayList<CoachDto> findLessonAndCoachDao(String coachName);
 	public ArrayList<MemberDto> defaultTotalMember();
 	public ArrayList<MemberDto> defaultMonthMember();
-	public ArrayList<MemberDto> defaultLessonMember();
 	public ArrayList<CoachDto> defaultTotalCoach();
-	public void deleteAccount(String memberCode);
+	//public ArrayList<MemberDto> defaultLessonMember();
 }

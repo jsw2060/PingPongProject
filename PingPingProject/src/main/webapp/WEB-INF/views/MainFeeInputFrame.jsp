@@ -82,117 +82,139 @@
 </head>
 <body>
 	<div class="defaultPage" align="center">
-		<div>
-			<form id="FindFeeForm" action="FindFeeList.do">
-			<table class="outLineTable">
-				<tr>
-					<td>
-						<label style="font-size: 20px;">요금 입력 내역</label>
-						<input type="date" id="feeDate" name="feeDate">
-					</td>
-					<td class="container" style="width:300px;">
-						<ul id="numbers">
-							<li id="Date"></li>
-							<li id="hours"></li>
-							<li id="point">:</li>
-							<li id="min"></li>
-							<li id="point">:</li>
-							<li id="sec"></li>
-						</ul>
-					</td>
-				</tr>
-				<tr height="250">
-					<td colspan="2">
-						<table class="dataSheet" border="1" width="100%" height="245" style="overflow: auto; table-layout: fixed;">
-							<tr class="theadTr" height="25px">
-								<td>요금 종류</td>
-								<td>금액</td>
-								<td>이름</td>
-								<td>결제일</td>
-								<td>비고</td>
-							</tr>
-								<c:choose>
-									<c:when test="${ dateFeeList eq null or dateFeeList eq 'null' or dateFeeList eq ''}">
-										<tr>
-											<td colspan="5">검색된 데이터가 없습니다.</td>
+		<form id="FindFeeForm" action="FindFeeList.do">
+			<div>
+				<table class="outLineTable">
+					<tr>
+						<td>
+							<label style="font-size: 20px;">요금 입력 내역</label>
+							<input type="date" id="feeDate" name="feeDate">
+						</td>
+						<td class="container" style="width:300px;">
+							<ul id="numbers">
+								<li id="Date"></li>
+								<li id="hours"></li>
+								<li id="point">:</li>
+								<li id="min"></li>
+								<li id="point">:</li>
+								<li id="sec"></li>
+							</ul>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<div style="overflow: auto; width: 590px; height: 280px; background: #E1E1E1;">
+								<div class="divHeadScroll" style="width: 100%;">
+									<table class="dataSheet" width="100%">
+										<colgroup>
+											<col style="width:50px;"/>
+					                        <col style="width:50px;"/>
+					                        <col style="width:50px;"/>
+					                        <col style="width:80px;"/>
+					                        <col style="width:70px;"/>
+										</colgroup>
+										<tr class="theadTr">
+											<td>요금 종류</td>
+											<td>금액</td>
+											<td>이름</td>
+											<td>결제일</td>
+											<td>비고</td>
 										</tr>
-									</c:when>
-									<c:otherwise>
-										<c:forEach var="feeItems" items="${ dateFeeList }">
-											<tr>
-												<td>${ feeItems.fee_type }</td>
-												<td>${ feeItems.fee_amount }</td>
-												<td>${ feeItems.name }<input type="hidden" value="${ feeItems.member_code }"></td>
-												<td>${ feeItems.fee_date }</td>
-												<td>${ feeItems.note }</td>
-											</tr>
-										</c:forEach>
-									</c:otherwise>
-								</c:choose>
-						</table>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="3">
-						<table>
-							<tr class="situationSheet">
-								<td colspan="4" align="left">
-									<label style="font-size: 20px;">요금 입력</label>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<label>요금 종류:</label>
-								</td>
-								<td>
-									<select id="selectFeeInputPage" name="selectFeeInputPage">
-										<option value="0" selected="selected">종류를 선택하세요.</option>
-										<option value="1">일반</option>
-										<option value="2">일 회원</option>
-										<option value="3">월 회원</option>
-										<option value="4">레슨 등록</option>
-									</select>
-								</td>
-								<td>
-									<label>요금:</label>
-									<input type="text" name="costInput" placeholder="${ specifyInput.calFee }"><label>원</label>
-								</td>
-								<td>
-									<input type="button" id="fee-launcher" value="세부 정보 입력">
-								</td>
-							</tr>
-							<tr>
-								<td colspan="4" align="left">
-									<label>비고:</label>
-								</td>
-							</tr>
-							<tr>
-								<td colspan="4" align="left">
-									<textarea name="noteInput" style="width: 575px;"></textarea>	
-								</td>
-							</tr>
-							<!-- <tr>
-								<td colspan="4">
-									<input type="text" style="width: 575px; background-color: #606060;" readonly="readonly">
-								</td>
-							</tr> -->
-							<tr>
-								<td colspan="4">
-									<input type="button" id="enterBtn" value="입력">
-									<a href="MainFeeInputFrame.do"><input type="button" id="initBtn" value="초기화"></a>
-								</td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-			</table>
-			<input type="hidden" name="specifyMemberCode" value="${ specifyInput.memberCode }">
-			<input type="hidden" id="specifyFeeInputPage" name="specifyFeeInputPage" value="${ specifyInput.feeInputPage }">
-			<input type="hidden" name="specifyPlayTime" value="${ specifyInput.playTime }">
-			<input type="hidden" name="specifyTableNum" value="${ specifyInput.tableNum }">
-			<input type="hidden" name="specifyStatus" value="${ specifyInput.status }">
-			</form>
-		</div>
+									</table>
+								</div>
+								<div id="divBodyScroll" style="width: 100%;">
+									<table class="dataSheet" border="1">
+											<colgroup>
+												<col style="width:96px;"/>
+						                        <col style="width:96px;"/>
+						                        <col style="width:94px;"/>
+						                        <col style="width:156px;"/>
+						                        <col style="width:136px;"/>
+											</colgroup>
+											<c:choose>
+												<c:when test="${ dateFeeList eq null or dateFeeList eq 'null' or dateFeeList eq ''}">
+													<tr>
+														<td colspan="5" style="width: 590px;">검색된 데이터가 없습니다.</td>
+													</tr>
+												</c:when>
+												<c:otherwise>
+													<c:forEach var="feeItems" items="${ dateFeeList }">
+														<tr>
+															<td>${ feeItems.fee_type }</td>
+															<td>${ feeItems.fee_amount }</td>
+															<td>${ feeItems.name }<input type="hidden" value="${ feeItems.member_code }"></td>
+															<td>${ feeItems.fee_date }</td>
+															<td>${ feeItems.note }</td>
+														</tr>
+													</c:forEach>
+												</c:otherwise>
+											</c:choose>
+									</table>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="3">
+							<table>
+								<tr class="situationSheet">
+									<td colspan="4" align="left">
+										<label style="font-size: 20px;">요금 입력</label>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<label>요금 종류:</label>
+									</td>
+									<td>
+										<select id="selectFeeInputPage" name="selectFeeInputPage">
+											<option value="0" selected="selected">종류를 선택하세요.</option>
+											<option value="1">일반</option>
+											<option value="2">일 회원</option>
+											<option value="3">월 회원</option>
+											<!-- <option value="4">레슨 등록</option> -->
+										</select>
+									</td>
+									<td>
+										<label>요금:</label>
+										<input type="text" name="costInput" placeholder="${ specifyInput.calFee }"><label>원</label>
+									</td>
+									<td>
+										<input type="button" id="fee-launcher" value="세부 정보 입력">
+									</td>
+								</tr>
+								<tr>
+									<td colspan="4" align="left">
+										<label>비고:</label>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="4" align="left">
+										<textarea name="noteInput" style="width: 575px;"></textarea>	
+									</td>
+								</tr>
+								<!-- <tr>
+									<td colspan="4">
+										<input type="text" style="width: 575px; background-color: #606060;" readonly="readonly">
+									</td>
+								</tr> -->
+								<tr>
+									<td colspan="4">
+										<input type="button" id="enterBtn" value="입력">
+										<a href="MainFeeInputFrame.do"><input type="button" id="initBtn" value="초기화"></a>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+				<input type="hidden" name="specifyMemberCode" value="${ specifyInput.memberCode }">
+				<input type="hidden" id="specifyFeeInputPage" name="specifyFeeInputPage" value="${ specifyInput.feeInputPage }">
+				<input type="hidden" name="specifyPlayTime" value="${ specifyInput.playTime }">
+				<input type="hidden" name="specifyTableNum" value="${ specifyInput.tableNum }">
+				<input type="hidden" name="specifyStatus" value="${ specifyInput.status }">
+			</div>
+		</form>
 	</div>
 </body>
 </html>

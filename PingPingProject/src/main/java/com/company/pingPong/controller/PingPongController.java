@@ -1527,7 +1527,8 @@ public class PingPongController {
 		
 		// 회원코드가 일치하는 코치 정보 삭제
 		dao.deleteCoach(selectMembId);
-		// 회원의 코치 스텟은 트리거로 자동 변경
+		// 회원의 코치 스텟변경
+		dao.changeCoachStat(selectMembId);
 		
 		return "redirect:/MainMemberManagerFrame.do";
 	}
@@ -1549,6 +1550,27 @@ public class PingPongController {
 		
 		// 회원코드가 일치하는 코치 정보 삭제
 		dao.deleteMonthMember(selectMembId);
+		
+		return "redirect:/MainMemberManagerFrame.do";
+	}
+	
+	/*
+	 * RequestMapping : MemberDelete.do
+	 * MethodName : memberDelete
+	 * Parameter : Locale
+	 * Return : String
+	 */
+	@RequestMapping(value = "MemberDelete.do", method = RequestMethod.GET)
+	public String memberDelete(Locale locale, HttpServletRequest req) {
+		logger.info("PingPong MemberDelete.do", locale);
+		
+		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
+		
+		String selectMembId = req.getParameter("memberId");
+		System.out.println("선택된 id " + selectMembId);
+		
+		// 회원코드가 일치하는 코치 정보 삭제
+		dao.deleteAccount(selectMembId);
 		
 		return "redirect:/MainMemberManagerFrame.do";
 	}

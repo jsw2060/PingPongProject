@@ -38,14 +38,12 @@
 	$(function () {
 		// table selection
 		$("#tblBody tr").click(function () {
-			alert("클릭 ");
+			
 			var tdArr = new Array();
 			
 			// get each td from seleted row
 			var selectedTr = $(this);
 			var selectedTd = selectedTr.children();
-
-			console.log("??  ", selectedTd);
 			
 			selectedTd.each(function(i) {
 				tdArr.push(selectedTd.eq(i).text());
@@ -66,6 +64,7 @@
 			var regDay = selectedTd.eq(9).text();
 			var note = selectedTd.eq(10).text();
 			
+			alert(id + " 님을 선택하셨습니다.");
 			console.log("code ", code);
 			console.log("id ", id);
 			console.log("sex ", sex);
@@ -117,6 +116,11 @@
 		
 		$("#monthMemberDelBtn").on("click", function() {
 			$("#MemberEditForm").attr("action", "MonthMemberDelete.do");
+			$("#MemberEditForm").submit();
+		})
+		
+		$("#memberDelBtn").on("click", function() {
+			$("#MemberEditForm").attr("action", "MemberDelete.do");
 			$("#MemberEditForm").submit();
 		})
 	});
@@ -822,7 +826,7 @@
 							<input type="hidden" id="searchingEnd" name="searchingEnd" value="">							
 							
 							<input type="button" id="memberEditBtn" value="회원정보 수정">
-							<input type="button" value="회원정보 삭제">
+							<input type="button" id="memberDelBtn" value="회원정보 삭제">
 						</td>
 					</tr>
 					<tr>

@@ -68,15 +68,13 @@
 		
 		// table selection
 		$("#tblBody tr").click(function () {
-			alert("클릭 ");
+			
 			var tdArr = new Array();
 			
 			// get each td from seleted row
 			var selectedTr = $(this);
 			var selectedTd = selectedTr.children();
 
-			console.log("??  ", selectedTd);
-			
 			selectedTd.each(function(i) {
 				tdArr.push(selectedTd.eq(i).text());
 			});
@@ -90,6 +88,7 @@
 			var feeCode = selectedTd.eq(3).children().eq(0).val();
 			var feeNote = selectedTd.eq(4).text();
 			
+			alert(feeNote + " 님을 선택하셨습니다.");
 			console.log("feeMembType ", feeMembType);
 			console.log("feeAmount ", feeAmount);
 			console.log("feeDate ", feeDate);
@@ -116,7 +115,7 @@
 	<form id="FeeSearchForm" action="singleFeeSearch.do">
 		<div class="defaultPage">
 			<div>
-				<table border="1" class="outLineTable" align="center">
+				<table class="outLineTable" align="center">
 					<tr>
 						<td width="370">
 							<label>기간:</label>
@@ -137,26 +136,48 @@
 							</button>
 						</td>
 					</tr>
-					<tr height="365">
+					<tr>
 						<td colspan="4">
-							<table class="dataSheet" id="tblBody" width="100%" height="360" border="1" style="overflow: auto;">
-								<tr height="25px">
-									<td>유형</td>
-									<td>금액</td>
-									<td>지불일</td>
-									<td>이름</td>
-									<td>비고</td>
-								</tr>
-								<c:forEach var="fees" items="${feeList }">
-									<tr height="25px">
-										<td>${fees.fee_type }</td>
-										<td>${fees.fee_amount }</td>
-										<td>${fees.fee_date }</td>
-										<td>${fees.name }<input type="hidden" value="${fees.fee_code }"></td>
-										<td>${fees.note }</td>
-									</tr>
-								</c:forEach>
-							</table>
+							<div style="overflow: auto; width: 590px; height: 365px; background: #E1E1E1;">
+								<div class="divHeadScroll" style="width: 100%;">
+									<table class="dataSheet" width="100%">
+										<colgroup>
+											<col style="width:50px;"/>
+					                        <col style="width:50px;"/>
+					                        <col style="width:80px;"/>
+					                        <col style="width:50px;"/>
+					                        <col style="width:70px;"/>
+										</colgroup>
+										<tr>
+											<td>유형</td>
+											<td>금액</td>
+											<td>지불일</td>
+											<td>이름</td>
+											<td>비고</td>
+										</tr>
+									</table>
+								</div>
+								<div id="divBodyScroll" style="width: 100%;">
+									<table class="dataSheet" id="tblBody" border="1">
+										<colgroup>
+											<col style="width:96px;"/>
+					                        <col style="width:96px;"/>
+					                        <col style="width:156px;"/>
+					                        <col style="width:94px;"/>
+					                        <col style="width:136px;"/>
+										</colgroup>
+										<c:forEach var="fees" items="${feeList }">
+											<tr height="25px">
+												<td>${fees.fee_type }</td>
+												<td>${fees.fee_amount }</td>
+												<td>${fees.fee_date }</td>
+												<td>${fees.name }<input type="hidden" value="${fees.fee_code }"></td>
+												<td>${fees.note }</td>
+											</tr>
+										</c:forEach>
+									</table>
+								</div>
+							</div>
 						</td>
 					</tr>
 					<tr>

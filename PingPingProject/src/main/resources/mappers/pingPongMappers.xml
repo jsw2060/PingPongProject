@@ -381,6 +381,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		DELETE FROM coach WHERE member_code = #{memberCode}
 	</delete>
 	
+	<update id="changeCoachStat" parameterType="String">
+		UPDATE member m
+		SET m.coach_status = 0
+		WHERE m.member_code = #{memberCode}
+	</update>
+	
 	<delete id="deleteMonthMember" parameterType="String">
 		DELETE FROM monthmember WHERE member_code = #{memberCode}
 	</delete>
