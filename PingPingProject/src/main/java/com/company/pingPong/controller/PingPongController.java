@@ -1492,7 +1492,7 @@ public class PingPongController {
 	
 	/*
 	 * RequestMapping : AccountDelete.do
-	 * MethodName : mainLessonManagerFrame
+	 * MethodName : accountDelete
 	 * Parameter : Locale
 	 * Return : String
 	 */
@@ -1508,6 +1508,49 @@ public class PingPongController {
 		dao.deleteAccount(selecteId);
 		
 		return "redirect:/AccountManagerFrame.do";
+	}
+	
+	/*
+	 * RequestMapping : CoachDelete.do
+	 * MethodName : coachDelete
+	 * Parameter : Locale
+	 * Return : String
+	 */
+	@RequestMapping(value = "CoachDelete.do", method = RequestMethod.GET)
+	public String coachDelete(Locale locale, HttpServletRequest req) {
+		logger.info("PingPong CoachDelete.do", locale);
+		
+		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
+		
+		String selectMembId = req.getParameter("memberId");
+		System.out.println("선택된 id " + selectMembId);
+		
+		// 회원코드가 일치하는 코치 정보 삭제
+		dao.deleteCoach(selectMembId);
+		// 회원의 코치 스텟은 트리거로 자동 변경
+		
+		return "redirect:/MainMemberManagerFrame.do";
+	}
+	
+	/*
+	 * RequestMapping : MonthMemberDelete.do
+	 * MethodName : monthMemberDelete
+	 * Parameter : Locale
+	 * Return : String
+	 */
+	@RequestMapping(value = "MonthMemberDelete.do", method = RequestMethod.GET)
+	public String monthMemberDelete(Locale locale, HttpServletRequest req) {
+		logger.info("PingPong MonthMemberDelete.do", locale);
+		
+		PingPongDao dao = sqlSession.getMapper(PingPongDao.class);
+		
+		String selectMembId = req.getParameter("memberId");
+		System.out.println("선택된 id " + selectMembId);
+		
+		// 회원코드가 일치하는 코치 정보 삭제
+		dao.deleteMonthMember(selectMembId);
+		
+		return "redirect:/MainMemberManagerFrame.do";
 	}
 	
 	/*

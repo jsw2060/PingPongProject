@@ -109,6 +109,16 @@
 		$("#coachEditBtn").click(function() {
 			$("#MemberEditForm").attr("action", "CoachEditDialog.do").submit();
 		});
+		
+		$("#coachDelBtn").on("click", function() {
+			$("#MemberEditForm").attr("action", "CoachDelete.do");
+			$("#MemberEditForm").submit();	
+		});
+		
+		$("#monthMemberDelBtn").on("click", function() {
+			$("#MemberEditForm").attr("action", "MonthMemberDelete.do");
+			$("#MemberEditForm").submit();
+		})
 	});
 	
 	$(function() {
@@ -818,7 +828,7 @@
 					<tr>
 						<td colspan="5">
 							<input type="button" id="monthMemberEditBtn" value="월 회원 수정">
-							<input type="button" value="월 회원 삭제">
+							<input type="button" id="monthMemberDelBtn" value="월 회원 삭제">
 						</td>
 					</tr>
 					<tr>

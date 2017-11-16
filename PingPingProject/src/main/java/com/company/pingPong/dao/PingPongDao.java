@@ -124,6 +124,12 @@ public interface PingPongDao {
 	// update edited feeInfo
 	public void feeUpdateDao(Map<String, String> map);
 	
+	// delete coach
+	public void deleteCoach(String memberCode);
+	
+	// delete monthMember
+	public void deleteMonthMember(String memberCode);
+	
 	public ArrayList<FeeDto> getDateFeeList(String searchFeeDate);
 	public ArrayList<FeeDto> getFeeList();
 	public void insertGeneralFeeDao(Map<String, String> data);

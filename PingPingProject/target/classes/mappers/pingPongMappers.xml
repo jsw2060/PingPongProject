@@ -377,6 +377,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE f.fee_code = #{feeInfoFeeCode}
 	</update>
 	
+	<delete id="deleteCoach" parameterType="String">
+		DELETE FROM coach WHERE member_code = #{memberCode}
+	</delete>
+	
+	<delete id="deleteMonthMember" parameterType="String">
+		DELETE FROM monthmember WHERE member_code = #{memberCode}
+	</delete>
+	
 	<!-- <select id="defaultLessonMember" resultType="com.company.pingPong.dto.MemberDto">
 		SELECT mm.member_code, name, sex, tel, age, coach, style, grade, registerdate, note 
 		FROM member m INNER JOIN monthmember mm ON m.member_code = mm.member_code

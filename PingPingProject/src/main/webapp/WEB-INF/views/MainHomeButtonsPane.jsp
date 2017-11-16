@@ -63,7 +63,7 @@
 			<li><a href="MainMemberManagerFrame.do">회원정보 관리</a></li>
 			<li><a href="MainLockerManagerFrame.do">사물함 관리</a></li>
 			<li><a href="MainBootrackManagerFrame.do">신발장 관리</a></li>
-			<li><a href="MainLessonManagerFrame.do">레슨정보 관리</a></li>
+			<!-- <li><a href="MainLessonManagerFrame.do">레슨정보 관리</a></li> -->
 			<li><a href="AccountManagerFrame.do">계정 관리</a></li>
 			<li><a href="http://cafe.daum.net/hnspp">홈페이지</a></li>
 		</ul>
