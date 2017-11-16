@@ -40,6 +40,12 @@
 	
 	// certificate selected button
 	$(function () {
+		$("#firstScene").bind('click', function() {
+			location.href = "http://localhost:8080/pingPong/MainLockerManagerFrame.do#tab1";
+		});
+		
+		$("#firstScene").trigger('click');
+		
 		$(".lockerBtn").click(function(){
 			document.getElementById("selectedCd").value = $(this).attr("value");
 			
@@ -56,7 +62,7 @@
 				<td style="vertical-align: top;">
 					<div class="tab-wrap">
 				    <ul>
-				        <li><a href="#tab1">tab1</a></li>
+				        <li><a href="#tab1" id="firstScene">tab1</a></li>
 				        <li><a href="#tab2">tab2</a></li>
 				        <li><a href="#tab3">tab3</a></li>
 				    </ul>
