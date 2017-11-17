@@ -226,7 +226,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="defaultTotalMember" resultType="com.company.pingPong.dto.MemberDto">
-		SELECT member_code, name, sex, tel, age, addr, email, birthday, style, grade, join_date, note FROM member
+		SELECT member_code, name, sex, tel, age, addr, email, birthday, style, grade, join_date, note
+		FROM member
+		WHERE approval_status = '1'
 	</select>
 	
 	<select id="defaultMonthMember" resultType="com.company.pingPong.dto.MemberDto">
@@ -301,7 +303,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="singleSearchTotalMemberDao" parameterType="java.util.Map" resultType="com.company.pingPong.dto.MemberDto">
 		SELECT member_code, name, sex, tel, age, addr, email, birthday, style, grade, join_date, note
 		FROM member
-		WHERE 1=1 
+		WHERE approval_status = '1' 
 		
 		<if test = "searchName != null and searchName !=''.toString()">
 			AND name = #{searchName}
