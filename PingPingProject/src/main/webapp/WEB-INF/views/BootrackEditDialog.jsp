@@ -116,12 +116,13 @@
 		
 		// table selection
 		$("#searchResult").click(function() {
-			alert("클릭");
+			
 			var selectedTr = $(this);
 			var selectedTd = selectedTr.children();
 			console.log("selectedTd ", selectedTd);
 			var indexNum = selectedTd.eq(0).text();
-			
+			var name = selectedTd.eq(1).text();
+			alert(name + " 님을 선택하셨습니다.");
 			console.log("여기부터 val값");
 			console.log(indexNum);
 			// store temporary info of selected member
@@ -174,7 +175,7 @@
 						</c:otherwise>
 					</c:choose>
 						<input type="button" id="searchBtn" value="검색">
-						<input type="button" id="addBtn" value="추가">
+						<!-- <input type="button" id="addBtn" value="추가"> -->
 					</td>
 				</tr>
 				<tr>

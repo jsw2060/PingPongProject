@@ -65,9 +65,9 @@ $(document).ready(function(){
 				</tr>
 				<tr>
 					<td align="center" colspan="2">
-						<input type="radio" class="radioInput" name="status" value="0">일반
+						<input type="radio" name="status" value="0">일반
 						&nbsp;&nbsp;&nbsp;&nbsp;
-						<input type="radio" class="radioInput" name="status" value="1">학생
+						<input type="radio" name="status" value="1">학생
 					</td>
 				</tr>
 				<tr>
@@ -77,8 +77,8 @@ $(document).ready(function(){
 				</tr>
 				<tr>
 					<td colspan="2" align="center">
-						<input type="button" class="dialogBtn" id="enterBtn" value="입력">
-						<input type="button" class="dialogBtn" onclick="javascript:history.back()" value="취소">
+						<input type="button" id="enterBtn" value="입력">
+						<input type="button" onclick="javascript:history.back()" value="취소">
 					</td>
 				</tr>
 			</table>

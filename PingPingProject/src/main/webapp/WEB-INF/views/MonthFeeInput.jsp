@@ -51,9 +51,8 @@ function tableSelection() {
 				<tr>
 					<td width="150" align="center">*회원: </td>
 					<td>
-						<input type="text" name="memberName">
-						<button type="button" style="border-bottom-style: hidden;" id="findMember"><img class="buttonImg" alt="검색버튼" src="resources/Collection/Find User Male_3.png"></button>
-						<button type="button" style="border-bottom-style: hidden;"><img class="buttonImg" alt="추가버튼" src="resources/Collection/Add User Male_2.png"></button>
+						<input type="text" name="memberName"><button type="button" id="findMember">검색</button>
+						<!-- <button type="button" style="border-bottom-style: hidden;"><img class="buttonImg" alt="추가버튼" src="resources/Collection/Add User Male_2.png"></button> -->
 					</td>
 				</tr>
 				<tr>
@@ -99,8 +98,8 @@ function tableSelection() {
 				</tr>
 				<tr>
 					<td colspan="2" align="center">
-						<input type="button" class="dialogBtn" id="enterBtn" value="등록">
-						<input type="button" class="dialogBtn" onclick="javascript:history.back()" value="취소">
+						<input type="button" id="enterBtn" value="등록">
+						<input type="button" onclick="javascript:history.back()" value="취소">
 					</td>
 				</tr>
 			</table>
